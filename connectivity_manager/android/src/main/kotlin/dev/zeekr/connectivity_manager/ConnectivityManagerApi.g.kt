@@ -2231,7 +2231,7 @@ abstract class PigeonApiNetworkProxyApi(open val pigeonRegistrar: ConnectivityMa
 
   abstract fun getNetworkHandle(pigeon_instance: android.net.Network): Long
 
-  abstract fun getSocketFatory(pigeon_instance: android.net.Network): javax.net.SocketFactory
+  abstract fun getSocketFactory(pigeon_instance: android.net.Network): javax.net.SocketFactory
 
   abstract fun openConnection(pigeon_instance: android.net.Network, url: java.net.URL, proxy: java.net.Proxy?): java.net.URLConnection
 
@@ -2367,13 +2367,13 @@ abstract class PigeonApiNetworkProxyApi(open val pigeonRegistrar: ConnectivityMa
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.connectivity_manager.NetworkProxyApi.getSocketFatory", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.connectivity_manager.NetworkProxyApi.getSocketFactory", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val pigeon_instanceArg = args[0] as android.net.Network
             val wrapped: List<Any?> = try {
-              listOf(api.getSocketFatory(pigeon_instanceArg))
+              listOf(api.getSocketFactory(pigeon_instanceArg))
             } catch (exception: Throwable) {
               ConnectivityManagerApiPigeonUtils.wrapError(exception)
             }

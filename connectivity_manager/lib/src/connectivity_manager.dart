@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'connectivity_manager_api.dart';
+import 'connectivity_manager_impl.dart';
 
 enum NetworkType {
   mobile,
@@ -67,84 +67,86 @@ enum RouteType { unicast, unreachable, throws }
 
 enum RestrictBackgroundStatus { disabled, whitelisted, enabled }
 
-abstract interface class ConnectivityManager {
-  static Future<Network?> getProcessDefaultNetwork() =>
-      ConnectivityManagerApi.getProcessDefaultNetwork();
-  static Future<bool> isNetworkTypeValid(NetworkType networkType) =>
-      ConnectivityManagerApi.isNetworkTypeValid(networkType);
-  static Future<bool> setProcessDefaultNetwork(Network network) =>
-      ConnectivityManagerApi.setProcessDefaultNetwork(network);
+abstract base class ConnectivityManager {
+  static Network? getProcessDefaultNetwork() =>
+      ConnectivityManagerImpl.getProcessDefaultNetwork();
+  static bool isNetworkTypeValid(NetworkType networkType) =>
+      ConnectivityManagerImpl.isNetworkTypeValid(networkType);
+  static bool setProcessDefaultNetwork(Network network) =>
+      ConnectivityManagerImpl.setProcessDefaultNetwork(network);
 
-  factory ConnectivityManager() => ConnectivityManagerApi.instance;
+  ConnectivityManager.impl();
 
-  Future<void> addDefaultNetworkActiveListener(
+  factory ConnectivityManager() => ConnectivityManagerImpl.instance;
+
+  void addDefaultNetworkActiveListener(
     ConnectivityManagerOnNetworkActiveListener listener,
   );
-  Future<void> removeDefaultNetworkActiveListener(
+  void removeDefaultNetworkActiveListener(
     ConnectivityManagerOnNetworkActiveListener listener,
   );
 
-  Future<void> registerBestMatchingNetworkCallback(
+  void registerBestMatchingNetworkCallback(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback,
   );
-  Future<void> registerDefaultNetworkCallback(
+  void registerDefaultNetworkCallback(
     ConnectivityManagerNetworkCallback networkCallback,
   );
-  Future<void> registerNetworkCallback(
+  void registerNetworkCallback(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback,
   );
-  Future<void> unregisterNetworkCallback(
+  void unregisterNetworkCallback(
     ConnectivityManagerNetworkCallback networkCallback,
   );
 
-  Future<bool> bindProcessToNetwork(Network network);
-  Future<SocketKeepalive> createSocketKeepalive(
+  bool bindProcessToNetwork(Network network);
+  SocketKeepalive createSocketKeepalive(
     Network network,
     IpSecManagerUdpEncapsulationSocket socket,
     InetAddress source,
     InetAddress destination,
     SocketKeepaliveCallback callback,
   );
-  Future<Network?> getActiveNetwork();
-  Future<NetworkInfo?> getActiveNetworkInfo();
-  Future<List<NetworkInfo>> getAllNetworkInfo();
-  Future<List<Network>> getAllNetworks();
-  Future<bool> getBackgroundDataSetting();
-  Future<Network?> getBoundNetworkForProcess();
-  Future<int> getConnectionOwnerUid(
+  Network? getActiveNetwork();
+  NetworkInfo? getActiveNetworkInfo();
+  List<NetworkInfo> getAllNetworkInfo();
+  List<Network> getAllNetworks();
+  bool getBackgroundDataSetting();
+  Network? getBoundNetworkForProcess();
+  int getConnectionOwnerUid(
     int protocol,
     InetSocketAddress local,
     InetSocketAddress remote,
   );
-  Future<ProxyInfo?> getDefaultProxy();
-  Future<LinkProperties?> getLinkProperties(Network network);
-  Future<int> getMultipathPreference(Network network);
-  Future<NetworkCapabilities?> getNetworkCapabilities(Network network);
-  Future<NetworkInfo?> getNetworkInfo1(NetworkType networkType);
-  Future<NetworkInfo?> getNetworkInfo2(Network network);
-  Future<int> getNetworkPreference();
-  Future<Uint8List?> getNetworkWatchlistConfigHash();
-  Future<RestrictBackgroundStatus> getRestrictBackgroundStatus();
-  Future<bool> isActiveNetworkMetered();
-  Future<bool> isDefaultNetworkActive();
-  Future<void> reportBadNetwork(Network network);
-  Future<void> reportNetworkConnectivity(Network network, bool hasConnectivity);
-  Future<bool> requestBandwidthUpdate(Network network);
-  Future<void> requestNetwork(
+  ProxyInfo? getDefaultProxy();
+  LinkProperties? getLinkProperties(Network network);
+  int getMultipathPreference(Network network);
+  NetworkCapabilities? getNetworkCapabilities(Network network);
+  NetworkInfo? getNetworkInfo1(NetworkType networkType);
+  NetworkInfo? getNetworkInfo2(Network network);
+  int getNetworkPreference();
+  Uint8List? getNetworkWatchlistConfigHash();
+  RestrictBackgroundStatus getRestrictBackgroundStatus();
+  bool isActiveNetworkMetered();
+  bool isDefaultNetworkActive();
+  void reportBadNetwork(Network network);
+  void reportNetworkConnectivity(Network network, bool hasConnectivity);
+  bool requestBandwidthUpdate(Network network);
+  void requestNetwork(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback, [
     int? timeoutMs,
   ]);
-  Future<void> reserveNetwork(
+  void reserveNetwork(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback,
   );
-  Future<void> setNetworkPreference(int preference);
+  void setNetworkPreference(int preference);
 }
 
-abstract interface class ConnectivityManagerNetworkCallback {
+abstract base class ConnectivityManagerNetworkCallback {
   factory ConnectivityManagerNetworkCallback({
     bool includeLocationInfo = false,
     void Function(Network network)? onAvailable,
@@ -157,7 +159,7 @@ abstract interface class ConnectivityManagerNetworkCallback {
     void Function(Network network)? onLost,
     void Function(NetworkCapabilities networkCapabilities)? onReserved,
     void Function()? onUnavailable,
-  }) => ConnectivityManagerNetworkCallbackApi(
+  }) => ConnectivityManagerNetworkCallbackImpl(
     includeLocationInfo: includeLocationInfo,
     onAvailable: onAvailable,
     onBlockedStatusChanged: onBlockedStatusChanged,
@@ -168,201 +170,255 @@ abstract interface class ConnectivityManagerNetworkCallback {
     onReserved: onReserved,
     onUnavailable: onUnavailable,
   );
+
+  ConnectivityManagerNetworkCallback.impl();
 }
 
-abstract interface class ConnectivityManagerOnNetworkActiveListener {
+abstract base class ConnectivityManagerOnNetworkActiveListener {
   factory ConnectivityManagerOnNetworkActiveListener({
     required void Function() onNetworkActive,
-  }) => ConnectivityManagerOnNetworkActiveListenerApi(
+  }) => ConnectivityManagerOnNetworkActiveListenerImpl(
     onNetworkActive: onNetworkActive,
   );
+
+  ConnectivityManagerOnNetworkActiveListener.impl();
 }
 
-abstract interface class Network {
-  static Future<Network> fromNetworkHandle(int networkHandle) =>
-      NetworkApi.fromNetworkHandle(networkHandle);
+abstract base class Network {
+  static Network fromNetworkHandle(int networkHandle) =>
+      NetworkImpl.fromNetworkHandle(networkHandle);
 
-  Future<void> bindSocket1(Socket socket);
-  Future<void> bindSocket2(DatagramSocket socket);
-  Future<void> bindSocket3(FileDescriptor fd);
-  Future<List<InetAddress>> getAllByName(String host);
-  Future<InetAddress> getByName(String host);
-  Future<int> getNetworkHandle();
-  Future<SocketFactory> getSocketFatory();
-  Future<UrlConnection> openConnection(Url url, [Proxy? proxy]);
+  Network.impl();
+
+  void bindSocket1(Socket socket);
+  void bindSocket2(DatagramSocket socket);
+  void bindSocket3(FileDescriptor fd);
+  List<InetAddress> getAllByName(String host);
+  InetAddress getByName(String host);
+  int getNetworkHandle();
+  SocketFactory getSocketFatory();
+  UrlConnection openConnection(Url url, [Proxy? proxy]);
 }
 
-abstract interface class NetworkInfo {}
+abstract base class NetworkInfo {
+  NetworkInfo.impl();
+}
 
-abstract interface class NetworkRequest {
-  Future<bool> canBeSatisfiedBy(NetworkCapabilities nc);
-  Future<List<NetworkCapability>> getCapabilities();
-  Future<NetworkSpecifier?> getNetworkSpecifier();
-  Future<List<int>> getSubscriptionIds();
-  Future<List<TransportType>> getTransportTypes();
-  Future<bool> hasCapability(NetworkCapability capability);
-  Future<bool> hasTransport(TransportType transportType);
-
+abstract base class NetworkRequest {
   factory NetworkRequest({
     List<NetworkCapability>? capabilities,
     List<TransportType>? transportTypes,
     bool? includeOtherUidNetworks,
     NetworkSpecifier? networkSpecifier,
     List<int>? subIds,
-  }) => NetworkRequestApi(
+  }) => NetworkRequestImpl(
     capabilities: capabilities,
     transportTypes: transportTypes,
     includeOtherUidNetworks: includeOtherUidNetworks,
     networkSpecifier: networkSpecifier,
     subIds: subIds,
   );
+
+  NetworkRequest.impl();
+
+  bool canBeSatisfiedBy(NetworkCapabilities nc);
+  List<NetworkCapability> getCapabilities();
+  NetworkSpecifier? getNetworkSpecifier();
+  List<int> getSubscriptionIds();
+  List<TransportType> getTransportTypes();
+  bool hasCapability(NetworkCapability capability);
+  bool hasTransport(TransportType transportType);
 }
 
-abstract interface class NetworkCapabilities {
-  Future<List<NetworkCapability>> getCapabilities();
-  Future<List<int>> getEnterpriseIds();
-  Future<int> getLinkDownstreamBandwidthKbps();
-  Future<int> getLinkUpstreamBandwidthKbps();
-  Future<NetworkSpecifier?> getNetworkSpecifier();
-  Future<int> getOwnerUid();
-  Future<int> getSignalStrength();
-  Future<List<int>> getSubscriptionIds();
-  Future<TransportInfo?> getTransportInfo();
-  Future<bool> hasCapability(NetworkCapability capability);
-  Future<bool> hasEnterpriseId(int enterpriseId);
-  Future<bool> hasTransport(TransportType transportType);
+abstract base class NetworkCapabilities {
+  NetworkCapabilities.impl();
+
+  List<NetworkCapability> getCapabilities();
+  List<int> getEnterpriseIds();
+  int getLinkDownstreamBandwidthKbps();
+  int getLinkUpstreamBandwidthKbps();
+  NetworkSpecifier? getNetworkSpecifier();
+  int getOwnerUid();
+  int getSignalStrength();
+  List<int> getSubscriptionIds();
+  TransportInfo? getTransportInfo();
+  bool hasCapability(NetworkCapability capability);
+  bool hasEnterpriseId(int enterpriseId);
+  bool hasTransport(TransportType transportType);
 }
 
-abstract interface class NetworkSpecifier {}
-
-abstract interface class LinkProperties {
-  Future<bool> addRoute(RouteInfo route);
-  Future<void> clear();
-  Future<Inet4Address?> getDhcpServerAddress();
-  Future<List<InetAddress>> getDnsServers();
-  Future<String?> getDomains();
-  Future<ProxyInfo?> getHttpProxy();
-  Future<String?> getInterfaceName();
-  Future<List<LinkAddress>> getLinkAddresses();
-  Future<int> getMtu();
-  Future<IpPrefix?> getNat64Prefix();
-  Future<String?> getPrivateDnsServerName();
-  Future<List<RouteInfo>> getRoutes();
-  Future<bool> isPrivateDnsActive();
-  Future<bool> isWakeOnLanSupported();
-  Future<void> setDhcpServerAddress(Inet4Address? serverAddress);
-  Future<void> setDnsServers(List<InetAddress> dnsServers);
-  Future<void> setDomains(String? domains);
-  Future<void> setHttpProxy(ProxyInfo? proxy);
-  Future<void> setInterfaceName(String? iface);
-  Future<void> setLinkAddresses(List<LinkAddress> addresses);
-  Future<void> setMtu(int mtu);
-  Future<void> setNat64Prefix(IpPrefix? prefix);
+abstract base class NetworkSpecifier {
+  NetworkSpecifier.impl();
 }
 
-abstract interface class LinkAddress {
-  Future<InetAddress> getAddress();
-  Future<int> getFlags();
-  Future<int> getPrefixLength();
-  Future<int> getScope();
+abstract base class LinkProperties {
+  LinkProperties.impl();
+
+  bool addRoute(RouteInfo route);
+  void clear();
+  Inet4Address? getDhcpServerAddress();
+  List<InetAddress> getDnsServers();
+  String? getDomains();
+  ProxyInfo? getHttpProxy();
+  String? getInterfaceName();
+  List<LinkAddress> getLinkAddresses();
+  int getMtu();
+  IpPrefix? getNat64Prefix();
+  String? getPrivateDnsServerName();
+  List<RouteInfo> getRoutes();
+  bool isPrivateDnsActive();
+  bool isWakeOnLanSupported();
+  void setDhcpServerAddress(Inet4Address? serverAddress);
+  void setDnsServers(List<InetAddress> dnsServers);
+  void setDomains(String? domains);
+  void setHttpProxy(ProxyInfo? proxy);
+  void setInterfaceName(String? iface);
+  void setLinkAddresses(List<LinkAddress> addresses);
+  void setMtu(int mtu);
+  void setNat64Prefix(IpPrefix? prefix);
 }
 
-abstract interface class IpPrefix {
-  Future<bool> contains(InetAddress address);
-  Future<InetAddress> getAddress();
-  Future<int> getPrefixLength();
-  Future<Uint8List> getRawAddress();
+abstract base class LinkAddress {
+  LinkAddress.impl();
+
+  InetAddress getAddress();
+  int getFlags();
+  int getPrefixLength();
+  int getScope();
 }
 
-abstract interface class SocketKeepalive {}
+abstract base class IpPrefix {
+  IpPrefix.impl();
 
-abstract interface class SocketKeepaliveCallback {}
-
-abstract interface class IpSecManagerUdpEncapsulationSocket {}
-
-abstract interface class ProxyInfo {}
-
-abstract interface class TransportInfo {}
-
-abstract interface class RouteInfo {
-  Future<IpPrefix> getDestination();
-  Future<InetAddress?> getGateway();
-  Future<String?> getInterface();
-  Future<RouteType> getType();
-  Future<bool> hasGateway();
-  Future<bool> isDefaultRoute();
-  Future<bool> matches(InetAddress destination);
+  bool contains(InetAddress address);
+  InetAddress getAddress();
+  int getPrefixLength();
+  Uint8List getRawAddress();
 }
 
-abstract interface class InetAddresses {
-  static Future<bool> isNumericAddress(String address) =>
-      InetAddressesApi.isNumericAddress(address);
-  static Future<InetAddress> parseNumericAddress(String address) =>
-      InetAddressesApi.parseNumericAddress(address);
+abstract base class SocketKeepalive {
+  SocketKeepalive.impl();
 }
 
-abstract interface class FileDescriptor {}
-
-abstract interface class InetAddress {
-  static Future<List<InetAddress>> getAllByName(String? host) =>
-      InetAddressApi.getAllByName(host);
-  static Future<InetAddress> getByAddress1(Uint8List addr) =>
-      InetAddressApi.getByAddress1(addr);
-  static Future<InetAddress> getByAddress2(String? host, Uint8List addr) =>
-      InetAddressApi.getByAddress2(host, addr);
-  static Future<InetAddress> getByName(String? host) =>
-      InetAddressApi.getByName(host);
-  static Future<InetAddress> getLocalHost() => InetAddressApi.getLocalHost();
-  static Future<InetAddress> getLoopbackAddress() =>
-      InetAddressApi.getLoopbackAddress();
-
-  Future<Uint8List> getAddress();
-  Future<String> getCanonicalHostName();
-  Future<String?> getHostAddress();
-  Future<String> getHostName();
-  Future<bool> isAnyLocalAddress();
-  Future<bool> isLinkLocalAddress();
-  Future<bool> isLoopbackAddress();
-  Future<bool> isMcGlobal();
-  Future<bool> isMcLinkLocal();
-  Future<bool> isMcNodeLocal();
-  Future<bool> isMcOrgLocal();
-  Future<bool> isMcSiteLocal();
-  Future<bool> isMulticastAddress();
-  Future<bool> isReachable1(int timeout);
-  Future<bool> isReachable2(NetworkInterface? netif, int ttl, int timetout);
-  Future<bool> isSiteLocalAddress();
+abstract base class SocketKeepaliveCallback {
+  SocketKeepaliveCallback.impl();
 }
 
-abstract interface class Inet4Address implements InetAddress {}
+abstract base class IpSecManagerUdpEncapsulationSocket {
+  IpSecManagerUdpEncapsulationSocket.impl();
+}
 
-abstract interface class Inet6Address implements InetAddress {
-  static Future<Inet6Address> getByAddress3(
+abstract base class ProxyInfo {
+  ProxyInfo.impl();
+}
+
+abstract base class TransportInfo {
+  TransportInfo.impl();
+}
+
+abstract base class RouteInfo {
+  RouteInfo.impl();
+
+  IpPrefix getDestination();
+  InetAddress? getGateway();
+  String? getInterface();
+  RouteType getType();
+  bool hasGateway();
+  bool isDefaultRoute();
+  bool matches(InetAddress destination);
+}
+
+abstract base class InetAddresses {
+  static bool isNumericAddress(String address) =>
+      InetAddressesImpl.isNumericAddress(address);
+  static InetAddress parseNumericAddress(String address) =>
+      InetAddressesImpl.parseNumericAddress(address);
+
+  InetAddresses.impl();
+}
+
+abstract base class FileDescriptor {
+  FileDescriptor.impl();
+}
+
+abstract base class InetAddress {
+  static List<InetAddress> getAllByName(String? host) =>
+      InetAddressImpl.getAllByName(host);
+  static InetAddress getByAddress1(Uint8List addr) =>
+      InetAddressImpl.getByAddress1(addr);
+  static InetAddress getByAddress2(String? host, Uint8List addr) =>
+      InetAddressImpl.getByAddress2(host, addr);
+  static InetAddress getByName(String? host) => InetAddressImpl.getByName(host);
+  static InetAddress getLocalHost() => InetAddressImpl.getLocalHost();
+  static InetAddress getLoopbackAddress() =>
+      InetAddressImpl.getLoopbackAddress();
+
+  InetAddress.impl();
+
+  Uint8List getAddress();
+  String getCanonicalHostName();
+  String? getHostAddress();
+  String getHostName();
+  bool isAnyLocalAddress();
+  bool isLinkLocalAddress();
+  bool isLoopbackAddress();
+  bool isMcGlobal();
+  bool isMcLinkLocal();
+  bool isMcNodeLocal();
+  bool isMcOrgLocal();
+  bool isMcSiteLocal();
+  bool isMulticastAddress();
+  bool isReachable1(int timeout);
+  bool isReachable2(NetworkInterface? netif, int ttl, int timetout);
+  bool isSiteLocalAddress();
+}
+
+abstract base class Inet4Address implements InetAddress {
+  Inet4Address.impl();
+}
+
+abstract base class Inet6Address implements InetAddress {
+  static Inet6Address getByAddress3(
     String host,
     Uint8List addr,
     NetworkInterface nif,
-  ) => Inet6AddressApi.getByAddress3(host, addr, nif);
-  static Future<Inet6Address> getByAddress4(
-    String host,
-    Uint8List addr,
-    int scopeId,
-  ) => Inet6AddressApi.getByAddress4(host, addr, scopeId);
+  ) => Inet6AddressImpl.getByAddress3(host, addr, nif);
+  static Inet6Address getByAddress4(String host, Uint8List addr, int scopeId) =>
+      Inet6AddressImpl.getByAddress4(host, addr, scopeId);
 
-  Future<bool> isIPv4CompatibleAddress();
+  Inet6Address.impl();
+
+  bool isIPv4CompatibleAddress();
 }
 
-abstract interface class InetSocketAddress {}
+abstract base class InetSocketAddress {
+  InetSocketAddress.impl();
+}
 
-abstract interface class NetworkInterface {}
+abstract base class NetworkInterface {
+  NetworkInterface.impl();
+}
 
-abstract interface class Socket {}
+abstract base class Socket {
+  Socket.impl();
+}
 
-abstract interface class DatagramSocket {}
+abstract base class DatagramSocket {
+  DatagramSocket.impl();
+}
 
-abstract interface class Url {}
+abstract base class Url {
+  Url.impl();
+}
 
-abstract interface class UrlConnection {}
+abstract base class UrlConnection {
+  UrlConnection.impl();
+}
 
-abstract interface class SocketFactory {}
+abstract base class SocketFactory {
+  SocketFactory.impl();
+}
 
-abstract interface class Proxy {}
+abstract base class Proxy {
+  Proxy.impl();
+}

@@ -1,41 +1,45 @@
-// ignore_for_file: unused_element
-
 import 'dart:typed_data';
 
+import 'package:jni/jni.dart';
+
 import 'connectivity_manager.dart';
-import 'connectivity_manager_api.dart';
-import 'connectivity_manager_api.g.dart';
+import 'jni.dart' as jni;
 
-final class ConnectivityManagerImpl extends ConnectivityManagerApi {
-  static Future<Network?> getProcessDefaultNetwork() =>
-      ConnectivityManagerProxyApi.getProcessDefaultNetwork().then(
-        (e) => e?.impl,
-      );
+final class ConnectivityManagerImpl extends ConnectivityManager {
+  static Network? getProcessDefaultNetwork() =>
+      jni.ConnectivityManager.getProcessDefaultNetwork()?.impl;
 
-  static Future<bool> isNetworkTypeValid(NetworkType networkType) =>
-      ConnectivityManagerProxyApi.isNetworkTypeValid(networkType.api);
+  static bool isNetworkTypeValid(NetworkType networkType) =>
+      jni.ConnectivityManager.isNetworkTypeValid(networkType.api);
 
-  static Future<bool> setProcessDefaultNetwork(Network network) =>
-      ConnectivityManagerProxyApi.setProcessDefaultNetwork(network.api);
+  static bool setProcessDefaultNetwork(Network network) =>
+      jni.ConnectivityManager.setProcessDefaultNetwork(network.api);
 
-  final ConnectivityManagerProxyApi api;
+  final jni.ConnectivityManager api;
 
-  ConnectivityManagerImpl.api(this.api) : super.impl();
+  ConnectivityManagerImpl.internal(this.api) : super.impl();
 
-  factory ConnectivityManagerImpl() =>
-      ConnectivityManagerImpl.api(ConnectivityManagerProxyApi.instance);
+  factory ConnectivityManagerImpl() {
+    final apiOrNull = jni.ContextCompat.getSystemService(
+      Jni.androidApplicationContext.as(jni.Context.type),
+      jni.ConnectivityManager.type.jClass,
+      T: jni.ConnectivityManager.type,
+    );
+    final api = ArgumentError.checkNotNull(apiOrNull, 'api');
+    return ConnectivityManagerImpl.internal(api);
+  }
 
   @override
-  Future<void> addDefaultNetworkActiveListener(
+  void addDefaultNetworkActiveListener(
     ConnectivityManagerOnNetworkActiveListener listener,
   ) => api.addDefaultNetworkActiveListener(listener.api);
 
   @override
-  Future<bool> bindProcessToNetwork(Network network) =>
+  bool bindProcessToNetwork(Network network) =>
       api.bindProcessToNetwork(network.api);
 
   @override
-  Future<SocketKeepalive> createSocketKeepalive(
+  SocketKeepalive createSocketKeepalive(
     Network network,
     IpSecManagerUdpEncapsulationSocket socket,
     InetAddress source,
@@ -49,1125 +53,1158 @@ final class ConnectivityManagerImpl extends ConnectivityManagerApi {
         destination.api,
         callback.api,
       )
-      .then((e) => e.impl);
+      .impl;
 
   @override
-  Future<Network?> getActiveNetwork() =>
-      api.getActiveNetwork().then((e) => e?.impl);
+  Network? getActiveNetwork() => api.getActiveNetwork().impl;
 
   @override
-  Future<NetworkInfo?> getActiveNetworkInfo() =>
-      api.getActiveNetworkInfo().then((e) => e?.impl);
+  NetworkInfo? getActiveNetworkInfo() => api.getActiveNetworkInfo().impl;
 
   @override
-  Future<List<NetworkInfo>> getAllNetworkInfo() =>
-      api.getAllNetworkInfo().then((e) => e.map((e1) => e1.impl).toList());
+  List<NetworkInfo> getAllNetworkInfo() =>
+      api.getAllNetworkInfo().map((e) => e.impl).toList();
 
   @override
-  Future<List<Network>> getAllNetworks() =>
-      api.getAllNetworks().then((e) => e.map((e1) => e1.impl).toList());
+  List<Network> getAllNetworks() =>
+      api.getAllNetworks().map((e) => e.impl).toList();
 
   @override
-  Future<bool> getBackgroundDataSetting() => api.getBackgroundDataSetting();
+  bool getBackgroundDataSetting() => api.getBackgroundDataSetting();
 
   @override
-  Future<Network?> getBoundNetworkForProcess() =>
-      api.getBoundNetworkForProcess().then((e) => e?.impl);
+  Network? getBoundNetworkForProcess() => api.getBoundNetworkForProcess().impl;
 
   @override
-  Future<int> getConnectionOwnerUid(
+  int getConnectionOwnerUid(
     int protocol,
     InetSocketAddress local,
     InetSocketAddress remote,
   ) => api.getConnectionOwnerUid(protocol, local.api, remote.api);
 
   @override
-  Future<ProxyInfo?> getDefaultProxy() =>
-      api.getDefaultProxy().then((e) => e?.impl);
+  ProxyInfo? getDefaultProxy() => api.getDefaultProxy().impl;
 
   @override
-  Future<LinkProperties?> getLinkProperties(Network network) =>
-      api.getLinkProperties(network.api).then((e) => e?.impl);
+  LinkProperties? getLinkProperties(Network network) =>
+      api.getLinkProperties(network.api).impl;
 
   @override
-  Future<int> getMultipathPreference(Network network) =>
+  int getMultipathPreference(Network network) =>
       api.getMultipathPreference(network.api);
 
   @override
-  Future<NetworkCapabilities?> getNetworkCapabilities(Network network) =>
-      api.getNetworkCapabilities(network.api).then((e) => e?.impl);
+  NetworkCapabilities? getNetworkCapabilities(Network network) =>
+      api.getNetworkCapabilities(network.api).impl;
 
   @override
-  Future<NetworkInfo?> getNetworkInfo1(NetworkType networkType) =>
-      api.getNetworkInfo1(networkType.api).then((e) => e?.impl);
+  NetworkInfo? getNetworkInfo1(NetworkType networkType) =>
+      api.getNetworkInfo1(networkType.api).impl;
 
   @override
-  Future<NetworkInfo?> getNetworkInfo2(Network network) =>
-      api.getNetworkInfo2(network.api).then((e) => e?.impl);
+  NetworkInfo? getNetworkInfo2(Network network) =>
+      api.getNetworkInfo2(network.api).impl;
 
   @override
-  Future<int> getNetworkPreference() => api.getNetworkPreference();
+  int getNetworkPreference() => api.getNetworkPreference();
 
   @override
-  Future<Uint8List?> getNetworkWatchlistConfigHash() =>
+  Uint8List? getNetworkWatchlistConfigHash() =>
       api.getNetworkWatchlistConfigHash();
 
   @override
-  Future<RestrictBackgroundStatus> getRestrictBackgroundStatus() =>
-      api.getRestrictBackgroundStatus().then((e) => e.impl);
+  RestrictBackgroundStatus getRestrictBackgroundStatus() =>
+      api.getRestrictBackgroundStatus().impl;
 
   @override
-  Future<bool> isActiveNetworkMetered() => api.isActiveNetworkMetered();
+  bool isActiveNetworkMetered() => api.isActiveNetworkMetered();
 
   @override
-  Future<bool> isDefaultNetworkActive() => api.isDefaultNetworkActive();
+  bool isDefaultNetworkActive() => api.isDefaultNetworkActive();
 
   @override
-  Future<void> registerBestMatchingNetworkCallback(
+  void registerBestMatchingNetworkCallback(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback,
   ) =>
       api.registerBestMatchingNetworkCallback(request.api, networkCallback.api);
 
   @override
-  Future<void> registerDefaultNetworkCallback(
+  void registerDefaultNetworkCallback(
     ConnectivityManagerNetworkCallback networkCallback,
   ) => api.registerDefaultNetworkCallback(networkCallback.api);
 
   @override
-  Future<void> registerNetworkCallback(
+  void registerNetworkCallback(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback,
   ) => api.registerNetworkCallback(request.api, networkCallback.api);
 
   @override
-  Future<void> removeDefaultNetworkActiveListener(
+  void removeDefaultNetworkActiveListener(
     ConnectivityManagerOnNetworkActiveListener listener,
   ) => api.removeDefaultNetworkActiveListener(listener.api);
 
   @override
-  Future<void> reportBadNetwork(Network network) =>
-      api.reportBadNetwork(network.api);
+  void reportBadNetwork(Network network) => api.reportBadNetwork(network.api);
 
   @override
-  Future<void> reportNetworkConnectivity(
-    Network network,
-    bool hasConnectivity,
-  ) => api.reportNetworkConnectivity(network.api, hasConnectivity);
+  void reportNetworkConnectivity(Network network, bool hasConnectivity) =>
+      api.reportNetworkConnectivity(network.api, hasConnectivity);
 
   @override
-  Future<bool> requestBandwidthUpdate(Network network) =>
+  bool requestBandwidthUpdate(Network network) =>
       api.requestBandwidthUpdate(network.api);
 
   @override
-  Future<void> requestNetwork(
+  void requestNetwork(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback, [
     int? timeoutMs,
   ]) => api.requestNetwork(request.api, networkCallback.api, timeoutMs);
 
   @override
-  Future<void> reserveNetwork(
+  void reserveNetwork(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback,
   ) => api.reserveNetwork(request.api, networkCallback.api);
 
   @override
-  Future<void> setNetworkPreference(int preference) =>
+  void setNetworkPreference(int preference) =>
       api.setNetworkPreference(preference);
 
   @override
-  Future<void> unregisterNetworkCallback(
+  void unregisterNetworkCallback(
     ConnectivityManagerNetworkCallback networkCallback,
   ) => api.unregisterNetworkCallback(networkCallback.api);
 }
 
-final class ConnectivityManagerNetworkCallbackImpl
-    extends ConnectivityManagerNetworkCallbackApi {
-  final ConnectivityManagerNetworkCallbackProxyApi api;
+// final class ConnectivityManagerNetworkCallbackImpl
+//     extends ConnectivityManagerNetworkCallback {
+//   final ConnectivityManagerNetworkCallbackProxyApi api;
 
-  ConnectivityManagerNetworkCallbackImpl.api(this.api) : super.impl();
+//   ConnectivityManagerNetworkCallbackImpl.api(this.api) : super.impl();
 
-  factory ConnectivityManagerNetworkCallbackImpl({
-    bool includeLocationInfo = false,
-    void Function(Network network)? onAvailable,
-    void Function(Network network, bool blocked)? onBlockedStatusChanged,
-    void Function(Network network, NetworkCapabilities networkCapabilities)?
-    onCapabilitiesChanged,
-    void Function(Network network, LinkProperties linkProperties)?
-    onLinkPropertiesChanged,
-    void Function(Network network, int maxMsToLive)? onLosing,
-    void Function(Network network)? onLost,
-    void Function(NetworkCapabilities networkCapabilities)? onReserved,
-    void Function()? onUnavailable,
-  }) {
-    final api = includeLocationInfo
-        ? ConnectivityManagerNetworkCallbackProxyApi.flags(
-            onAvailable: (_, e) => onAvailable?.call(e.impl),
-            onBlockedStatusChanged: (_, e1, e2) =>
-                onBlockedStatusChanged?.call(e1.impl, e2),
-            onCapabilitiesChanged: (_, e1, e2) =>
-                onCapabilitiesChanged?.call(e1.impl, e2.impl),
-            onLinkPropertiesChanged: (_, e1, e2) =>
-                onLinkPropertiesChanged?.call(e1.impl, e2.impl),
-            onLosing: (_, e1, e2) => onLosing?.call(e1.impl, e2),
-            onLost: (_, e) => onLost?.call(e.impl),
-            onReserved: (_, e) => onReserved?.call(e.impl),
-            onUnavailable: (_) => onUnavailable?.call(),
-            flags: [
-              ConnectivityManagerNetworkCallbackFlagApi.includeLocationInfo,
-            ],
-          )
-        : ConnectivityManagerNetworkCallbackProxyApi(
-            onAvailable: (_, e) => onAvailable?.call(e.impl),
-            onBlockedStatusChanged: (_, e1, e2) =>
-                onBlockedStatusChanged?.call(e1.impl, e2),
-            onCapabilitiesChanged: (_, e1, e2) =>
-                onCapabilitiesChanged?.call(e1.impl, e2.impl),
-            onLinkPropertiesChanged: (_, e1, e2) =>
-                onLinkPropertiesChanged?.call(e1.impl, e2.impl),
-            onLosing: (_, e1, e2) => onLosing?.call(e1.impl, e2),
-            onLost: (_, e) => onLost?.call(e.impl),
-            onReserved: (_, e) => onReserved?.call(e.impl),
-            onUnavailable: (_) => onUnavailable?.call(),
-          );
-    return ConnectivityManagerNetworkCallbackImpl.api(api);
-  }
-}
+//   factory ConnectivityManagerNetworkCallbackImpl({
+//     bool includeLocationInfo = false,
+//     void Function(Network network)? onAvailable,
+//     void Function(Network network, bool blocked)? onBlockedStatusChanged,
+//     void Function(Network network, NetworkCapabilities networkCapabilities)?
+//     onCapabilitiesChanged,
+//     void Function(Network network, LinkProperties linkProperties)?
+//     onLinkPropertiesChanged,
+//     void Function(Network network, int maxMsToLive)? onLosing,
+//     void Function(Network network)? onLost,
+//     void Function(NetworkCapabilities networkCapabilities)? onReserved,
+//     void Function()? onUnavailable,
+//   }) {
+//     final api = includeLocationInfo
+//         ? ConnectivityManagerNetworkCallbackProxyApi.flags(
+//             onAvailable: (_, e) => onAvailable?.call(e.impl),
+//             onBlockedStatusChanged: (_, e1, e2) =>
+//                 onBlockedStatusChanged?.call(e1.impl, e2),
+//             onCapabilitiesChanged: (_, e1, e2) =>
+//                 onCapabilitiesChanged?.call(e1.impl, e2.impl),
+//             onLinkPropertiesChanged: (_, e1, e2) =>
+//                 onLinkPropertiesChanged?.call(e1.impl, e2.impl),
+//             onLosing: (_, e1, e2) => onLosing?.call(e1.impl, e2),
+//             onLost: (_, e) => onLost?.call(e.impl),
+//             onReserved: (_, e) => onReserved?.call(e.impl),
+//             onUnavailable: (_) => onUnavailable?.call(),
+//             flags: [
+//               ConnectivityManagerNetworkCallbackFlagApi.includeLocationInfo,
+//             ],
+//           )
+//         : ConnectivityManagerNetworkCallbackProxyApi(
+//             onAvailable: (_, e) => onAvailable?.call(e.impl),
+//             onBlockedStatusChanged: (_, e1, e2) =>
+//                 onBlockedStatusChanged?.call(e1.impl, e2),
+//             onCapabilitiesChanged: (_, e1, e2) =>
+//                 onCapabilitiesChanged?.call(e1.impl, e2.impl),
+//             onLinkPropertiesChanged: (_, e1, e2) =>
+//                 onLinkPropertiesChanged?.call(e1.impl, e2.impl),
+//             onLosing: (_, e1, e2) => onLosing?.call(e1.impl, e2),
+//             onLost: (_, e) => onLost?.call(e.impl),
+//             onReserved: (_, e) => onReserved?.call(e.impl),
+//             onUnavailable: (_) => onUnavailable?.call(),
+//           );
+//     return ConnectivityManagerNetworkCallbackImpl.api(api);
+//   }
+// }
 
-final class ConnectivityManagerOnNetworkActiveListenerImpl
-    extends ConnectivityManagerOnNetworkActiveListenerApi {
-  final ConnectivityManagerOnNetworkActiveListenerProxyApi api;
+// final class ConnectivityManagerOnNetworkActiveListenerImpl
+//     extends ConnectivityManagerOnNetworkActiveListener {
+//   final ConnectivityManagerOnNetworkActiveListenerProxyApi api;
 
-  ConnectivityManagerOnNetworkActiveListenerImpl.api(this.api) : super.impl();
+//   ConnectivityManagerOnNetworkActiveListenerImpl.api(this.api) : super.impl();
 
-  factory ConnectivityManagerOnNetworkActiveListenerImpl({
-    required void Function() onNetworkActive,
-  }) {
-    final api = ConnectivityManagerOnNetworkActiveListenerProxyApi(
-      onNetworkActive: (_) => onNetworkActive(),
-    );
-    return ConnectivityManagerOnNetworkActiveListenerImpl.api(api);
-  }
-}
+//   factory ConnectivityManagerOnNetworkActiveListenerImpl({
+//     required void Function() onNetworkActive,
+//   }) {
+//     final api = ConnectivityManagerOnNetworkActiveListenerProxyApi(
+//       onNetworkActive: (_) => onNetworkActive(),
+//     );
+//     return ConnectivityManagerOnNetworkActiveListenerImpl.api(api);
+//   }
+// }
 
-final class NetworkImpl extends NetworkApi {
-  final NetworkProxyApi api;
+final class NetworkImpl extends Network {
+  final jni.Network api;
 
   NetworkImpl.api(this.api) : super.impl();
 
-  static Future<Network> fromNetworkHandle(int networkHandle) =>
-      NetworkProxyApi.fromNetworkHandle(networkHandle).then((e) => e.impl);
+  static Network fromNetworkHandle(int networkHandle) =>
+      jni.Network.fromNetworkHandle(networkHandle)!.impl;
 
   @override
-  Future<void> bindSocket1(Socket socket) => api.bindSocket1(socket.api);
+  void bindSocket1(Socket socket) => api.bindSocket$2(socket.api);
 
   @override
-  Future<void> bindSocket2(DatagramSocket socket) =>
-      api.bindSocket2(socket.api);
+  void bindSocket2(DatagramSocket socket) => api.bindSocket$1(socket.api);
 
   @override
-  Future<void> bindSocket3(FileDescriptor fd) => api.bindSocket3(fd.api);
+  void bindSocket3(FileDescriptor fd) => api.bindSocket(fd.api);
 
   @override
-  Future<List<InetAddress>> getAllByName(String host) =>
-      api.getAllByName(host).then((e) => e.map((e1) => e1.impl).toList());
+  List<InetAddress> getAllByName(String host) =>
+      api.getAllByName(host).map((e) => e.impl).toList();
 
   @override
-  Future<InetAddress> getByName(String host) =>
-      api.getByName(host).then((e) => e.impl);
+  InetAddress getByName(String host) => api.getByName(host).impl;
 
   @override
-  Future<int> getNetworkHandle() => api.getNetworkHandle();
+  int getNetworkHandle() => api.getNetworkHandle();
 
   @override
-  Future<SocketFactory> getSocketFatory() =>
-      api.getSocketFatory().then((e) => e.impl);
+  SocketFactory getSocketFactory() => api.getSocketFactory().impl;
 
   @override
-  Future<UrlConnection> openConnection(Url url, [Proxy? proxy]) =>
-      api.openConnection(url.api, proxy?.api).then((e) => e.impl);
+  UrlConnection openConnection(Url url, [Proxy? proxy]) =>
+      api.openConnection(url.api, proxy?.api).impl;
 }
 
-final class NetworkInfoImpl extends NetworkInfoApi {
-  final NetworkInfoProxyApi api;
-
-  NetworkInfoImpl.api(this.api) : super.impl();
-}
-
-final class NetworkRequestImpl extends NetworkRequestApi {
-  final NetworkRequestProxyApi api;
-
-  NetworkRequestImpl.api(this.api) : super.impl();
-
-  factory NetworkRequestImpl({
-    List<NetworkCapability>? capabilities,
-    List<TransportType>? transportTypes,
-    bool? includeOtherUidNetworks,
-    NetworkSpecifier? networkSpecifier,
-    List<int>? subIds,
-  }) {
-    final api = NetworkRequestProxyApi(
-      capabilities: capabilities?.map((e) => e.api).toList(),
-      transportTypes: transportTypes?.map((e) => e.api).toList(),
-      includeOtherUidNetworks: includeOtherUidNetworks,
-      networkSpecifier: networkSpecifier?.api,
-      subIds: subIds,
-    );
-    return NetworkRequestImpl.api(api);
-  }
+// final class NetworkInfoImpl extends NetworkInfo {
+//   final NetworkInfoProxyApi api;
 
-  @override
-  Future<bool> canBeSatisfiedBy(NetworkCapabilities nc) =>
-      api.canBeSatisfiedBy(nc.api);
+//   NetworkInfoImpl.api(this.api) : super.impl();
+// }
 
-  @override
-  Future<List<NetworkCapability>> getCapabilities() =>
-      api.getCapabilities().then((e) => e.map((e1) => e1.impl).toList());
+// final class NetworkRequestImpl extends NetworkRequest {
+//   final NetworkRequestProxyApi api;
 
-  @override
-  Future<NetworkSpecifier?> getNetworkSpecifier() =>
-      api.getNetworkSpecifier().then((e) => e?.impl);
+//   NetworkRequestImpl.api(this.api) : super.impl();
 
-  @override
-  Future<List<int>> getSubscriptionIds() => api.getSubscriptionIds();
+//   factory NetworkRequestImpl({
+//     List<NetworkCapability>? capabilities,
+//     List<TransportType>? transportTypes,
+//     bool? includeOtherUidNetworks,
+//     NetworkSpecifier? networkSpecifier,
+//     List<int>? subIds,
+//   }) {
+//     final api = NetworkRequestProxyApi(
+//       capabilities: capabilities?.map((e) => e.api).toList(),
+//       transportTypes: transportTypes?.map((e) => e.api).toList(),
+//       includeOtherUidNetworks: includeOtherUidNetworks,
+//       networkSpecifier: networkSpecifier?.api,
+//       subIds: subIds,
+//     );
+//     return NetworkRequestImpl.api(api);
+//   }
 
-  @override
-  Future<List<TransportType>> getTransportTypes() =>
-      api.getTransportTypes().then((e) => e.map((e1) => e1.impl).toList());
+//   @override
+//   bool canBeSatisfiedBy(NetworkCapabilities nc) => api.canBeSatisfiedBy(nc.api);
 
-  @override
-  Future<bool> hasCapability(NetworkCapability capability) =>
-      api.hasCapability(capability.api);
+//   @override
+//   List<NetworkCapability> getCapabilities() =>
+//       api.getCapabilities().then((e) => e.map((e1) => e1.impl).toList());
 
-  @override
-  Future<bool> hasTransport(TransportType transportType) =>
-      api.hasTransport(transportType.api);
-}
+//   @override
+//   NetworkSpecifier? getNetworkSpecifier() =>
+//       api.getNetworkSpecifier().then((e) => e?.impl);
 
-final class NetworkCapabilitiesImpl extends NetworkCapabilitiesApi {
-  final NetworkCapabilitiesProxyApi api;
+//   @override
+//   List<int> getSubscriptionIds() => api.getSubscriptionIds();
 
-  NetworkCapabilitiesImpl.api(this.api) : super.impl();
+//   @override
+//   List<TransportType> getTransportTypes() =>
+//       api.getTransportTypes().then((e) => e.map((e1) => e1.impl).toList());
 
-  @override
-  Future<List<NetworkCapability>> getCapabilities() =>
-      api.getCapabilities().then((e) => e.map((e1) => e1.impl).toList());
+//   @override
+//   bool hasCapability(NetworkCapability capability) =>
+//       api.hasCapability(capability.api);
 
-  @override
-  Future<List<int>> getEnterpriseIds() => api.getEnterpriseIds();
+//   @override
+//   bool hasTransport(TransportType transportType) =>
+//       api.hasTransport(transportType.api);
+// }
 
-  @override
-  Future<int> getLinkDownstreamBandwidthKbps() =>
-      api.getLinkDownstreamBandwidthKbps();
+// final class NetworkCapabilitiesImpl extends NetworkCapabilities {
+//   final NetworkCapabilitiesProxyApi api;
 
-  @override
-  Future<int> getLinkUpstreamBandwidthKbps() =>
-      api.getLinkUpstreamBandwidthKbps();
+//   NetworkCapabilitiesImpl.api(this.api) : super.impl();
 
-  @override
-  Future<NetworkSpecifier?> getNetworkSpecifier() =>
-      api.getNetworkSpecifier().then((e) => e?.impl);
+//   @override
+//   List<NetworkCapability> getCapabilities() =>
+//       api.getCapabilities().then((e) => e.map((e1) => e1.impl).toList());
 
-  @override
-  Future<int> getOwnerUid() => api.getOwnerUid();
+//   @override
+//   List<int> getEnterpriseIds() => api.getEnterpriseIds();
 
-  @override
-  Future<int> getSignalStrength() => api.getSignalStrength();
+//   @override
+//   int getLinkDownstreamBandwidthKbps() => api.getLinkDownstreamBandwidthKbps();
 
-  @override
-  Future<List<int>> getSubscriptionIds() => api.getSubscriptionIds();
+//   @override
+//   int getLinkUpstreamBandwidthKbps() => api.getLinkUpstreamBandwidthKbps();
 
-  @override
-  Future<TransportInfo?> getTransportInfo() =>
-      api.getTransportInfo().then((e) => e?.impl);
+//   @override
+//   NetworkSpecifier? getNetworkSpecifier() =>
+//       api.getNetworkSpecifier().then((e) => e?.impl);
 
-  @override
-  Future<bool> hasCapability(NetworkCapability capability) =>
-      api.hasCapability(capability.api);
+//   @override
+//   int getOwnerUid() => api.getOwnerUid();
 
-  @override
-  Future<bool> hasEnterpriseId(int enterpriseId) =>
-      api.hasEnterpriseId(enterpriseId);
+//   @override
+//   int getSignalStrength() => api.getSignalStrength();
 
-  @override
-  Future<bool> hasTransport(TransportType transportType) =>
-      api.hasTransport(transportType.api);
-}
+//   @override
+//   List<int> getSubscriptionIds() => api.getSubscriptionIds();
 
-final class NetworkSpecifierImpl extends NetworkSpecifierApi {
-  final NetworkSpecifierProxyApi api;
+//   @override
+//   TransportInfo? getTransportInfo() =>
+//       api.getTransportInfo().then((e) => e?.impl);
 
-  NetworkSpecifierImpl.api(this.api) : super.impl();
-}
+//   @override
+//   bool hasCapability(NetworkCapability capability) =>
+//       api.hasCapability(capability.api);
 
-final class LinkPropertiesImpl extends LinkPropertiesApi {
-  final LinkPropertiesProxyApi api;
+//   @override
+//   bool hasEnterpriseId(int enterpriseId) => api.hasEnterpriseId(enterpriseId);
 
-  LinkPropertiesImpl.api(this.api) : super.impl();
+//   @override
+//   bool hasTransport(TransportType transportType) =>
+//       api.hasTransport(transportType.api);
+// }
 
-  @override
-  Future<bool> addRoute(RouteInfo route) => api.addRoute(route.api);
+// final class NetworkSpecifierImpl extends NetworkSpecifier {
+//   final NetworkSpecifierProxyApi api;
 
-  @override
-  Future<void> clear() => api.clear();
+//   NetworkSpecifierImpl.api(this.api) : super.impl();
+// }
 
-  @override
-  Future<Inet4Address?> getDhcpServerAddress() =>
-      api.getDhcpServerAddress().then((e) => e?.impl);
+// final class LinkPropertiesImpl extends LinkProperties {
+//   final LinkPropertiesProxyApi api;
 
-  @override
-  Future<List<InetAddress>> getDnsServers() =>
-      api.getDnsServers().then((e) => e.map((e1) => e1.impl).toList());
+//   LinkPropertiesImpl.api(this.api) : super.impl();
 
-  @override
-  Future<String?> getDomains() => api.getDomains();
+//   @override
+//   bool addRoute(RouteInfo route) => api.addRoute(route.api);
 
-  @override
-  Future<ProxyInfo?> getHttpProxy() => api.getHttpProxy().then((e) => e?.impl);
+//   @override
+//   void clear() => api.clear();
 
-  @override
-  Future<String?> getInterfaceName() => api.getInterfaceName();
+//   @override
+//   Inet4Address? getDhcpServerAddress() =>
+//       api.getDhcpServerAddress().then((e) => e?.impl);
 
-  @override
-  Future<List<LinkAddress>> getLinkAddresses() =>
-      api.getLinkAddresses().then((e) => e.map((e1) => e1.impl).toList());
+//   @override
+//   List<InetAddress> getDnsServers() =>
+//       api.getDnsServers().then((e) => e.map((e1) => e1.impl).toList());
 
-  @override
-  Future<int> getMtu() => api.getMtu();
+//   @override
+//   String? getDomains() => api.getDomains();
 
-  @override
-  Future<IpPrefix?> getNat64Prefix() =>
-      api.getNat64Prefix().then((e) => e?.impl);
+//   @override
+//   ProxyInfo? getHttpProxy() => api.getHttpProxy().then((e) => e?.impl);
 
-  @override
-  Future<String?> getPrivateDnsServerName() => api.getPrivateDnsServerName();
+//   @override
+//   String? getInterfaceName() => api.getInterfaceName();
 
-  @override
-  Future<List<RouteInfo>> getRoutes() =>
-      api.getRoutes().then((e) => e.map((e1) => e1.impl).toList());
+//   @override
+//   List<LinkAddress> getLinkAddresses() =>
+//       api.getLinkAddresses().then((e) => e.map((e1) => e1.impl).toList());
 
-  @override
-  Future<bool> isPrivateDnsActive() => api.isPrivateDnsActive();
+//   @override
+//   int getMtu() => api.getMtu();
 
-  @override
-  Future<bool> isWakeOnLanSupported() => api.isWakeOnLanSupported();
+//   @override
+//   IpPrefix? getNat64Prefix() => api.getNat64Prefix().then((e) => e?.impl);
 
-  @override
-  Future<void> setDhcpServerAddress(Inet4Address? serverAddress) =>
-      api.setDhcpServerAddress(serverAddress?.api);
+//   @override
+//   String? getPrivateDnsServerName() => api.getPrivateDnsServerName();
 
-  @override
-  Future<void> setDnsServers(List<InetAddress> dnsServers) =>
-      api.setDnsServers(dnsServers.map((e) => e.api).toList());
+//   @override
+//   List<RouteInfo> getRoutes() =>
+//       api.getRoutes().then((e) => e.map((e1) => e1.impl).toList());
 
-  @override
-  Future<void> setDomains(String? domains) => api.setDomains(domains);
+//   @override
+//   bool isPrivateDnsActive() => api.isPrivateDnsActive();
 
-  @override
-  Future<void> setHttpProxy(ProxyInfo? proxy) => api.setHttpProxy(proxy?.api);
+//   @override
+//   bool isWakeOnLanSupported() => api.isWakeOnLanSupported();
 
-  @override
-  Future<void> setInterfaceName(String? iface) => api.setInterfaceName(iface);
+//   @override
+//   void setDhcpServerAddress(Inet4Address? serverAddress) =>
+//       api.setDhcpServerAddress(serverAddress?.api);
 
-  @override
-  Future<void> setLinkAddresses(List<LinkAddress> addresses) =>
-      api.setLinkAddresses(addresses.map((e) => e.api).toList());
+//   @override
+//   void setDnsServers(List<InetAddress> dnsServers) =>
+//       api.setDnsServers(dnsServers.map((e) => e.api).toList());
 
-  @override
-  Future<void> setMtu(int mtu) => api.setMtu(mtu);
+//   @override
+//   void setDomains(String? domains) => api.setDomains(domains);
 
-  @override
-  Future<void> setNat64Prefix(IpPrefix? prefix) =>
-      api.setNat64Prefix(prefix?.api);
-}
+//   @override
+//   void setHttpProxy(ProxyInfo? proxy) => api.setHttpProxy(proxy?.api);
 
-final class LinkAddressImpl extends LinkAddressApi {
-  final LinkAddressProxyApi api;
+//   @override
+//   void setInterfaceName(String? iface) => api.setInterfaceName(iface);
 
-  LinkAddressImpl.api(this.api) : super.impl();
+//   @override
+//   void setLinkAddresses(List<LinkAddress> addresses) =>
+//       api.setLinkAddresses(addresses.map((e) => e.api).toList());
 
-  @override
-  Future<InetAddress> getAddress() => api.getAddress().then((e) => e.impl);
+//   @override
+//   void setMtu(int mtu) => api.setMtu(mtu);
 
-  @override
-  Future<int> getFlags() => api.getFlags();
+//   @override
+//   void setNat64Prefix(IpPrefix? prefix) => api.setNat64Prefix(prefix?.api);
+// }
 
-  @override
-  Future<int> getPrefixLength() => api.getPrefixLength();
+// final class LinkAddressImpl extends LinkAddress {
+//   final LinkAddressProxyApi api;
 
-  @override
-  Future<int> getScope() => api.getScope();
-}
+//   LinkAddressImpl.api(this.api) : super.impl();
 
-final class IpPrefixImpl extends IpPrefixApi {
-  final IpPrefixProxyApi api;
+//   @override
+//   InetAddress getAddress() => api.getAddress().then((e) => e.impl);
 
-  IpPrefixImpl.api(this.api) : super.impl();
+//   @override
+//   int getFlags() => api.getFlags();
 
-  @override
-  Future<bool> contains(InetAddress address) => api.contains(address.api);
+//   @override
+//   int getPrefixLength() => api.getPrefixLength();
 
-  @override
-  Future<InetAddress> getAddress() => api.getAddress().then((e) => e.impl);
+//   @override
+//   int getScope() => api.getScope();
+// }
 
-  @override
-  Future<int> getPrefixLength() => api.getPrefixLength();
+// final class IpPrefixImpl extends IpPrefix {
+//   final IpPrefixProxyApi api;
 
-  @override
-  Future<Uint8List> getRawAddress() => api.getRawAddress();
-}
+//   IpPrefixImpl.api(this.api) : super.impl();
 
-final class SocketKeepaliveImpl extends SocketKeepaliveApi {
-  final SocketKeepaliveProxyApi api;
+//   @override
+//   bool contains(InetAddress address) => api.contains(address.api);
 
-  SocketKeepaliveImpl.api(this.api) : super.impl();
-}
+//   @override
+//   InetAddress getAddress() => api.getAddress().then((e) => e.impl);
 
-final class SocketKeepaliveCallbackImpl extends SocketKeepaliveCallbackApi {
-  SocketKeepaliveCallbackProxyApi api;
+//   @override
+//   int getPrefixLength() => api.getPrefixLength();
 
-  SocketKeepaliveCallbackImpl.api(this.api) : super.impl();
-}
+//   @override
+//   Uint8List getRawAddress() => api.getRawAddress();
+// }
 
-final class IpSecManagerUdpEncapsulationSocketImpl
-    extends IpSecManagerUdpEncapsulationSocketApi {
-  final IpSecManagerUdpEncapsulationSocketProxyApi api;
+// final class SocketKeepaliveImpl extends SocketKeepalive {
+//   final SocketKeepaliveProxyApi api;
 
-  IpSecManagerUdpEncapsulationSocketImpl.api(this.api) : super.impl();
-}
+//   SocketKeepaliveImpl.api(this.api) : super.impl();
+// }
 
-final class ProxyInfoImpl extends ProxyInfoApi {
-  final ProxyInfoProxyApi api;
+// final class SocketKeepaliveCallbackImpl extends SocketKeepaliveCallback {
+//   SocketKeepaliveCallbackProxyApi api;
 
-  ProxyInfoImpl.api(this.api) : super.impl();
-}
+//   SocketKeepaliveCallbackImpl.api(this.api) : super.impl();
+// }
 
-final class TransportInfoImpl extends TransportInfoApi {
-  final TransportInfoProxyApi api;
+// final class IpSecManagerUdpEncapsulationSocketImpl
+//     extends IpSecManagerUdpEncapsulationSocket {
+//   final IpSecManagerUdpEncapsulationSocketProxyApi api;
 
-  TransportInfoImpl.api(this.api) : super.impl();
-}
+//   IpSecManagerUdpEncapsulationSocketImpl.api(this.api) : super.impl();
+// }
 
-final class RouteInfoImpl extends RouteInfoApi {
-  final RouteInfoProxyApi api;
+// final class ProxyInfoImpl extends ProxyInfo {
+//   final ProxyInfoProxyApi api;
 
-  RouteInfoImpl.api(this.api) : super.impl();
+//   ProxyInfoImpl.api(this.api) : super.impl();
+// }
 
-  @override
-  Future<IpPrefix> getDestination() => api.getDestination().then((e) => e.impl);
+// final class TransportInfoImpl extends TransportInfo {
+//   final TransportInfoProxyApi api;
 
-  @override
-  Future<InetAddress?> getGateway() => api.getGateway().then((e) => e?.impl);
+//   TransportInfoImpl.api(this.api) : super.impl();
+// }
 
-  @override
-  Future<String?> getInterface() => api.getInterface();
+// final class RouteInfoImpl extends RouteInfo {
+//   final RouteInfoProxyApi api;
 
-  @override
-  Future<RouteType> getType() => api.getType().then((e) => e.impl);
+//   RouteInfoImpl.api(this.api) : super.impl();
 
-  @override
-  Future<bool> hasGateway() => api.hasGateway();
+//   @override
+//   IpPrefix getDestination() => api.getDestination().impl;
 
-  @override
-  Future<bool> isDefaultRoute() => api.isDefaultRoute();
+//   @override
+//   InetAddress? getGateway() => api.getGateway().then((e) => e?.impl);
 
-  @override
-  Future<bool> matches(InetAddress destination) => api.matches(destination.api);
-}
+//   @override
+//   String? getInterface() => api.getInterface();
 
-final class InetAddressesImpl extends InetAddressesApi {
-  static Future<bool> isNumericAddress(String address) =>
-      InetAddressesProxyApi.isNumericAddress(address);
+//   @override
+//   RouteType getType() => api.getType().then((e) => e.impl);
 
-  static Future<InetAddress> parseNumericAddress(String address) =>
-      InetAddressesProxyApi.parseNumericAddress(address).then((e) => e.impl);
+//   @override
+//   bool hasGateway() => api.hasGateway();
 
-  final InetAddressesProxyApi api;
+//   @override
+//   bool isDefaultRoute() => api.isDefaultRoute();
 
-  InetAddressesImpl.api(this.api) : super.impl();
-}
+//   @override
+//   bool matches(InetAddress destination) => api.matches(destination.api);
+// }
 
-final class FileDescriptorImpl extends FileDescriptorApi {
-  final FileDescriptorProxyApi api;
+// final class InetAddressesImpl extends InetAddresses {
+//   static bool isNumericAddress(String address) =>
+//       InetAddressesProxyApi.isNumericAddress(address);
 
-  FileDescriptorImpl.api(this.api) : super.impl();
-}
+//   static InetAddress parseNumericAddress(String address) =>
+//       InetAddressesProxyApi.parseNumericAddress(address).then((e) => e.impl);
 
-final class InetAddressImpl extends InetAddressApi with InetAddressMixin {
-  static Future<List<InetAddress>> getAllByName(String? host) =>
-      InetAddressProxyApi.getAllByName(
-        host,
-      ).then((e) => e.map((e1) => e1.impl).toList());
+//   final InetAddressesProxyApi api;
 
-  static Future<InetAddress> getByAddress1(Uint8List addr) =>
-      InetAddressProxyApi.getByAddress1(addr).then((e) => e.impl);
+//   InetAddressesImpl.api(this.api) : super.impl();
+// }
 
-  static Future<InetAddress> getByAddress2(String? host, Uint8List addr) =>
-      InetAddressProxyApi.getByAddress2(host, addr).then((e) => e.impl);
+// final class FileDescriptorImpl extends FileDescriptor {
+//   final FileDescriptorProxyApi api;
 
-  static Future<InetAddress> getByName(String? host) =>
-      InetAddressProxyApi.getByName(host).then((e) => e.impl);
+//   FileDescriptorImpl.api(this.api) : super.impl();
+// }
 
-  static Future<InetAddress> getLocalHost() =>
-      InetAddressProxyApi.getLocalHost().then((e) => e.impl);
+// final class InetAddressImpl extends InetAddress with InetAddressMixin {
+//   static List<InetAddress> getAllByName(String? host) =>
+//       InetAddressProxyApi.getAllByName(
+//         host,
+//       ).then((e) => e.map((e1) => e1.impl).toList());
 
-  static Future<InetAddress> getLoopbackAddress() =>
-      InetAddressProxyApi.getLoopbackAddress().then((e) => e.impl);
+//   static InetAddress getByAddress1(Uint8List addr) =>
+//       InetAddressProxyApi.getByAddress1(addr).then((e) => e.impl);
 
-  @override
-  final InetAddressProxyApi api;
+//   static InetAddress getByAddress2(String? host, Uint8List addr) =>
+//       InetAddressProxyApi.getByAddress2(host, addr).then((e) => e.impl);
 
-  InetAddressImpl.api(this.api) : super.impl();
-}
+//   static InetAddress getByName(String? host) =>
+//       InetAddressProxyApi.getByName(host).then((e) => e.impl);
 
-final class Inet4AddressImpl extends Inet4AddressApi with InetAddressMixin {
-  @override
-  final Inet4AddressProxyApi api;
+//   static InetAddress getLocalHost() =>
+//       InetAddressProxyApi.getLocalHost().then((e) => e.impl);
 
-  Inet4AddressImpl.api(this.api) : super.impl();
-}
+//   static InetAddress getLoopbackAddress() =>
+//       InetAddressProxyApi.getLoopbackAddress().then((e) => e.impl);
 
-final class Inet6AddressImpl extends Inet6AddressApi with InetAddressMixin {
-  static Future<Inet6Address> getByAddress3(
-    String host,
-    Uint8List addr,
-    NetworkInterface nif,
-  ) => Inet6AddressProxyApi.getByAddress3(
-    host,
-    addr,
-    nif.api,
-  ).then((e) => e.impl);
+//   @override
+//   final InetAddressProxyApi api;
 
-  static Future<Inet6Address> getByAddress4(
-    String host,
-    Uint8List addr,
-    int scopeId,
-  ) => Inet6AddressProxyApi.getByAddress4(
-    host,
-    addr,
-    scopeId,
-  ).then((e) => e.impl);
+//   InetAddressImpl.api(this.api) : super.impl();
+// }
 
-  @override
-  final Inet6AddressProxyApi api;
+// final class Inet4AddressImpl extends Inet4Address with InetAddressMixin {
+//   @override
+//   final Inet4AddressProxyApi api;
 
-  Inet6AddressImpl.api(this.api) : super.impl();
+//   Inet4AddressImpl.api(this.api) : super.impl();
+// }
 
-  @override
-  Future<bool> isIPv4CompatibleAddress() => api.isIPv4CompatibleAddress();
-}
+// final class Inet6AddressImpl extends Inet6Address with InetAddressMixin {
+//   static Inet6Address getByAddress3(
+//     String host,
+//     Uint8List addr,
+//     NetworkInterface nif,
+//   ) => Inet6AddressProxyApi.getByAddress3(
+//     host,
+//     addr,
+//     nif.api,
+//   ).then((e) => e.impl);
 
-mixin InetAddressMixin on InetAddress {
-  InetAddressProxyApi get api;
+//   static Inet6Address getByAddress4(String host, Uint8List addr, int scopeId) =>
+//       Inet6AddressProxyApi.getByAddress4(
+//         host,
+//         addr,
+//         scopeId,
+//       ).then((e) => e.impl);
 
-  @override
-  Future<Uint8List> getAddress() => api.getAddress();
+//   @override
+//   final Inet6AddressProxyApi api;
 
-  @override
-  Future<String> getCanonicalHostName() => api.getCanonicalHostName();
+//   Inet6AddressImpl.api(this.api) : super.impl();
 
-  @override
-  Future<String?> getHostAddress() => api.getHostAddress();
+//   @override
+//   bool isIPv4CompatibleAddress() => api.isIPv4CompatibleAddress();
+// }
 
-  @override
-  Future<String> getHostName() => api.getHostName();
+// mixin InetAddressMixin on InetAddress {
+//   InetAddressProxyApi get api;
 
-  @override
-  Future<bool> isAnyLocalAddress() => api.isAnyLocalAddress();
+//   @override
+//   Uint8List getAddress() => api.getAddress();
 
-  @override
-  Future<bool> isLinkLocalAddress() => api.isLinkLocalAddress();
+//   @override
+//   String getCanonicalHostName() => api.getCanonicalHostName();
 
-  @override
-  Future<bool> isLoopbackAddress() => api.isLoopbackAddress();
+//   @override
+//   String? getHostAddress() => api.getHostAddress();
 
-  @override
-  Future<bool> isMcGlobal() => api.isMcGlobal();
+//   @override
+//   String getHostName() => api.getHostName();
 
-  @override
-  Future<bool> isMcLinkLocal() => api.isMcLinkLocal();
+//   @override
+//   bool isAnyLocalAddress() => api.isAnyLocalAddress();
 
-  @override
-  Future<bool> isMcNodeLocal() => api.isMcNodeLocal();
+//   @override
+//   bool isLinkLocalAddress() => api.isLinkLocalAddress();
 
-  @override
-  Future<bool> isMcOrgLocal() => api.isMcOrgLocal();
+//   @override
+//   bool isLoopbackAddress() => api.isLoopbackAddress();
 
-  @override
-  Future<bool> isMcSiteLocal() => api.isMcSiteLocal();
+//   @override
+//   bool isMcGlobal() => api.isMcGlobal();
 
-  @override
-  Future<bool> isMulticastAddress() => api.isMulticastAddress();
+//   @override
+//   bool isMcLinkLocal() => api.isMcLinkLocal();
 
-  @override
-  Future<bool> isReachable1(int timeout) => api.isReachable1(timeout);
+//   @override
+//   bool isMcNodeLocal() => api.isMcNodeLocal();
 
-  @override
-  Future<bool> isReachable2(NetworkInterface? netif, int ttl, int timetout) =>
-      api.isReachable2(netif?.api, ttl, timetout);
+//   @override
+//   bool isMcOrgLocal() => api.isMcOrgLocal();
 
-  @override
-  Future<bool> isSiteLocalAddress() => api.isSiteLocalAddress();
-}
+//   @override
+//   bool isMcSiteLocal() => api.isMcSiteLocal();
 
-final class InetSocketAddressImpl extends InetSocketAddressApi {
-  final InetSocketAddressProxyApi api;
+//   @override
+//   bool isMulticastAddress() => api.isMulticastAddress();
 
-  InetSocketAddressImpl.api(this.api) : super.impl();
-}
+//   @override
+//   bool isReachable1(int timeout) => api.isReachable1(timeout);
 
-final class NetworkInterfaceImpl extends NetworkInterfaceApi {
-  final NetworkInterfaceProxyApi api;
+//   @override
+//   bool isReachable2(NetworkInterface? netif, int ttl, int timetout) =>
+//       api.isReachable2(netif?.api, ttl, timetout);
 
-  NetworkInterfaceImpl.api(this.api) : super.impl();
-}
+//   @override
+//   bool isSiteLocalAddress() => api.isSiteLocalAddress();
+// }
 
-final class SocketImpl extends SocketApi {
-  final SocketProxyApi api;
+// final class InetSocketAddressImpl extends InetSocketAddress {
+//   final InetSocketAddressProxyApi api;
 
-  SocketImpl.api(this.api) : super.impl();
-}
+//   InetSocketAddressImpl.api(this.api) : super.impl();
+// }
 
-final class DatagramSocketImpl extends DatagramSocketApi {
-  final DatagramSocketProxyApi api;
+// final class NetworkInterfaceImpl extends NetworkInterface {
+//   final NetworkInterfaceProxyApi api;
 
-  DatagramSocketImpl.api(this.api) : super.impl();
-}
+//   NetworkInterfaceImpl.api(this.api) : super.impl();
+// }
 
-final class UrlImpl extends UrlApi {
-  final UrlProxyApi api;
+// final class SocketImpl extends Socket {
+//   final SocketProxyApi api;
 
-  UrlImpl.api(this.api) : super.impl();
-}
+//   SocketImpl.api(this.api) : super.impl();
+// }
 
-final class UrlConnectionImpl extends UrlConnectionApi {
-  final UrlConnectionProxyApi api;
+// final class DatagramSocketImpl extends DatagramSocket {
+//   final DatagramSocketProxyApi api;
 
-  UrlConnectionImpl.api(this.api) : super.impl();
-}
+//   DatagramSocketImpl.api(this.api) : super.impl();
+// }
 
-final class SocketFactoryImpl extends SocketFactoryApi {
-  final SocketFactoryProxyApi api;
+// final class UrlImpl extends Url {
+//   final UrlProxyApi api;
 
-  SocketFactoryImpl.api(this.api) : super.impl();
-}
+//   UrlImpl.api(this.api) : super.impl();
+// }
 
-final class ProxyImpl extends ProxyApi {
-  final ProxyProxyApi api;
+// final class UrlConnectionImpl extends UrlConnection {
+//   final UrlConnectionProxyApi api;
 
-  ProxyImpl.api(this.api) : super.impl();
-}
+//   UrlConnectionImpl.api(this.api) : super.impl();
+// }
+
+// final class SocketFactoryImpl extends SocketFactory {
+//   final SocketFactoryProxyApi api;
+
+//   SocketFactoryImpl.api(this.api) : super.impl();
+// }
+
+// final class ProxyImpl extends Proxy {
+//   final ProxyProxyApi api;
+
+//   ProxyImpl.api(this.api) : super.impl();
+// }
 
 extension on NetworkType {
-  NetworkTypeApi get api => NetworkTypeApi.values[index];
-}
-
-extension on NetworkTypeApi {
-  NetworkType get impl => NetworkType.values[index];
-}
-
-extension on NetworkCapability {
-  NetworkCapabilityApi get api => NetworkCapabilityApi.values[index];
-}
-
-extension on NetworkCapabilityApi {
-  NetworkCapability get impl => NetworkCapability.values[index];
-}
-
-extension on TransportType {
-  TransportTypeApi get api => TransportTypeApi.values[index];
-}
-
-extension on TransportTypeApi {
-  TransportType get impl => TransportType.values[index];
-}
-
-extension on RouteType {
-  RouteTypeApi get api => RouteTypeApi.values[index];
-}
-
-extension on RouteTypeApi {
-  RouteType get impl => RouteType.values[index];
-}
-
-extension on RestrictBackgroundStatus {
-  RestrictBackgroundStatusApi get api =>
-      RestrictBackgroundStatusApi.values[index];
-}
-
-extension on RestrictBackgroundStatusApi {
-  RestrictBackgroundStatus get impl => RestrictBackgroundStatus.values[index];
-}
-
-extension on ConnectivityManager {
-  ConnectivityManagerProxyApi get api {
-    final impl = this;
-    if (impl is! ConnectivityManagerImpl) throw TypeError();
-    return impl.api;
-  }
-}
-
-extension on ConnectivityManagerProxyApi {
-  ConnectivityManager get impl => ConnectivityManagerImpl.api(this);
-}
-
-extension on ConnectivityManagerNetworkCallback {
-  ConnectivityManagerNetworkCallbackProxyApi get api {
-    final impl = this;
-    if (impl is! ConnectivityManagerNetworkCallbackImpl) throw TypeError();
-    return impl.api;
-  }
-}
-
-extension on ConnectivityManagerNetworkCallbackProxyApi {
-  ConnectivityManagerNetworkCallback get impl =>
-      ConnectivityManagerNetworkCallbackImpl.api(this);
-}
-
-extension on ConnectivityManagerOnNetworkActiveListener {
-  ConnectivityManagerOnNetworkActiveListenerProxyApi get api {
-    final impl = this;
-    if (impl is! ConnectivityManagerOnNetworkActiveListenerImpl) {
-      throw TypeError();
+  int get api {
+    switch (this) {
+      case NetworkType.mobile:
+        return jni.ConnectivityManager.TYPE_MOBILE;
+      case NetworkType.wifi:
+        return jni.ConnectivityManager.TYPE_WIFI;
+      case NetworkType.mobileMms:
+        return jni.ConnectivityManager.TYPE_MOBILE_MMS;
+      case NetworkType.mobileSupl:
+        return jni.ConnectivityManager.TYPE_MOBILE_SUPL;
+      case NetworkType.mobileDun:
+        return jni.ConnectivityManager.TYPE_MOBILE_DUN;
+      case NetworkType.mobileHipri:
+        return jni.ConnectivityManager.TYPE_MOBILE_HIPRI;
+      case NetworkType.wimax:
+        return jni.ConnectivityManager.TYPE_WIMAX;
+      case NetworkType.bluetooth:
+        return jni.ConnectivityManager.TYPE_BLUETOOTH;
+      case NetworkType.dummy:
+        return jni.ConnectivityManager.TYPE_DUMMY;
+      case NetworkType.ethernet:
+        return jni.ConnectivityManager.TYPE_ETHERNET;
+      case NetworkType.vpn:
+        return jni.ConnectivityManager.TYPE_VPN;
     }
-    return impl.api;
   }
 }
 
-extension on ConnectivityManagerOnNetworkActiveListenerProxyApi {
-  ConnectivityManagerOnNetworkActiveListener get impl =>
-      ConnectivityManagerOnNetworkActiveListenerImpl.api(this);
+extension on int {
+  NetworkType get networkTypeImpl {
+    switch (this) {
+      case jni.ConnectivityManager.TYPE_MOBILE:
+        return NetworkType.mobile;
+      case jni.ConnectivityManager.TYPE_WIFI:
+        return NetworkType.wifi;
+      case jni.ConnectivityManager.TYPE_MOBILE_MMS:
+        return NetworkType.mobileMms;
+      case jni.ConnectivityManager.TYPE_MOBILE_SUPL:
+        return NetworkType.mobileSupl;
+      case jni.ConnectivityManager.TYPE_MOBILE_DUN:
+        return NetworkType.mobileDun;
+      case jni.ConnectivityManager.TYPE_MOBILE_HIPRI:
+        return NetworkType.mobileHipri;
+      case jni.ConnectivityManager.TYPE_WIMAX:
+        return NetworkType.wimax;
+      case jni.ConnectivityManager.TYPE_BLUETOOTH:
+        return NetworkType.bluetooth;
+      case jni.ConnectivityManager.TYPE_DUMMY:
+        return NetworkType.dummy;
+      case jni.ConnectivityManager.TYPE_ETHERNET:
+        return NetworkType.ethernet;
+      case jni.ConnectivityManager.TYPE_VPN:
+        return NetworkType.vpn;
+      default:
+        throw UnimplementedError('Unimplemented value: $this');
+    }
+  }
 }
+
+// extension on NetworkCapability {
+//   NetworkCapabilityApi get api => NetworkCapabilityApi.values[index];
+// }
+
+// extension on NetworkCapabilityApi {
+//   NetworkCapability get impl => NetworkCapability.values[index];
+// }
+
+// extension on TransportType {
+//   TransportTypeApi get api => TransportTypeApi.values[index];
+// }
+
+// extension on TransportTypeApi {
+//   TransportType get impl => TransportType.values[index];
+// }
+
+// extension on RouteType {
+//   RouteTypeApi get api => RouteTypeApi.values[index];
+// }
+
+// extension on RouteTypeApi {
+//   RouteType get impl => RouteType.values[index];
+// }
+
+// extension on RestrictBackgroundStatus {
+//   RestrictBackgroundStatusApi get api =>
+//       RestrictBackgroundStatusApi.values[index];
+// }
+
+// extension on RestrictBackgroundStatusApi {
+//   RestrictBackgroundStatus get impl => RestrictBackgroundStatus.values[index];
+// }
+
+// extension on ConnectivityManager {
+//   ConnectivityManagerProxyApi get api {
+//     final impl = this;
+//     if (impl is! ConnectivityManagerImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
+
+// extension on ConnectivityManagerProxyApi {
+//   ConnectivityManager get impl => ConnectivityManagerImpl.api(this);
+// }
+
+// extension on ConnectivityManagerNetworkCallback {
+//   ConnectivityManagerNetworkCallbackProxyApi get api {
+//     final impl = this;
+//     if (impl is! ConnectivityManagerNetworkCallbackImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
+
+// extension on ConnectivityManagerNetworkCallbackProxyApi {
+//   ConnectivityManagerNetworkCallback get impl =>
+//       ConnectivityManagerNetworkCallbackImpl.api(this);
+// }
+
+// extension on ConnectivityManagerOnNetworkActiveListener {
+//   ConnectivityManagerOnNetworkActiveListenerProxyApi get api {
+//     final impl = this;
+//     if (impl is! ConnectivityManagerOnNetworkActiveListenerImpl) {
+//       throw TypeError();
+//     }
+//     return impl.api;
+//   }
+// }
+
+// extension on ConnectivityManagerOnNetworkActiveListenerProxyApi {
+//   ConnectivityManagerOnNetworkActiveListener get impl =>
+//       ConnectivityManagerOnNetworkActiveListenerImpl.api(this);
+// }
 
 extension on Network {
-  NetworkProxyApi get api {
+  jni.Network get api {
     final impl = this;
     if (impl is! NetworkImpl) throw TypeError();
     return impl.api;
   }
 }
 
-extension on NetworkProxyApi {
+extension on jni.Network {
   Network get impl => NetworkImpl.api(this);
 }
 
-extension on NetworkInfo {
-  NetworkInfoProxyApi get api {
-    final impl = this;
-    if (impl is! NetworkInfoImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on NetworkInfo {
+//   NetworkInfoProxyApi get api {
+//     final impl = this;
+//     if (impl is! NetworkInfoImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on NetworkInfoProxyApi {
-  NetworkInfo get impl => NetworkInfoImpl.api(this);
-}
+// extension on NetworkInfoProxyApi {
+//   NetworkInfo get impl => NetworkInfoImpl.api(this);
+// }
 
-extension on NetworkRequest {
-  NetworkRequestProxyApi get api {
-    final impl = this;
-    if (impl is! NetworkRequestImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on NetworkRequest {
+//   NetworkRequestProxyApi get api {
+//     final impl = this;
+//     if (impl is! NetworkRequestImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on NetworkRequestProxyApi {
-  NetworkRequest get impl => NetworkRequestImpl.api(this);
-}
+// extension on NetworkRequestProxyApi {
+//   NetworkRequest get impl => NetworkRequestImpl.api(this);
+// }
 
-extension on NetworkCapabilities {
-  NetworkCapabilitiesProxyApi get api {
-    final impl = this;
-    if (impl is! NetworkCapabilitiesImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on NetworkCapabilities {
+//   NetworkCapabilitiesProxyApi get api {
+//     final impl = this;
+//     if (impl is! NetworkCapabilitiesImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on NetworkCapabilitiesProxyApi {
-  NetworkCapabilities get impl => NetworkCapabilitiesImpl.api(this);
-}
+// extension on NetworkCapabilitiesProxyApi {
+//   NetworkCapabilities get impl => NetworkCapabilitiesImpl.api(this);
+// }
 
-extension on NetworkSpecifier {
-  NetworkSpecifierProxyApi get api {
-    final impl = this;
-    if (impl is! NetworkSpecifierImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on NetworkSpecifier {
+//   NetworkSpecifierProxyApi get api {
+//     final impl = this;
+//     if (impl is! NetworkSpecifierImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on NetworkSpecifierProxyApi {
-  NetworkSpecifier get impl => NetworkSpecifierImpl.api(this);
-}
+// extension on NetworkSpecifierProxyApi {
+//   NetworkSpecifier get impl => NetworkSpecifierImpl.api(this);
+// }
 
-extension on LinkProperties {
-  LinkPropertiesProxyApi get api {
-    final impl = this;
-    if (impl is! LinkPropertiesImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on LinkProperties {
+//   LinkPropertiesProxyApi get api {
+//     final impl = this;
+//     if (impl is! LinkPropertiesImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on LinkPropertiesProxyApi {
-  LinkProperties get impl => LinkPropertiesImpl.api(this);
-}
+// extension on LinkPropertiesProxyApi {
+//   LinkProperties get impl => LinkPropertiesImpl.api(this);
+// }
 
-extension on LinkAddress {
-  LinkAddressProxyApi get api {
-    final impl = this;
-    if (impl is! LinkAddressImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on LinkAddress {
+//   LinkAddressProxyApi get api {
+//     final impl = this;
+//     if (impl is! LinkAddressImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on LinkAddressProxyApi {
-  LinkAddress get impl => LinkAddressImpl.api(this);
-}
+// extension on LinkAddressProxyApi {
+//   LinkAddress get impl => LinkAddressImpl.api(this);
+// }
 
-extension on IpPrefix {
-  IpPrefixProxyApi get api {
-    final impl = this;
-    if (impl is! IpPrefixImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on IpPrefix {
+//   IpPrefixProxyApi get api {
+//     final impl = this;
+//     if (impl is! IpPrefixImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on IpPrefixProxyApi {
-  IpPrefix get impl => IpPrefixImpl.api(this);
-}
+// extension on IpPrefixProxyApi {
+//   IpPrefix get impl => IpPrefixImpl.api(this);
+// }
 
-extension on SocketKeepalive {
-  SocketKeepaliveProxyApi get api {
-    final impl = this;
-    if (impl is! SocketKeepaliveImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on SocketKeepalive {
+//   SocketKeepaliveProxyApi get api {
+//     final impl = this;
+//     if (impl is! SocketKeepaliveImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on SocketKeepaliveProxyApi {
-  SocketKeepalive get impl => SocketKeepaliveImpl.api(this);
-}
+// extension on SocketKeepaliveProxyApi {
+//   SocketKeepalive get impl => SocketKeepaliveImpl.api(this);
+// }
 
-extension on SocketKeepaliveCallback {
-  SocketKeepaliveCallbackProxyApi get api {
-    final impl = this;
-    if (impl is! SocketKeepaliveCallbackImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on SocketKeepaliveCallback {
+//   SocketKeepaliveCallbackProxyApi get api {
+//     final impl = this;
+//     if (impl is! SocketKeepaliveCallbackImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on SocketKeepaliveCallbackProxyApi {
-  SocketKeepaliveCallback get impl => SocketKeepaliveCallbackImpl.api(this);
-}
+// extension on SocketKeepaliveCallbackProxyApi {
+//   SocketKeepaliveCallback get impl => SocketKeepaliveCallbackImpl.api(this);
+// }
 
-extension on IpSecManagerUdpEncapsulationSocket {
-  IpSecManagerUdpEncapsulationSocketProxyApi get api {
-    final impl = this;
-    if (impl is! IpSecManagerUdpEncapsulationSocketImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on IpSecManagerUdpEncapsulationSocket {
+//   IpSecManagerUdpEncapsulationSocketProxyApi get api {
+//     final impl = this;
+//     if (impl is! IpSecManagerUdpEncapsulationSocketImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on IpSecManagerUdpEncapsulationSocketProxyApi {
-  IpSecManagerUdpEncapsulationSocket get impl =>
-      IpSecManagerUdpEncapsulationSocketImpl.api(this);
-}
+// extension on IpSecManagerUdpEncapsulationSocketProxyApi {
+//   IpSecManagerUdpEncapsulationSocket get impl =>
+//       IpSecManagerUdpEncapsulationSocketImpl.api(this);
+// }
 
-extension on ProxyInfo {
-  ProxyInfoProxyApi get api {
-    final impl = this;
-    if (impl is! ProxyInfoImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on ProxyInfo {
+//   ProxyInfoProxyApi get api {
+//     final impl = this;
+//     if (impl is! ProxyInfoImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on ProxyInfoProxyApi {
-  ProxyInfo get impl => ProxyInfoImpl.api(this);
-}
+// extension on ProxyInfoProxyApi {
+//   ProxyInfo get impl => ProxyInfoImpl.api(this);
+// }
 
-extension on TransportInfo {
-  TransportInfoProxyApi get api {
-    final impl = this;
-    if (impl is! TransportInfoImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on TransportInfo {
+//   TransportInfoProxyApi get api {
+//     final impl = this;
+//     if (impl is! TransportInfoImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on TransportInfoProxyApi {
-  TransportInfo get impl => TransportInfoImpl.api(this);
-}
+// extension on TransportInfoProxyApi {
+//   TransportInfo get impl => TransportInfoImpl.api(this);
+// }
 
-extension on RouteInfo {
-  RouteInfoProxyApi get api {
-    final impl = this;
-    if (impl is! RouteInfoImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on RouteInfo {
+//   RouteInfoProxyApi get api {
+//     final impl = this;
+//     if (impl is! RouteInfoImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on RouteInfoProxyApi {
-  RouteInfo get impl => RouteInfoImpl.api(this);
-}
+// extension on RouteInfoProxyApi {
+//   RouteInfo get impl => RouteInfoImpl.api(this);
+// }
 
-extension on InetAddresses {
-  InetAddressesProxyApi get api {
-    final impl = this;
-    if (impl is! InetAddressesImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on InetAddresses {
+//   InetAddressesProxyApi get api {
+//     final impl = this;
+//     if (impl is! InetAddressesImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on InetAddressesProxyApi {
-  InetAddresses get impl => InetAddressesImpl.api(this);
-}
+// extension on InetAddressesProxyApi {
+//   InetAddresses get impl => InetAddressesImpl.api(this);
+// }
 
-extension on FileDescriptor {
-  FileDescriptorProxyApi get api {
-    final impl = this;
-    if (impl is! FileDescriptorImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on FileDescriptor {
+//   FileDescriptorProxyApi get api {
+//     final impl = this;
+//     if (impl is! FileDescriptorImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on FileDescriptorProxyApi {
-  FileDescriptor get impl => FileDescriptorImpl.api(this);
-}
+// extension on FileDescriptorProxyApi {
+//   FileDescriptor get impl => FileDescriptorImpl.api(this);
+// }
 
-extension on InetAddress {
-  InetAddressProxyApi get api {
-    final impl = this;
-    if (impl is! InetAddressImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on InetAddress {
+//   InetAddressProxyApi get api {
+//     final impl = this;
+//     if (impl is! InetAddressImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on InetAddressProxyApi {
-  InetAddress get impl {
-    final api = this;
-    return api is Inet6AddressProxyApi
-        ? Inet6AddressImpl.api(api)
-        : api is Inet4AddressProxyApi
-        ? Inet4AddressImpl.api(api)
-        : InetAddressImpl.api(api);
-  }
-}
+// extension on InetAddressProxyApi {
+//   InetAddress get impl {
+//     final api = this;
+//     return api is Inet6AddressProxyApi
+//         ? Inet6AddressImpl.api(api)
+//         : api is Inet4AddressProxyApi
+//         ? Inet4AddressImpl.api(api)
+//         : InetAddressImpl.api(api);
+//   }
+// }
 
-extension on Inet4Address {
-  Inet4AddressProxyApi get api {
-    final impl = this;
-    if (impl is! Inet4AddressImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on Inet4Address {
+//   Inet4AddressProxyApi get api {
+//     final impl = this;
+//     if (impl is! Inet4AddressImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on Inet4AddressProxyApi {
-  Inet4Address get impl => Inet4AddressImpl.api(this);
-}
+// extension on Inet4AddressProxyApi {
+//   Inet4Address get impl => Inet4AddressImpl.api(this);
+// }
 
-extension on Inet6Address {
-  Inet6AddressProxyApi get api {
-    final impl = this;
-    if (impl is! Inet6AddressImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on Inet6Address {
+//   Inet6AddressProxyApi get api {
+//     final impl = this;
+//     if (impl is! Inet6AddressImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on Inet6AddressProxyApi {
-  Inet6Address get impl => Inet6AddressImpl.api(this);
-}
+// extension on Inet6AddressProxyApi {
+//   Inet6Address get impl => Inet6AddressImpl.api(this);
+// }
 
-extension on InetSocketAddress {
-  InetSocketAddressProxyApi get api {
-    final impl = this;
-    if (impl is! InetSocketAddressImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on InetSocketAddress {
+//   InetSocketAddressProxyApi get api {
+//     final impl = this;
+//     if (impl is! InetSocketAddressImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on InetSocketAddressProxyApi {
-  InetSocketAddress get impl => InetSocketAddressImpl.api(this);
-}
+// extension on InetSocketAddressProxyApi {
+//   InetSocketAddress get impl => InetSocketAddressImpl.api(this);
+// }
 
-extension on NetworkInterface {
-  NetworkInterfaceProxyApi get api {
-    final impl = this;
-    if (impl is! NetworkInterfaceImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on NetworkInterface {
+//   NetworkInterfaceProxyApi get api {
+//     final impl = this;
+//     if (impl is! NetworkInterfaceImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on NetworkInterfaceProxyApi {
-  NetworkInterface get impl => NetworkInterfaceImpl.api(this);
-}
+// extension on NetworkInterfaceProxyApi {
+//   NetworkInterface get impl => NetworkInterfaceImpl.api(this);
+// }
 
-extension on Socket {
-  SocketProxyApi get api {
-    final impl = this;
-    if (impl is! SocketImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on Socket {
+//   SocketProxyApi get api {
+//     final impl = this;
+//     if (impl is! SocketImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on SocketProxyApi {
-  Socket get impl => SocketImpl.api(this);
-}
+// extension on SocketProxyApi {
+//   Socket get impl => SocketImpl.api(this);
+// }
 
-extension on DatagramSocket {
-  DatagramSocketProxyApi get api {
-    final impl = this;
-    if (impl is! DatagramSocketImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on DatagramSocket {
+//   DatagramSocketProxyApi get api {
+//     final impl = this;
+//     if (impl is! DatagramSocketImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on DatagramSocketProxyApi {
-  DatagramSocket get impl => DatagramSocketImpl.api(this);
-}
+// extension on DatagramSocketProxyApi {
+//   DatagramSocket get impl => DatagramSocketImpl.api(this);
+// }
 
-extension on Url {
-  UrlProxyApi get api {
-    final impl = this;
-    if (impl is! UrlImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on Url {
+//   UrlProxyApi get api {
+//     final impl = this;
+//     if (impl is! UrlImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on UrlProxyApi {
-  Url get impl => UrlImpl.api(this);
-}
+// extension on UrlProxyApi {
+//   Url get impl => UrlImpl.api(this);
+// }
 
-extension on UrlConnection {
-  UrlConnectionProxyApi get api {
-    final impl = this;
-    if (impl is! UrlConnectionImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on UrlConnection {
+//   UrlConnectionProxyApi get api {
+//     final impl = this;
+//     if (impl is! UrlConnectionImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on UrlConnectionProxyApi {
-  UrlConnection get impl => UrlConnectionImpl.api(this);
-}
+// extension on UrlConnectionProxyApi {
+//   UrlConnection get impl => UrlConnectionImpl.api(this);
+// }
 
-extension on SocketFactory {
-  SocketFactoryProxyApi get api {
-    final impl = this;
-    if (impl is! SocketFactoryImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on SocketFactory {
+//   SocketFactoryProxyApi get api {
+//     final impl = this;
+//     if (impl is! SocketFactoryImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on SocketFactoryProxyApi {
-  SocketFactory get impl => SocketFactoryImpl.api(this);
-}
+// extension on SocketFactoryProxyApi {
+//   SocketFactory get impl => SocketFactoryImpl.api(this);
+// }
 
-extension on Proxy {
-  ProxyProxyApi get api {
-    final impl = this;
-    if (impl is! ProxyImpl) throw TypeError();
-    return impl.api;
-  }
-}
+// extension on Proxy {
+//   ProxyProxyApi get api {
+//     final impl = this;
+//     if (impl is! ProxyImpl) throw TypeError();
+//     return impl.api;
+//   }
+// }
 
-extension on ProxyProxyApi {
-  Proxy get impl => ProxyImpl.api(this);
-}
+// extension on ProxyProxyApi {
+//   Proxy get impl => ProxyImpl.api(this);
+// }

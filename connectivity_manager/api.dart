@@ -226,7 +226,7 @@ abstract class NetworkProxyApi {
   List<InetAddressProxyApi> getAllByName(String host);
   InetAddressProxyApi getByName(String host);
   int getNetworkHandle();
-  SocketFactoryProxyApi getSocketFatory();
+  SocketFactoryProxyApi getSocketFactory();
   UrlConnectionProxyApi openConnection(UrlProxyApi url, [ProxyProxyApi? proxy]);
 }
 

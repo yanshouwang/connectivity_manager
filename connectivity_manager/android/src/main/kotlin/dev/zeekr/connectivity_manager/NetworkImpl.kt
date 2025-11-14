@@ -39,7 +39,7 @@ class NetworkImpl(registrar: ConnectivityManagerApiPigeonProxyApiRegistrar) : Pi
         else throw UnsupportedOperationException("Call requires API level 23")
     }
 
-    override fun getSocketFatory(pigeon_instance: Network): SocketFactory {
+    override fun getSocketFactory(pigeon_instance: Network): SocketFactory {
         return pigeon_instance.socketFactory
     }
 

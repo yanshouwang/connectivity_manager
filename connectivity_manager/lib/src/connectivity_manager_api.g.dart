@@ -3273,12 +3273,12 @@ class NetworkProxyApi extends PigeonInternalProxyApiBaseClass {
     }
   }
 
-  Future<SocketFactoryProxyApi> getSocketFatory() async {
+  Future<SocketFactoryProxyApi> getSocketFactory() async {
     final _PigeonInternalProxyApiBaseCodec pigeonChannelCodec =
         _pigeonVar_codecNetworkProxyApi;
     final BinaryMessenger? pigeonVar_binaryMessenger = pigeon_binaryMessenger;
     const String pigeonVar_channelName =
-        'dev.flutter.pigeon.connectivity_manager.NetworkProxyApi.getSocketFatory';
+        'dev.flutter.pigeon.connectivity_manager.NetworkProxyApi.getSocketFactory';
     final BasicMessageChannel<Object?> pigeonVar_channel =
         BasicMessageChannel<Object?>(
       pigeonVar_channelName,
