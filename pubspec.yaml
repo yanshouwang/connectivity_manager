@@ -4,3 +4,4 @@ environment:
   sdk: ^3.9.2
 workspace:
   - connectivity_manager
+  - connectivity_manager/example
