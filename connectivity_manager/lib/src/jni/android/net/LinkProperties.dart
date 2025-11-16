@@ -40,6 +40,8 @@ import '../../java/net/Inet4Address.dart' as inet4address$_;
 
 import '../../java/net/InetAddress.dart' as inetaddress$_;
 
+import '../../java/util/Collection.dart' as collection$_;
+
 import 'IpPrefix.dart' as ipprefix$_;
 
 import 'LinkAddress.dart' as linkaddress$_;
@@ -671,7 +673,9 @@ class LinkProperties extends jni$_.JObject {
           >();
 
   /// from: `public void setDnsServers(java.util.Collection<java.net.InetAddress> collection)`
-  void setDnsServers(jni$_.JObject? collection) {
+  void setDnsServers(
+    collection$_.Collection<inetaddress$_.InetAddress?>? collection,
+  ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     _setDnsServers(
       reference.pointer,
@@ -803,7 +807,9 @@ class LinkProperties extends jni$_.JObject {
           >();
 
   /// from: `public void setLinkAddresses(java.util.Collection<android.net.LinkAddress> collection)`
-  void setLinkAddresses(jni$_.JObject? collection) {
+  void setLinkAddresses(
+    collection$_.Collection<linkaddress$_.LinkAddress?>? collection,
+  ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     _setLinkAddresses(
       reference.pointer,

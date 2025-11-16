@@ -63,7 +63,7 @@ enum TransportType {
   satellite,
 }
 
-enum RouteType { unicast, unreachable, throws }
+enum RouteType { rtnUnicast, rtnUnreachable, rtnThrow }
 
 enum RestrictBackgroundStatus { disabled, whitelisted, enabled }
 
@@ -77,7 +77,7 @@ abstract base class ConnectivityManager {
 
   ConnectivityManager.impl();
 
-  factory ConnectivityManager() => ConnectivityManagerImpl.instance;
+  factory ConnectivityManager() => ConnectivityManagerImpl();
 
   void addDefaultNetworkActiveListener(
     ConnectivityManagerOnNetworkActiveListener listener,
@@ -196,7 +196,7 @@ abstract base class Network {
   List<InetAddress> getAllByName(String host);
   InetAddress getByName(String host);
   int getNetworkHandle();
-  SocketFactory getSocketFatory();
+  SocketFactory getSocketFactory();
   UrlConnection openConnection(Url url, [Proxy? proxy]);
 }
 
@@ -210,7 +210,7 @@ abstract base class NetworkRequest {
     List<TransportType>? transportTypes,
     bool? includeOtherUidNetworks,
     NetworkSpecifier? networkSpecifier,
-    List<int>? subIds,
+    Set<int>? subIds,
   }) => NetworkRequestImpl(
     capabilities: capabilities,
     transportTypes: transportTypes,
@@ -224,7 +224,7 @@ abstract base class NetworkRequest {
   bool canBeSatisfiedBy(NetworkCapabilities nc);
   List<NetworkCapability> getCapabilities();
   NetworkSpecifier? getNetworkSpecifier();
-  List<int> getSubscriptionIds();
+  Set<int> getSubscriptionIds();
   List<TransportType> getTransportTypes();
   bool hasCapability(NetworkCapability capability);
   bool hasTransport(TransportType transportType);
@@ -240,7 +240,7 @@ abstract base class NetworkCapabilities {
   NetworkSpecifier? getNetworkSpecifier();
   int getOwnerUid();
   int getSignalStrength();
-  List<int> getSubscriptionIds();
+  Set<int> getSubscriptionIds();
   TransportInfo? getTransportInfo();
   bool hasCapability(NetworkCapability capability);
   bool hasEnterpriseId(int enterpriseId);

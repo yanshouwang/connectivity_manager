@@ -24,16 +24,14 @@ class HomeViewModel extends ViewModel {
     final wr = NetworkRequest(transportTypes: [TransportType.wifi]);
     final er = NetworkRequest(transportTypes: [TransportType.ethernet]);
     _wifiCallback = ConnectivityManagerNetworkCallback(
-      onAvailable: (network) async {
+      onAvailable: (network) {
         logger.info('wifi onAvailable $network');
-        final linkProperties = await _connectivityManager.getLinkProperties(
-          network,
-        );
+        final linkProperties = _connectivityManager.getLinkProperties(network);
         if (linkProperties == null) {
           logger.warning('wifi linkProperties is null');
           return;
         }
-        final wifiModel = await linkProperties.getNetworkModel();
+        final wifiModel = linkProperties.getNetworkModel();
         if (wifiModel == null) {
           logger.warning('wifi model is null');
           return;
@@ -44,23 +42,21 @@ class HomeViewModel extends ViewModel {
       onLosing: (network, maxMsToLive) {
         logger.info('wifi onLosing $network, $maxMsToLive');
       },
-      onLost: (network) async {
+      onLost: (network) {
         logger.info('wifi onLost $network');
         _wifiModels.clear();
         notifyListeners();
       },
     );
     _ethernetCallback = ConnectivityManagerNetworkCallback(
-      onAvailable: (network) async {
+      onAvailable: (network) {
         logger.info('ethernet onAvailable $network');
-        final linkProperties = await _connectivityManager.getLinkProperties(
-          network,
-        );
+        final linkProperties = _connectivityManager.getLinkProperties(network);
         if (linkProperties == null) {
           logger.warning('ethernet linkProperties is null');
           return;
         }
-        final model = await linkProperties.getNetworkModel();
+        final model = linkProperties.getNetworkModel();
         if (model == null) {
           logger.warning('ethernet model is null');
           return;
@@ -90,13 +86,13 @@ class HomeViewModel extends ViewModel {
 }
 
 extension on LinkProperties {
-  Future<NetworkModel?> getNetworkModel() async {
-    final iface = await getInterfaceName();
+  NetworkModel? getNetworkModel() {
+    final iface = getInterfaceName();
     if (iface == null) return null;
-    final inetAddresses = await getAddressModels();
+    final inetAddresses = getAddressModels();
     final inetAddress = inetAddresses.firstOrNull;
-    final gateway = await getGatewayModel();
-    final dnsServers = await getDnsServerModels();
+    final gateway = getGatewayModel();
+    final dnsServers = getDnsServerModels();
     return NetworkModel(
       iface: iface,
       ipAddress: inetAddress?.$1,
@@ -106,48 +102,43 @@ extension on LinkProperties {
     );
   }
 
-  Future<List<(String, String)>> getAddressModels() {
+  List<(String, String)> getAddressModels() {
     return getLinkAddresses()
-        .asStream()
-        .expand((e) => e)
-        .asyncMap((e) async {
-          final inetAddress = await e.getAddress();
+        .map((e) {
+          final inetAddress = e.getAddress();
           if (inetAddress is! Inet4Address) return null;
-          final ipAddress = await inetAddress.getHostAddress();
+          final ipAddress = inetAddress.getHostAddress();
           if (ipAddress == null) return null;
-          final prefixLength = await e.getPrefixLength();
+          final prefixLength = e.getPrefixLength();
           final subnetMask = NetworkUtil.getPrefixMask(prefixLength);
           return (ipAddress, subnetMask);
         })
-        .toList()
-        .then((e) => e.whereType<(String, String)>().toList());
+        .whereType<(String, String)>()
+        .toList();
   }
 
-  Future<String?> getGatewayModel() {
+  String? getGatewayModel() {
     return getRoutes()
-        .asStream()
-        .expand((e) => e)
-        .asyncMap((e) async {
-          final isDefault = await e.isDefaultRoute();
+        .map((e) {
+          final isDefault = e.isDefaultRoute();
           if (isDefault) {
-            final inetGateway = await e.getGateway();
+            final inetGateway = e.getGateway();
             if (inetGateway is! Inet4Address) return null;
-            final gateway = await inetGateway.getHostAddress();
+            final gateway = inetGateway.getHostAddress();
             return gateway;
           } else {
             return null;
           }
         })
+        .whereType<String>()
         .toList()
-        .then((e) => e.whereType<String>().toList().firstOrNull);
+        .firstOrNull;
   }
 
-  Future<List<String>> getDnsServerModels() async {
+  List<String> getDnsServerModels() {
     return getDnsServers()
-        .asStream()
-        .expand((e) => e)
-        .asyncMap((e) => e is Inet4Address ? e.getHostAddress() : null)
-        .toList()
-        .then((e) => e.whereType<String>().toList());
+        .map((e) => e is Inet4Address ? e.getHostAddress() : null)
+        .whereType<String>()
+        .toList();
   }
 }

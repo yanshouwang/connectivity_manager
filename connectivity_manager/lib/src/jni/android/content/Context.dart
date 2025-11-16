@@ -36,6 +36,14 @@ import 'dart:core' show Object, String, bool, double, int;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+import '../../java/util/Collection.dart' as collection$_;
+
+import '../../java/util/concurrent/Executor.dart' as executor$_;
+
+import '../os/Handler.dart' as handler$_;
+
+import '../os/Looper.dart' as looper$_;
+
 /// from: `android.content.Context$BindServiceFlags`
 class Context$BindServiceFlags extends jni$_.JObject {
   @jni$_.internal
@@ -1394,7 +1402,7 @@ class Context extends jni$_.JObject {
     jni$_.JObject? intent,
     Context$BindServiceFlags? bindServiceFlags,
     jni$_.JString? string,
-    jni$_.JObject? executor,
+    executor$_.Executor? executor,
     jni$_.JObject? serviceConnection,
   ) {
     final _$intent = intent?.reference ?? jni$_.jNullReference;
@@ -1455,7 +1463,7 @@ class Context extends jni$_.JObject {
     jni$_.JObject? intent,
     int i,
     jni$_.JString? string,
-    jni$_.JObject? executor,
+    executor$_.Executor? executor,
     jni$_.JObject? serviceConnection,
   ) {
     final _$intent = intent?.reference ?? jni$_.jNullReference;
@@ -1511,7 +1519,7 @@ class Context extends jni$_.JObject {
   bool bindService(
     jni$_.JObject? intent,
     Context$BindServiceFlags? bindServiceFlags,
-    jni$_.JObject? executor,
+    executor$_.Executor? executor,
     jni$_.JObject? serviceConnection,
   ) {
     final _$intent = intent?.reference ?? jni$_.jNullReference;
@@ -1667,7 +1675,7 @@ class Context extends jni$_.JObject {
   bool bindService$3(
     jni$_.JObject? intent,
     int i,
-    jni$_.JObject? executor,
+    executor$_.Executor? executor,
     jni$_.JObject? serviceConnection,
   ) {
     final _$intent = intent?.reference ?? jni$_.jNullReference;
@@ -3966,11 +3974,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public java.util.concurrent.Executor getMainExecutor()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getMainExecutor() {
+  executor$_.Executor? getMainExecutor() {
     return _getMainExecutor(
       reference.pointer,
       _id_getMainExecutor as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<executor$_.Executor?>(const executor$_.$Executor$NullableType$());
   }
 
   static final _id_getMainLooper = _class.instanceMethodId(
@@ -3996,11 +4004,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract android.os.Looper getMainLooper()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getMainLooper() {
+  looper$_.Looper? getMainLooper() {
     return _getMainLooper(
       reference.pointer,
       _id_getMainLooper as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<looper$_.Looper?>(const looper$_.$Looper$NullableType$());
   }
 
   static final _id_getNoBackupFilesDir = _class.instanceMethodId(
@@ -5306,7 +5314,7 @@ class Context extends jni$_.JObject {
 
   /// from: `public void registerDeviceIdChangeListener(java.util.concurrent.Executor executor, java.util.function.IntConsumer intConsumer)`
   void registerDeviceIdChangeListener(
-    jni$_.JObject? executor,
+    executor$_.Executor? executor,
     jni$_.JObject? intConsumer,
   ) {
     final _$executor = executor?.reference ?? jni$_.jNullReference;
@@ -5451,7 +5459,7 @@ class Context extends jni$_.JObject {
     jni$_.JObject? broadcastReceiver,
     jni$_.JObject? intentFilter,
     jni$_.JString? string,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
   ) {
     final _$broadcastReceiver =
         broadcastReceiver?.reference ?? jni$_.jNullReference;
@@ -5509,7 +5517,7 @@ class Context extends jni$_.JObject {
     jni$_.JObject? broadcastReceiver,
     jni$_.JObject? intentFilter,
     jni$_.JString? string,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
   ) {
     final _$broadcastReceiver =
@@ -5659,7 +5667,9 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public void revokeSelfPermissionsOnKill(java.util.Collection<java.lang.String> collection)`
-  void revokeSelfPermissionsOnKill(jni$_.JObject? collection) {
+  void revokeSelfPermissionsOnKill(
+    collection$_.Collection<jni$_.JString?>? collection,
+  ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     _revokeSelfPermissionsOnKill(
       reference.pointer,
@@ -6078,7 +6088,7 @@ class Context extends jni$_.JObject {
     jni$_.JObject? intent,
     jni$_.JString? string,
     jni$_.JObject? broadcastReceiver,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
     jni$_.JString? string1,
     jni$_.JObject? bundle,
@@ -6199,7 +6209,7 @@ class Context extends jni$_.JObject {
     jni$_.JString? string,
     jni$_.JObject? bundle,
     jni$_.JObject? broadcastReceiver,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
     jni$_.JString? string1,
     jni$_.JObject? bundle1,
@@ -6273,7 +6283,7 @@ class Context extends jni$_.JObject {
     jni$_.JString? string,
     jni$_.JString? string1,
     jni$_.JObject? broadcastReceiver,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
     jni$_.JString? string2,
     jni$_.JObject? bundle,
@@ -6347,7 +6357,7 @@ class Context extends jni$_.JObject {
     jni$_.JObject? userHandle,
     jni$_.JString? string,
     jni$_.JObject? broadcastReceiver,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
     jni$_.JString? string1,
     jni$_.JObject? bundle,
@@ -6527,7 +6537,7 @@ class Context extends jni$_.JObject {
   void sendStickyOrderedBroadcast(
     jni$_.JObject? intent,
     jni$_.JObject? broadcastReceiver,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
     jni$_.JString? string,
     jni$_.JObject? bundle,
@@ -6594,7 +6604,7 @@ class Context extends jni$_.JObject {
     jni$_.JObject? intent,
     jni$_.JObject? userHandle,
     jni$_.JObject? broadcastReceiver,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
     jni$_.JString? string,
     jni$_.JObject? bundle,

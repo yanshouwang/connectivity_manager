@@ -38,6 +38,10 @@ import 'package:jni/jni.dart' as jni$_;
 
 import '../../../android/content/Context.dart' as context$_;
 
+import '../../../android/os/Handler.dart' as handler$_;
+
+import '../../../java/util/concurrent/Executor.dart' as executor$_;
+
 /// from: `androidx.core.content.ContextCompat$RegisterReceiverFlags`
 class ContextCompat$RegisterReceiverFlags extends jni$_.JObject {
   @jni$_.internal
@@ -851,13 +855,13 @@ class ContextCompat extends jni$_.JObject {
 
   /// from: `static public java.util.concurrent.Executor getMainExecutor(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject getMainExecutor(context$_.Context context) {
+  static executor$_.Executor getMainExecutor(context$_.Context context) {
     final _$context = context.reference;
     return _getMainExecutor(
       _class.reference.pointer,
       _id_getMainExecutor as jni$_.JMethodIDPtr,
       _$context.pointer,
-    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    ).object<executor$_.Executor>(const executor$_.$Executor$Type$());
   }
 
   static final _id_startForegroundService = _class.staticMethodId(
@@ -1077,7 +1081,7 @@ class ContextCompat extends jni$_.JObject {
     jni$_.JObject? broadcastReceiver,
     jni$_.JObject intentFilter,
     jni$_.JString? string,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
   ) {
     final _$context = context.reference;

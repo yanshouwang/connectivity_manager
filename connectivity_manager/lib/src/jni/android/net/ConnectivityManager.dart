@@ -40,6 +40,10 @@ import '../../java/net/InetAddress.dart' as inetaddress$_;
 
 import '../../java/net/InetSocketAddress.dart' as inetsocketaddress$_;
 
+import '../../java/util/concurrent/Executor.dart' as executor$_;
+
+import '../os/Handler.dart' as handler$_;
+
 import 'IpSecManager.dart' as ipsecmanager$_;
 
 import 'LinkProperties.dart' as linkproperties$_;
@@ -1087,7 +1091,7 @@ class ConnectivityManager extends jni$_.JObject {
     ipsecmanager$_.IpSecManager$UdpEncapsulationSocket? udpEncapsulationSocket,
     inetaddress$_.InetAddress? inetAddress,
     inetaddress$_.InetAddress? inetAddress1,
-    jni$_.JObject? executor,
+    executor$_.Executor? executor,
     socketkeepalive$_.SocketKeepalive$Callback? callback,
   ) {
     final _$network = network?.reference ?? jni$_.jNullReference;
@@ -1805,7 +1809,7 @@ class ConnectivityManager extends jni$_.JObject {
   void registerBestMatchingNetworkCallback(
     networkrequest$_.NetworkRequest? networkRequest,
     ConnectivityManager$NetworkCallback? networkCallback,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
   ) {
     final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
     final _$networkCallback =
@@ -1885,7 +1889,7 @@ class ConnectivityManager extends jni$_.JObject {
   /// from: `public void registerDefaultNetworkCallback(android.net.ConnectivityManager$NetworkCallback networkCallback, android.os.Handler handler)`
   void registerDefaultNetworkCallback$1(
     ConnectivityManager$NetworkCallback? networkCallback,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
   ) {
     final _$networkCallback =
         networkCallback?.reference ?? jni$_.jNullReference;
@@ -2016,7 +2020,7 @@ class ConnectivityManager extends jni$_.JObject {
   void registerNetworkCallback$2(
     networkrequest$_.NetworkRequest? networkRequest,
     ConnectivityManager$NetworkCallback? networkCallback,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
   ) {
     final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
     final _$networkCallback =
@@ -2319,7 +2323,7 @@ class ConnectivityManager extends jni$_.JObject {
   void requestNetwork$2(
     networkrequest$_.NetworkRequest? networkRequest,
     ConnectivityManager$NetworkCallback? networkCallback,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
   ) {
     final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
     final _$networkCallback =
@@ -2371,7 +2375,7 @@ class ConnectivityManager extends jni$_.JObject {
   void requestNetwork$3(
     networkrequest$_.NetworkRequest? networkRequest,
     ConnectivityManager$NetworkCallback? networkCallback,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     int i,
   ) {
     final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
@@ -2471,7 +2475,7 @@ class ConnectivityManager extends jni$_.JObject {
   /// from: `public void reserveNetwork(android.net.NetworkRequest networkRequest, android.os.Handler handler, android.net.ConnectivityManager$NetworkCallback networkCallback)`
   void reserveNetwork(
     networkrequest$_.NetworkRequest? networkRequest,
-    jni$_.JObject? handler,
+    handler$_.Handler? handler,
     ConnectivityManager$NetworkCallback? networkCallback,
   ) {
     final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
