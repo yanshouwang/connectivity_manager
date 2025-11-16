@@ -76,8 +76,8 @@ class LinkProperties extends jni$_.JObject {
 
   /// from: `static public final android.os.Parcelable$Creator<android.net.LinkProperties> CREATOR`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get CREATOR =>
-      _id_CREATOR.get(_class, const jni$_.$JObject$NullableType$());
+  static jni$_.JObject get CREATOR =>
+      _id_CREATOR.get(_class, const jni$_.$JObject$Type$());
 
   static final _id_new$ = _class.constructorId(r'()V');
 
@@ -129,8 +129,8 @@ class LinkProperties extends jni$_.JObject {
           >();
 
   /// from: `public boolean addRoute(android.net.RouteInfo routeInfo)`
-  bool addRoute(routeinfo$_.RouteInfo? routeInfo) {
-    final _$routeInfo = routeInfo?.reference ?? jni$_.jNullReference;
+  bool addRoute(routeinfo$_.RouteInfo routeInfo) {
+    final _$routeInfo = routeInfo.reference;
     return _addRoute(
       reference.pointer,
       _id_addRoute as jni$_.JMethodIDPtr,
@@ -278,12 +278,12 @@ class LinkProperties extends jni$_.JObject {
 
   /// from: `public java.util.List<java.net.InetAddress> getDnsServers()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<inetaddress$_.InetAddress?>? getDnsServers() {
+  jni$_.JList<inetaddress$_.InetAddress?> getDnsServers() {
     return _getDnsServers(
       reference.pointer,
       _id_getDnsServers as jni$_.JMethodIDPtr,
-    ).object<jni$_.JList<inetaddress$_.InetAddress?>?>(
-      const jni$_.$JList$NullableType$<inetaddress$_.InetAddress?>(
+    ).object<jni$_.JList<inetaddress$_.InetAddress?>>(
+      const jni$_.$JList$Type$<inetaddress$_.InetAddress?>(
         inetaddress$_.$InetAddress$NullableType$(),
       ),
     );
@@ -404,12 +404,12 @@ class LinkProperties extends jni$_.JObject {
 
   /// from: `public java.util.List<android.net.LinkAddress> getLinkAddresses()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<linkaddress$_.LinkAddress?>? getLinkAddresses() {
+  jni$_.JList<linkaddress$_.LinkAddress?> getLinkAddresses() {
     return _getLinkAddresses(
       reference.pointer,
       _id_getLinkAddresses as jni$_.JMethodIDPtr,
-    ).object<jni$_.JList<linkaddress$_.LinkAddress?>?>(
-      const jni$_.$JList$NullableType$<linkaddress$_.LinkAddress?>(
+    ).object<jni$_.JList<linkaddress$_.LinkAddress?>>(
+      const jni$_.$JList$Type$<linkaddress$_.LinkAddress?>(
         linkaddress$_.$LinkAddress$NullableType$(),
       ),
     );
@@ -521,12 +521,12 @@ class LinkProperties extends jni$_.JObject {
 
   /// from: `public java.util.List<android.net.RouteInfo> getRoutes()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<routeinfo$_.RouteInfo?>? getRoutes() {
+  jni$_.JList<routeinfo$_.RouteInfo?> getRoutes() {
     return _getRoutes(
       reference.pointer,
       _id_getRoutes as jni$_.JMethodIDPtr,
-    ).object<jni$_.JList<routeinfo$_.RouteInfo?>?>(
-      const jni$_.$JList$NullableType$<routeinfo$_.RouteInfo?>(
+    ).object<jni$_.JList<routeinfo$_.RouteInfo?>>(
+      const jni$_.$JList$Type$<routeinfo$_.RouteInfo?>(
         routeinfo$_.$RouteInfo$NullableType$(),
       ),
     );
@@ -674,9 +674,9 @@ class LinkProperties extends jni$_.JObject {
 
   /// from: `public void setDnsServers(java.util.Collection<java.net.InetAddress> collection)`
   void setDnsServers(
-    collection$_.Collection<inetaddress$_.InetAddress?>? collection,
+    collection$_.Collection<inetaddress$_.InetAddress?> collection,
   ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    final _$collection = collection.reference;
     _setDnsServers(
       reference.pointer,
       _id_setDnsServers as jni$_.JMethodIDPtr,
@@ -808,9 +808,9 @@ class LinkProperties extends jni$_.JObject {
 
   /// from: `public void setLinkAddresses(java.util.Collection<android.net.LinkAddress> collection)`
   void setLinkAddresses(
-    collection$_.Collection<linkaddress$_.LinkAddress?>? collection,
+    collection$_.Collection<linkaddress$_.LinkAddress?> collection,
   ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    final _$collection = collection.reference;
     _setLinkAddresses(
       reference.pointer,
       _id_setLinkAddresses as jni$_.JMethodIDPtr,

@@ -151,8 +151,7 @@ val NetworkCapabilityApi.impl
         NetworkCapabilityApi.NOT_RESTRICTED -> NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED
         NetworkCapabilityApi.TRUSTED -> NetworkCapabilities.NET_CAPABILITY_TRUSTED
         NetworkCapabilityApi.NOT_VPN -> NetworkCapabilities.NET_CAPABILITY_NOT_VPN
-        NetworkCapabilityApi.VALIDATED -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) NetworkCapabilities.NET_CAPABILITY_VALIDATED
-        else throw UnsupportedOperationException("Field requires API level 23")
+        NetworkCapabilityApi.VALIDATED -> NetworkCapabilities.NET_CAPABILITY_VALIDATED
 
         NetworkCapabilityApi.CAPTIVE_PORTAL -> NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL
         NetworkCapabilityApi.NOT_ROAMING -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING

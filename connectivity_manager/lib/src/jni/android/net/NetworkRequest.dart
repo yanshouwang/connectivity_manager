@@ -112,8 +112,8 @@ class NetworkRequest$Builder extends jni$_.JObject {
 
   /// from: `public void <init>(android.net.NetworkRequest networkRequest)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory NetworkRequest$Builder.new$1(NetworkRequest? networkRequest) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
+  factory NetworkRequest$Builder.new$1(NetworkRequest networkRequest) {
+    final _$networkRequest = networkRequest.reference;
     return NetworkRequest$Builder.fromReference(
       _new$1(
         _class.reference.pointer,
@@ -246,13 +246,11 @@ class NetworkRequest$Builder extends jni$_.JObject {
 
   /// from: `public android.net.NetworkRequest$Builder clearCapabilities()`
   /// The returned object must be released after use, by calling the [release] method.
-  NetworkRequest$Builder? clearCapabilities() {
+  NetworkRequest$Builder clearCapabilities() {
     return _clearCapabilities(
       reference.pointer,
       _id_clearCapabilities as jni$_.JMethodIDPtr,
-    ).object<NetworkRequest$Builder?>(
-      const $NetworkRequest$Builder$NullableType$(),
-    );
+    ).object<NetworkRequest$Builder>(const $NetworkRequest$Builder$Type$());
   }
 
   static final _id_removeCapability = _class.instanceMethodId(
@@ -350,14 +348,12 @@ class NetworkRequest$Builder extends jni$_.JObject {
 
   /// from: `public android.net.NetworkRequest$Builder setIncludeOtherUidNetworks(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  NetworkRequest$Builder? setIncludeOtherUidNetworks(bool z) {
+  NetworkRequest$Builder setIncludeOtherUidNetworks(bool z) {
     return _setIncludeOtherUidNetworks(
       reference.pointer,
       _id_setIncludeOtherUidNetworks as jni$_.JMethodIDPtr,
       z ? 1 : 0,
-    ).object<NetworkRequest$Builder?>(
-      const $NetworkRequest$Builder$NullableType$(),
-    );
+    ).object<NetworkRequest$Builder>(const $NetworkRequest$Builder$Type$());
   }
 
   static final _id_setNetworkSpecifier = _class.instanceMethodId(
@@ -460,15 +456,13 @@ class NetworkRequest$Builder extends jni$_.JObject {
 
   /// from: `public android.net.NetworkRequest$Builder setSubscriptionIds(java.util.Set<java.lang.Integer> set)`
   /// The returned object must be released after use, by calling the [release] method.
-  NetworkRequest$Builder? setSubscriptionIds(jni$_.JSet<jni$_.JInteger?>? set) {
-    final _$set = set?.reference ?? jni$_.jNullReference;
+  NetworkRequest$Builder setSubscriptionIds(jni$_.JSet<jni$_.JInteger?> set) {
+    final _$set = set.reference;
     return _setSubscriptionIds(
       reference.pointer,
       _id_setSubscriptionIds as jni$_.JMethodIDPtr,
       _$set.pointer,
-    ).object<NetworkRequest$Builder?>(
-      const $NetworkRequest$Builder$NullableType$(),
-    );
+    ).object<NetworkRequest$Builder>(const $NetworkRequest$Builder$Type$());
   }
 }
 
@@ -569,8 +563,8 @@ class NetworkRequest extends jni$_.JObject {
 
   /// from: `static public final android.os.Parcelable$Creator<android.net.NetworkRequest> CREATOR`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get CREATOR =>
-      _id_CREATOR.get(_class, const jni$_.$JObject$NullableType$());
+  static jni$_.JObject get CREATOR =>
+      _id_CREATOR.get(_class, const jni$_.$JObject$Type$());
 
   static final _id_canBeSatisfiedBy = _class.instanceMethodId(
     r'canBeSatisfiedBy',
@@ -693,11 +687,11 @@ class NetworkRequest extends jni$_.JObject {
 
   /// from: `public int[] getCapabilities()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JIntArray? getCapabilities() {
+  jni$_.JIntArray getCapabilities() {
     return _getCapabilities(
       reference.pointer,
       _id_getCapabilities as jni$_.JMethodIDPtr,
-    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
   }
 
   static final _id_getNetworkSpecifier = _class.instanceMethodId(
@@ -755,14 +749,12 @@ class NetworkRequest extends jni$_.JObject {
 
   /// from: `public java.util.Set<java.lang.Integer> getSubscriptionIds()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JSet<jni$_.JInteger?>? getSubscriptionIds() {
+  jni$_.JSet<jni$_.JInteger?> getSubscriptionIds() {
     return _getSubscriptionIds(
       reference.pointer,
       _id_getSubscriptionIds as jni$_.JMethodIDPtr,
-    ).object<jni$_.JSet<jni$_.JInteger?>?>(
-      const jni$_.$JSet$NullableType$<jni$_.JInteger?>(
-        jni$_.$JInteger$NullableType$(),
-      ),
+    ).object<jni$_.JSet<jni$_.JInteger?>>(
+      const jni$_.$JSet$Type$<jni$_.JInteger?>(jni$_.$JInteger$NullableType$()),
     );
   }
 
@@ -789,11 +781,11 @@ class NetworkRequest extends jni$_.JObject {
 
   /// from: `public int[] getTransportTypes()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JIntArray? getTransportTypes() {
+  jni$_.JIntArray getTransportTypes() {
     return _getTransportTypes(
       reference.pointer,
       _id_getTransportTypes as jni$_.JMethodIDPtr,
-    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
   }
 
   static final _id_hasCapability = _class.instanceMethodId(

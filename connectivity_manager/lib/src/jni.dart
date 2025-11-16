@@ -14,6 +14,7 @@ export 'jni/java/io/_package.dart';
 export 'jni/java/net/_package.dart';
 export 'jni/java/util/_package.dart';
 export 'jni/javax/net/_package.dart';
+export 'jni/dev/zeekr/connectivity_manager/_package.dart';
 
 Context get context => Jni.androidApplicationContext.as(Context.type);
 

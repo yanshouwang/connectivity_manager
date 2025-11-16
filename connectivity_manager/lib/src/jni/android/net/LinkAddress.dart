@@ -64,8 +64,8 @@ class LinkAddress extends jni$_.JObject {
 
   /// from: `static public final android.os.Parcelable$Creator<android.net.LinkAddress> CREATOR`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get CREATOR =>
-      _id_CREATOR.get(_class, const jni$_.$JObject$NullableType$());
+  static jni$_.JObject get CREATOR =>
+      _id_CREATOR.get(_class, const jni$_.$JObject$Type$());
 
   static final _id_describeContents = _class.instanceMethodId(
     r'describeContents',

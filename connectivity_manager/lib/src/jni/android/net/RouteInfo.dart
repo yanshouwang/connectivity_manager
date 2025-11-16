@@ -66,8 +66,8 @@ class RouteInfo extends jni$_.JObject {
 
   /// from: `static public final android.os.Parcelable$Creator<android.net.RouteInfo> CREATOR`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get CREATOR =>
-      _id_CREATOR.get(_class, const jni$_.$JObject$NullableType$());
+  static jni$_.JObject get CREATOR =>
+      _id_CREATOR.get(_class, const jni$_.$JObject$Type$());
 
   /// from: `static public final int RTN_THROW`
   static const RTN_THROW = 9;
@@ -162,11 +162,11 @@ class RouteInfo extends jni$_.JObject {
 
   /// from: `public android.net.IpPrefix getDestination()`
   /// The returned object must be released after use, by calling the [release] method.
-  ipprefix$_.IpPrefix? getDestination() {
+  ipprefix$_.IpPrefix getDestination() {
     return _getDestination(
       reference.pointer,
       _id_getDestination as jni$_.JMethodIDPtr,
-    ).object<ipprefix$_.IpPrefix?>(const ipprefix$_.$IpPrefix$NullableType$());
+    ).object<ipprefix$_.IpPrefix>(const ipprefix$_.$IpPrefix$Type$());
   }
 
   static final _id_getGateway = _class.instanceMethodId(

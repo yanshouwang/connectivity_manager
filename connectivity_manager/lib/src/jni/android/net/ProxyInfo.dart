@@ -62,8 +62,8 @@ class ProxyInfo extends jni$_.JObject {
 
   /// from: `static public final android.os.Parcelable$Creator<android.net.ProxyInfo> CREATOR`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get CREATOR =>
-      _id_CREATOR.get(_class, const jni$_.$JObject$NullableType$());
+  static jni$_.JObject get CREATOR =>
+      _id_CREATOR.get(_class, const jni$_.$JObject$Type$());
 
   static final _id_new$ = _class.constructorId(r'(Landroid/net/ProxyInfo;)V');
 
@@ -243,14 +243,14 @@ class ProxyInfo extends jni$_.JObject {
 
   /// from: `static public android.net.ProxyInfo buildPacProxy(android.net.Uri uri, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  static ProxyInfo? buildPacProxy$1(jni$_.JObject? uri, int i) {
-    final _$uri = uri?.reference ?? jni$_.jNullReference;
+  static ProxyInfo buildPacProxy$1(jni$_.JObject uri, int i) {
+    final _$uri = uri.reference;
     return _buildPacProxy$1(
       _class.reference.pointer,
       _id_buildPacProxy$1 as jni$_.JMethodIDPtr,
       _$uri.pointer,
       i,
-    ).object<ProxyInfo?>(const $ProxyInfo$NullableType$());
+    ).object<ProxyInfo>(const $ProxyInfo$Type$());
   }
 
   static final _id_describeContents = _class.instanceMethodId(

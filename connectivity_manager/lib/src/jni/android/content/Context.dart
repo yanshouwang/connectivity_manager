@@ -91,14 +91,12 @@ class Context$BindServiceFlags extends jni$_.JObject {
 
   /// from: `static public android.content.Context$BindServiceFlags of(long j)`
   /// The returned object must be released after use, by calling the [release] method.
-  static Context$BindServiceFlags? of(int j) {
+  static Context$BindServiceFlags of(int j) {
     return _of(
       _class.reference.pointer,
       _id_of as jni$_.JMethodIDPtr,
       j,
-    ).object<Context$BindServiceFlags?>(
-      const $Context$BindServiceFlags$NullableType$(),
-    );
+    ).object<Context$BindServiceFlags>(const $Context$BindServiceFlags$Type$());
   }
 }
 
@@ -1399,19 +1397,17 @@ class Context extends jni$_.JObject {
 
   /// from: `public boolean bindIsolatedService(android.content.Intent intent, android.content.Context$BindServiceFlags bindServiceFlags, java.lang.String string, java.util.concurrent.Executor executor, android.content.ServiceConnection serviceConnection)`
   bool bindIsolatedService(
-    jni$_.JObject? intent,
-    Context$BindServiceFlags? bindServiceFlags,
-    jni$_.JString? string,
-    executor$_.Executor? executor,
-    jni$_.JObject? serviceConnection,
+    jni$_.JObject intent,
+    Context$BindServiceFlags bindServiceFlags,
+    jni$_.JString string,
+    executor$_.Executor executor,
+    jni$_.JObject serviceConnection,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$bindServiceFlags =
-        bindServiceFlags?.reference ?? jni$_.jNullReference;
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    final _$executor = executor?.reference ?? jni$_.jNullReference;
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$bindServiceFlags = bindServiceFlags.reference;
+    final _$string = string.reference;
+    final _$executor = executor.reference;
+    final _$serviceConnection = serviceConnection.reference;
     return _bindIsolatedService(
       reference.pointer,
       _id_bindIsolatedService as jni$_.JMethodIDPtr,
@@ -1460,17 +1456,16 @@ class Context extends jni$_.JObject {
 
   /// from: `public boolean bindIsolatedService(android.content.Intent intent, int i, java.lang.String string, java.util.concurrent.Executor executor, android.content.ServiceConnection serviceConnection)`
   bool bindIsolatedService$1(
-    jni$_.JObject? intent,
+    jni$_.JObject intent,
     int i,
-    jni$_.JString? string,
-    executor$_.Executor? executor,
-    jni$_.JObject? serviceConnection,
+    jni$_.JString string,
+    executor$_.Executor executor,
+    jni$_.JObject serviceConnection,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    final _$executor = executor?.reference ?? jni$_.jNullReference;
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$string = string.reference;
+    final _$executor = executor.reference;
+    final _$serviceConnection = serviceConnection.reference;
     return _bindIsolatedService$1(
       reference.pointer,
       _id_bindIsolatedService$1 as jni$_.JMethodIDPtr,
@@ -1517,17 +1512,15 @@ class Context extends jni$_.JObject {
 
   /// from: `public boolean bindService(android.content.Intent intent, android.content.Context$BindServiceFlags bindServiceFlags, java.util.concurrent.Executor executor, android.content.ServiceConnection serviceConnection)`
   bool bindService(
-    jni$_.JObject? intent,
-    Context$BindServiceFlags? bindServiceFlags,
-    executor$_.Executor? executor,
-    jni$_.JObject? serviceConnection,
+    jni$_.JObject intent,
+    Context$BindServiceFlags bindServiceFlags,
+    executor$_.Executor executor,
+    jni$_.JObject serviceConnection,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$bindServiceFlags =
-        bindServiceFlags?.reference ?? jni$_.jNullReference;
-    final _$executor = executor?.reference ?? jni$_.jNullReference;
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$bindServiceFlags = bindServiceFlags.reference;
+    final _$executor = executor.reference;
+    final _$serviceConnection = serviceConnection.reference;
     return _bindService(
       reference.pointer,
       _id_bindService as jni$_.JMethodIDPtr,
@@ -1571,15 +1564,13 @@ class Context extends jni$_.JObject {
 
   /// from: `public boolean bindService(android.content.Intent intent, android.content.ServiceConnection serviceConnection, android.content.Context$BindServiceFlags bindServiceFlags)`
   bool bindService$1(
-    jni$_.JObject? intent,
-    jni$_.JObject? serviceConnection,
-    Context$BindServiceFlags? bindServiceFlags,
+    jni$_.JObject intent,
+    jni$_.JObject serviceConnection,
+    Context$BindServiceFlags bindServiceFlags,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
-    final _$bindServiceFlags =
-        bindServiceFlags?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$serviceConnection = serviceConnection.reference;
+    final _$bindServiceFlags = bindServiceFlags.reference;
     return _bindService$1(
       reference.pointer,
       _id_bindService$1 as jni$_.JMethodIDPtr,
@@ -1622,13 +1613,12 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract boolean bindService(android.content.Intent intent, android.content.ServiceConnection serviceConnection, int i)`
   bool bindService$2(
-    jni$_.JObject? intent,
-    jni$_.JObject? serviceConnection,
+    jni$_.JObject intent,
+    jni$_.JObject serviceConnection,
     int i,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$serviceConnection = serviceConnection.reference;
     return _bindService$2(
       reference.pointer,
       _id_bindService$2 as jni$_.JMethodIDPtr,
@@ -1673,15 +1663,14 @@ class Context extends jni$_.JObject {
 
   /// from: `public boolean bindService(android.content.Intent intent, int i, java.util.concurrent.Executor executor, android.content.ServiceConnection serviceConnection)`
   bool bindService$3(
-    jni$_.JObject? intent,
+    jni$_.JObject intent,
     int i,
-    executor$_.Executor? executor,
-    jni$_.JObject? serviceConnection,
+    executor$_.Executor executor,
+    jni$_.JObject serviceConnection,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$executor = executor?.reference ?? jni$_.jNullReference;
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$executor = executor.reference;
+    final _$serviceConnection = serviceConnection.reference;
     return _bindService$3(
       reference.pointer,
       _id_bindService$3 as jni$_.JMethodIDPtr,
@@ -1727,17 +1716,15 @@ class Context extends jni$_.JObject {
 
   /// from: `public boolean bindServiceAsUser(android.content.Intent intent, android.content.ServiceConnection serviceConnection, android.content.Context$BindServiceFlags bindServiceFlags, android.os.UserHandle userHandle)`
   bool bindServiceAsUser(
-    jni$_.JObject? intent,
-    jni$_.JObject? serviceConnection,
-    Context$BindServiceFlags? bindServiceFlags,
-    jni$_.JObject? userHandle,
+    jni$_.JObject intent,
+    jni$_.JObject serviceConnection,
+    Context$BindServiceFlags bindServiceFlags,
+    jni$_.JObject userHandle,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
-    final _$bindServiceFlags =
-        bindServiceFlags?.reference ?? jni$_.jNullReference;
-    final _$userHandle = userHandle?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$serviceConnection = serviceConnection.reference;
+    final _$bindServiceFlags = bindServiceFlags.reference;
+    final _$userHandle = userHandle.reference;
     return _bindServiceAsUser(
       reference.pointer,
       _id_bindServiceAsUser as jni$_.JMethodIDPtr,
@@ -1783,15 +1770,14 @@ class Context extends jni$_.JObject {
 
   /// from: `public boolean bindServiceAsUser(android.content.Intent intent, android.content.ServiceConnection serviceConnection, int i, android.os.UserHandle userHandle)`
   bool bindServiceAsUser$1(
-    jni$_.JObject? intent,
-    jni$_.JObject? serviceConnection,
+    jni$_.JObject intent,
+    jni$_.JObject serviceConnection,
     int i,
-    jni$_.JObject? userHandle,
+    jni$_.JObject userHandle,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
-    final _$userHandle = userHandle?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$serviceConnection = serviceConnection.reference;
+    final _$userHandle = userHandle.reference;
     return _bindServiceAsUser$1(
       reference.pointer,
       _id_bindServiceAsUser$1 as jni$_.JMethodIDPtr,
@@ -1826,8 +1812,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public abstract int checkCallingOrSelfPermission(java.lang.String string)`
-  int checkCallingOrSelfPermission(jni$_.JString? string) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  int checkCallingOrSelfPermission(jni$_.JString string) {
+    final _$string = string.reference;
     return _checkCallingOrSelfPermission(
       reference.pointer,
       _id_checkCallingOrSelfPermission as jni$_.JMethodIDPtr,
@@ -1896,17 +1882,17 @@ class Context extends jni$_.JObject {
 
   /// from: `public int[] checkCallingOrSelfUriPermissions(java.util.List<android.net.Uri> list, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JIntArray? checkCallingOrSelfUriPermissions(
-    jni$_.JList<jni$_.JObject?>? list,
+  jni$_.JIntArray checkCallingOrSelfUriPermissions(
+    jni$_.JList<jni$_.JObject?> list,
     int i,
   ) {
-    final _$list = list?.reference ?? jni$_.jNullReference;
+    final _$list = list.reference;
     return _checkCallingOrSelfUriPermissions(
       reference.pointer,
       _id_checkCallingOrSelfUriPermissions as jni$_.JMethodIDPtr,
       _$list.pointer,
       i,
-    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
   }
 
   static final _id_checkCallingPermission = _class.instanceMethodId(
@@ -1933,8 +1919,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public abstract int checkCallingPermission(java.lang.String string)`
-  int checkCallingPermission(jni$_.JString? string) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  int checkCallingPermission(jni$_.JString string) {
+    final _$string = string.reference;
     return _checkCallingPermission(
       reference.pointer,
       _id_checkCallingPermission as jni$_.JMethodIDPtr,
@@ -2003,17 +1989,17 @@ class Context extends jni$_.JObject {
 
   /// from: `public int[] checkCallingUriPermissions(java.util.List<android.net.Uri> list, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JIntArray? checkCallingUriPermissions(
-    jni$_.JList<jni$_.JObject?>? list,
+  jni$_.JIntArray checkCallingUriPermissions(
+    jni$_.JList<jni$_.JObject?> list,
     int i,
   ) {
-    final _$list = list?.reference ?? jni$_.jNullReference;
+    final _$list = list.reference;
     return _checkCallingUriPermissions(
       reference.pointer,
       _id_checkCallingUriPermissions as jni$_.JMethodIDPtr,
       _$list.pointer,
       i,
-    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
   }
 
   static final _id_checkContentUriPermissionFull = _class.instanceMethodId(
@@ -2050,8 +2036,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public int checkContentUriPermissionFull(android.net.Uri uri, int i, int i1, int i2)`
-  int checkContentUriPermissionFull(jni$_.JObject? uri, int i, int i1, int i2) {
-    final _$uri = uri?.reference ?? jni$_.jNullReference;
+  int checkContentUriPermissionFull(jni$_.JObject uri, int i, int i1, int i2) {
+    final _$uri = uri.reference;
     return _checkContentUriPermissionFull(
       reference.pointer,
       _id_checkContentUriPermissionFull as jni$_.JMethodIDPtr,
@@ -2090,8 +2076,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public abstract int checkPermission(java.lang.String string, int i, int i1)`
-  int checkPermission(jni$_.JString? string, int i, int i1) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  int checkPermission(jni$_.JString string, int i, int i1) {
+    final _$string = string.reference;
     return _checkPermission(
       reference.pointer,
       _id_checkPermission as jni$_.JMethodIDPtr,
@@ -2125,8 +2111,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public abstract int checkSelfPermission(java.lang.String string)`
-  int checkSelfPermission(jni$_.JString? string) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  int checkSelfPermission(jni$_.JString string) {
+    final _$string = string.reference;
     return _checkSelfPermission(
       reference.pointer,
       _id_checkSelfPermission as jni$_.JMethodIDPtr,
@@ -2276,13 +2262,13 @@ class Context extends jni$_.JObject {
 
   /// from: `public int[] checkUriPermissions(java.util.List<android.net.Uri> list, int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JIntArray? checkUriPermissions(
-    jni$_.JList<jni$_.JObject?>? list,
+  jni$_.JIntArray checkUriPermissions(
+    jni$_.JList<jni$_.JObject?> list,
     int i,
     int i1,
     int i2,
   ) {
-    final _$list = list?.reference ?? jni$_.jNullReference;
+    final _$list = list.reference;
     return _checkUriPermissions(
       reference.pointer,
       _id_checkUriPermissions as jni$_.JMethodIDPtr,
@@ -2290,7 +2276,7 @@ class Context extends jni$_.JObject {
       i,
       i1,
       i2,
-    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
   }
 
   static final _id_clearWallpaper = _class.instanceMethodId(
@@ -2347,13 +2333,13 @@ class Context extends jni$_.JObject {
 
   /// from: `public android.content.Context createAttributionContext(java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  Context? createAttributionContext(jni$_.JString? string) {
+  Context createAttributionContext(jni$_.JString? string) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _createAttributionContext(
       reference.pointer,
       _id_createAttributionContext as jni$_.JMethodIDPtr,
       _$string.pointer,
-    ).object<Context?>(const $Context$NullableType$());
+    ).object<Context>(const $Context$Type$());
   }
 
   static final _id_createConfigurationContext = _class.instanceMethodId(
@@ -2381,8 +2367,8 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract android.content.Context createConfigurationContext(android.content.res.Configuration configuration)`
   /// The returned object must be released after use, by calling the [release] method.
-  Context? createConfigurationContext(jni$_.JObject? configuration) {
-    final _$configuration = configuration?.reference ?? jni$_.jNullReference;
+  Context? createConfigurationContext(jni$_.JObject configuration) {
+    final _$configuration = configuration.reference;
     return _createConfigurationContext(
       reference.pointer,
       _id_createConfigurationContext as jni$_.JMethodIDPtr,
@@ -2415,13 +2401,13 @@ class Context extends jni$_.JObject {
 
   /// from: `public android.content.Context createContext(android.content.ContextParams contextParams)`
   /// The returned object must be released after use, by calling the [release] method.
-  Context? createContext(jni$_.JObject? contextParams) {
-    final _$contextParams = contextParams?.reference ?? jni$_.jNullReference;
+  Context createContext(jni$_.JObject contextParams) {
+    final _$contextParams = contextParams.reference;
     return _createContext(
       reference.pointer,
       _id_createContext as jni$_.JMethodIDPtr,
       _$contextParams.pointer,
-    ).object<Context?>(const $Context$NullableType$());
+    ).object<Context>(const $Context$Type$());
   }
 
   static final _id_createContextForSplit = _class.instanceMethodId(
@@ -2483,12 +2469,12 @@ class Context extends jni$_.JObject {
 
   /// from: `public android.content.Context createDeviceContext(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  Context? createDeviceContext(int i) {
+  Context createDeviceContext(int i) {
     return _createDeviceContext(
       reference.pointer,
       _id_createDeviceContext as jni$_.JMethodIDPtr,
       i,
-    ).object<Context?>(const $Context$NullableType$());
+    ).object<Context>(const $Context$Type$());
   }
 
   static final _id_createDeviceProtectedStorageContext = _class
@@ -2547,8 +2533,8 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract android.content.Context createDisplayContext(android.view.Display display)`
   /// The returned object must be released after use, by calling the [release] method.
-  Context? createDisplayContext(jni$_.JObject? display) {
-    final _$display = display?.reference ?? jni$_.jNullReference;
+  Context? createDisplayContext(jni$_.JObject display) {
+    final _$display = display.reference;
     return _createDisplayContext(
       reference.pointer,
       _id_createDisplayContext as jni$_.JMethodIDPtr,
@@ -2625,12 +2611,12 @@ class Context extends jni$_.JObject {
 
   /// from: `public android.content.Context createWindowContext(android.view.Display display, int i, android.os.Bundle bundle)`
   /// The returned object must be released after use, by calling the [release] method.
-  Context? createWindowContext(
-    jni$_.JObject? display,
+  Context createWindowContext(
+    jni$_.JObject display,
     int i,
     jni$_.JObject? bundle,
   ) {
-    final _$display = display?.reference ?? jni$_.jNullReference;
+    final _$display = display.reference;
     final _$bundle = bundle?.reference ?? jni$_.jNullReference;
     return _createWindowContext(
       reference.pointer,
@@ -2638,7 +2624,7 @@ class Context extends jni$_.JObject {
       _$display.pointer,
       i,
       _$bundle.pointer,
-    ).object<Context?>(const $Context$NullableType$());
+    ).object<Context>(const $Context$Type$());
   }
 
   static final _id_createWindowContext$1 = _class.instanceMethodId(
@@ -2667,14 +2653,14 @@ class Context extends jni$_.JObject {
 
   /// from: `public android.content.Context createWindowContext(int i, android.os.Bundle bundle)`
   /// The returned object must be released after use, by calling the [release] method.
-  Context? createWindowContext$1(int i, jni$_.JObject? bundle) {
+  Context createWindowContext$1(int i, jni$_.JObject? bundle) {
     final _$bundle = bundle?.reference ?? jni$_.jNullReference;
     return _createWindowContext$1(
       reference.pointer,
       _id_createWindowContext$1 as jni$_.JMethodIDPtr,
       i,
       _$bundle.pointer,
-    ).object<Context?>(const $Context$NullableType$());
+    ).object<Context>(const $Context$Type$());
   }
 
   static final _id_databaseList = _class.instanceMethodId(
@@ -2838,10 +2824,10 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract void enforceCallingOrSelfPermission(java.lang.String string, java.lang.String string1)`
   void enforceCallingOrSelfPermission(
-    jni$_.JString? string,
+    jni$_.JString string,
     jni$_.JString? string1,
   ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$string = string.reference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
     _enforceCallingOrSelfPermission(
       reference.pointer,
@@ -2926,8 +2912,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public abstract void enforceCallingPermission(java.lang.String string, java.lang.String string1)`
-  void enforceCallingPermission(jni$_.JString? string, jni$_.JString? string1) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  void enforceCallingPermission(jni$_.JString string, jni$_.JString? string1) {
+    final _$string = string.reference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
     _enforceCallingPermission(
       reference.pointer,
@@ -3020,12 +3006,12 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract void enforcePermission(java.lang.String string, int i, int i1, java.lang.String string1)`
   void enforcePermission(
-    jni$_.JString? string,
+    jni$_.JString string,
     int i,
     int i1,
     jni$_.JString? string1,
   ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$string = string.reference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
     _enforcePermission(
       reference.pointer,
@@ -3306,11 +3292,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public android.content.AttributionSource getAttributionSource()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getAttributionSource() {
+  jni$_.JObject getAttributionSource() {
     return _getAttributionSource(
       reference.pointer,
       _id_getAttributionSource as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_getAttributionTag = _class.instanceMethodId(
@@ -3487,12 +3473,12 @@ class Context extends jni$_.JObject {
 
   /// from: `public final android.content.res.ColorStateList getColorStateList(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getColorStateList(int i) {
+  jni$_.JObject getColorStateList(int i) {
     return _getColorStateList(
       reference.pointer,
       _id_getColorStateList as jni$_.JMethodIDPtr,
       i,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_getContentResolver = _class.instanceMethodId(
@@ -3677,11 +3663,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public android.view.Display getDisplay()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getDisplay() {
+  jni$_.JObject getDisplay() {
     return _getDisplay(
       reference.pointer,
       _id_getDisplay as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_getDrawable = _class.instanceMethodId(
@@ -4128,11 +4114,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public java.lang.String getOpPackageName()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getOpPackageName() {
+  jni$_.JString getOpPackageName() {
     return _getOpPackageName(
       reference.pointer,
       _id_getOpPackageName as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    ).object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_getPackageCodePath = _class.instanceMethodId(
@@ -4376,12 +4362,12 @@ class Context extends jni$_.JObject {
 
   /// from: `public final java.lang.String getString(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getString(int i) {
+  jni$_.JString getString(int i) {
     return _getString(
       reference.pointer,
       _id_getString as jni$_.JMethodIDPtr,
       i,
-    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    ).object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_getString$1 = _class.instanceMethodId(
@@ -4410,14 +4396,14 @@ class Context extends jni$_.JObject {
 
   /// from: `public final java.lang.String getString(int i, java.lang.Object[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getString$1(int i, jni$_.JArray<jni$_.JObject?>? objects) {
+  jni$_.JString getString$1(int i, jni$_.JArray<jni$_.JObject?>? objects) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _getString$1(
       reference.pointer,
       _id_getString$1 as jni$_.JMethodIDPtr,
       i,
       _$objects.pointer,
-    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    ).object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_getSystemService = _class.instanceMethodId(
@@ -4446,10 +4432,10 @@ class Context extends jni$_.JObject {
   /// from: `public final T getSystemService(java.lang.Class<T> class)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? getSystemService<$T extends jni$_.JObject?>(
-    jni$_.JObject? class$, {
+    jni$_.JObject class$, {
     required jni$_.JType<$T> T,
   }) {
-    final _$class$ = class$?.reference ?? jni$_.jNullReference;
+    final _$class$ = class$.reference;
     return _getSystemService(
       reference.pointer,
       _id_getSystemService as jni$_.JMethodIDPtr,
@@ -4482,8 +4468,8 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract java.lang.Object getSystemService(java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getSystemService$1(jni$_.JString? string) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  jni$_.JObject? getSystemService$1(jni$_.JString string) {
+    final _$string = string.reference;
     return _getSystemService$1(
       reference.pointer,
       _id_getSystemService$1 as jni$_.JMethodIDPtr,
@@ -4516,8 +4502,8 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract java.lang.String getSystemServiceName(java.lang.Class<?> class)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getSystemServiceName(jni$_.JObject? class$) {
-    final _$class$ = class$?.reference ?? jni$_.jNullReference;
+  jni$_.JString? getSystemServiceName(jni$_.JObject class$) {
+    final _$class$ = class$.reference;
     return _getSystemServiceName(
       reference.pointer,
       _id_getSystemServiceName as jni$_.JMethodIDPtr,
@@ -4550,12 +4536,12 @@ class Context extends jni$_.JObject {
 
   /// from: `public final java.lang.CharSequence getText(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getText(int i) {
+  jni$_.JObject getText(int i) {
     return _getText(
       reference.pointer,
       _id_getText as jni$_.JMethodIDPtr,
       i,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_getTheme = _class.instanceMethodId(
@@ -4911,18 +4897,18 @@ class Context extends jni$_.JObject {
 
   /// from: `public final android.content.res.TypedArray obtainStyledAttributes(android.util.AttributeSet attributeSet, int[] is)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainStyledAttributes(
+  jni$_.JObject obtainStyledAttributes(
     jni$_.JObject? attributeSet,
-    jni$_.JIntArray? is$,
+    jni$_.JIntArray is$,
   ) {
     final _$attributeSet = attributeSet?.reference ?? jni$_.jNullReference;
-    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    final _$is$ = is$.reference;
     return _obtainStyledAttributes(
       reference.pointer,
       _id_obtainStyledAttributes as jni$_.JMethodIDPtr,
       _$attributeSet.pointer,
       _$is$.pointer,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_obtainStyledAttributes$1 = _class.instanceMethodId(
@@ -4960,14 +4946,14 @@ class Context extends jni$_.JObject {
 
   /// from: `public final android.content.res.TypedArray obtainStyledAttributes(android.util.AttributeSet attributeSet, int[] is, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainStyledAttributes$1(
+  jni$_.JObject obtainStyledAttributes$1(
     jni$_.JObject? attributeSet,
-    jni$_.JIntArray? is$,
+    jni$_.JIntArray is$,
     int i,
     int i1,
   ) {
     final _$attributeSet = attributeSet?.reference ?? jni$_.jNullReference;
-    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    final _$is$ = is$.reference;
     return _obtainStyledAttributes$1(
       reference.pointer,
       _id_obtainStyledAttributes$1 as jni$_.JMethodIDPtr,
@@ -4975,7 +4961,7 @@ class Context extends jni$_.JObject {
       _$is$.pointer,
       i,
       i1,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_obtainStyledAttributes$2 = _class.instanceMethodId(
@@ -5004,14 +4990,14 @@ class Context extends jni$_.JObject {
 
   /// from: `public final android.content.res.TypedArray obtainStyledAttributes(int i, int[] is)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainStyledAttributes$2(int i, jni$_.JIntArray? is$) {
-    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+  jni$_.JObject obtainStyledAttributes$2(int i, jni$_.JIntArray is$) {
+    final _$is$ = is$.reference;
     return _obtainStyledAttributes$2(
       reference.pointer,
       _id_obtainStyledAttributes$2 as jni$_.JMethodIDPtr,
       i,
       _$is$.pointer,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_obtainStyledAttributes$3 = _class.instanceMethodId(
@@ -5039,13 +5025,13 @@ class Context extends jni$_.JObject {
 
   /// from: `public final android.content.res.TypedArray obtainStyledAttributes(int[] is)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainStyledAttributes$3(jni$_.JIntArray? is$) {
-    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+  jni$_.JObject obtainStyledAttributes$3(jni$_.JIntArray is$) {
+    final _$is$ = is$.reference;
     return _obtainStyledAttributes$3(
       reference.pointer,
       _id_obtainStyledAttributes$3 as jni$_.JMethodIDPtr,
       _$is$.pointer,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_openFileInput = _class.instanceMethodId(
@@ -5314,11 +5300,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public void registerDeviceIdChangeListener(java.util.concurrent.Executor executor, java.util.function.IntConsumer intConsumer)`
   void registerDeviceIdChangeListener(
-    executor$_.Executor? executor,
-    jni$_.JObject? intConsumer,
+    executor$_.Executor executor,
+    jni$_.JObject intConsumer,
   ) {
-    final _$executor = executor?.reference ?? jni$_.jNullReference;
-    final _$intConsumer = intConsumer?.reference ?? jni$_.jNullReference;
+    final _$executor = executor.reference;
+    final _$intConsumer = intConsumer.reference;
     _registerDeviceIdChangeListener(
       reference.pointer,
       _id_registerDeviceIdChangeListener as jni$_.JMethodIDPtr,
@@ -5634,8 +5620,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public void revokeSelfPermissionOnKill(java.lang.String string)`
-  void revokeSelfPermissionOnKill(jni$_.JString? string) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  void revokeSelfPermissionOnKill(jni$_.JString string) {
+    final _$string = string.reference;
     _revokeSelfPermissionOnKill(
       reference.pointer,
       _id_revokeSelfPermissionOnKill as jni$_.JMethodIDPtr,
@@ -5668,9 +5654,9 @@ class Context extends jni$_.JObject {
 
   /// from: `public void revokeSelfPermissionsOnKill(java.util.Collection<java.lang.String> collection)`
   void revokeSelfPermissionsOnKill(
-    collection$_.Collection<jni$_.JString?>? collection,
+    collection$_.Collection<jni$_.JString?> collection,
   ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    final _$collection = collection.reference;
     _revokeSelfPermissionsOnKill(
       reference.pointer,
       _id_revokeSelfPermissionsOnKill as jni$_.JMethodIDPtr,
@@ -5861,11 +5847,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public void sendBroadcast(android.content.Intent intent, java.lang.String string, android.os.Bundle bundle)`
   void sendBroadcast$2(
-    jni$_.JObject? intent,
+    jni$_.JObject intent,
     jni$_.JString? string,
     jni$_.JObject? bundle,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$bundle = bundle?.reference ?? jni$_.jNullReference;
     _sendBroadcast$2(
@@ -5993,11 +5979,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public void sendBroadcastWithMultiplePermissions(android.content.Intent intent, java.lang.String[] strings)`
   void sendBroadcastWithMultiplePermissions(
-    jni$_.JObject? intent,
-    jni$_.JArray<jni$_.JString?>? strings,
+    jni$_.JObject intent,
+    jni$_.JArray<jni$_.JString?> strings,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
-    final _$strings = strings?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
+    final _$strings = strings.reference;
     _sendBroadcastWithMultiplePermissions(
       reference.pointer,
       _id_sendBroadcastWithMultiplePermissions as jni$_.JMethodIDPtr,
@@ -6085,7 +6071,7 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract void sendOrderedBroadcast(android.content.Intent intent, java.lang.String string, android.content.BroadcastReceiver broadcastReceiver, android.os.Handler handler, int i, java.lang.String string1, android.os.Bundle bundle)`
   void sendOrderedBroadcast$1(
-    jni$_.JObject? intent,
+    jni$_.JObject intent,
     jni$_.JString? string,
     jni$_.JObject? broadcastReceiver,
     handler$_.Handler? handler,
@@ -6093,7 +6079,7 @@ class Context extends jni$_.JObject {
     jni$_.JString? string1,
     jni$_.JObject? bundle,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$broadcastReceiver =
         broadcastReceiver?.reference ?? jni$_.jNullReference;
@@ -6146,11 +6132,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public void sendOrderedBroadcast(android.content.Intent intent, java.lang.String string, android.os.Bundle bundle)`
   void sendOrderedBroadcast$2(
-    jni$_.JObject? intent,
+    jni$_.JObject intent,
     jni$_.JString? string,
     jni$_.JObject? bundle,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$bundle = bundle?.reference ?? jni$_.jNullReference;
     _sendOrderedBroadcast$2(
@@ -6205,7 +6191,7 @@ class Context extends jni$_.JObject {
 
   /// from: `public void sendOrderedBroadcast(android.content.Intent intent, java.lang.String string, android.os.Bundle bundle, android.content.BroadcastReceiver broadcastReceiver, android.os.Handler handler, int i, java.lang.String string1, android.os.Bundle bundle1)`
   void sendOrderedBroadcast$3(
-    jni$_.JObject? intent,
+    jni$_.JObject intent,
     jni$_.JString? string,
     jni$_.JObject? bundle,
     jni$_.JObject? broadcastReceiver,
@@ -6214,7 +6200,7 @@ class Context extends jni$_.JObject {
     jni$_.JString? string1,
     jni$_.JObject? bundle1,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$bundle = bundle?.reference ?? jni$_.jNullReference;
     final _$broadcastReceiver =
@@ -6279,7 +6265,7 @@ class Context extends jni$_.JObject {
 
   /// from: `public void sendOrderedBroadcast(android.content.Intent intent, java.lang.String string, java.lang.String string1, android.content.BroadcastReceiver broadcastReceiver, android.os.Handler handler, int i, java.lang.String string2, android.os.Bundle bundle)`
   void sendOrderedBroadcast$4(
-    jni$_.JObject? intent,
+    jni$_.JObject intent,
     jni$_.JString? string,
     jni$_.JString? string1,
     jni$_.JObject? broadcastReceiver,
@@ -6288,7 +6274,7 @@ class Context extends jni$_.JObject {
     jni$_.JString? string2,
     jni$_.JObject? bundle,
   ) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
+    final _$intent = intent.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
     final _$broadcastReceiver =
@@ -6444,8 +6430,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public void sendStickyBroadcast(android.content.Intent intent, android.os.Bundle bundle)`
-  void sendStickyBroadcast$1(jni$_.JObject? intent, jni$_.JObject? bundle) {
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
+  void sendStickyBroadcast$1(jni$_.JObject intent, jni$_.JObject? bundle) {
+    final _$intent = intent.reference;
     final _$bundle = bundle?.reference ?? jni$_.jNullReference;
     _sendStickyBroadcast$1(
       reference.pointer,
@@ -6932,11 +6918,11 @@ class Context extends jni$_.JObject {
 
   /// from: `public abstract boolean startInstrumentation(android.content.ComponentName componentName, java.lang.String string, android.os.Bundle bundle)`
   bool startInstrumentation(
-    jni$_.JObject? componentName,
+    jni$_.JObject componentName,
     jni$_.JString? string,
     jni$_.JObject? bundle,
   ) {
-    final _$componentName = componentName?.reference ?? jni$_.jNullReference;
+    final _$componentName = componentName.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$bundle = bundle?.reference ?? jni$_.jNullReference;
     return _startInstrumentation(
@@ -7156,9 +7142,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public abstract void unbindService(android.content.ServiceConnection serviceConnection)`
-  void unbindService(jni$_.JObject? serviceConnection) {
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
+  void unbindService(jni$_.JObject serviceConnection) {
+    final _$serviceConnection = serviceConnection.reference;
     _unbindService(
       reference.pointer,
       _id_unbindService as jni$_.JMethodIDPtr,
@@ -7224,8 +7209,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public void unregisterDeviceIdChangeListener(java.util.function.IntConsumer intConsumer)`
-  void unregisterDeviceIdChangeListener(jni$_.JObject? intConsumer) {
-    final _$intConsumer = intConsumer?.reference ?? jni$_.jNullReference;
+  void unregisterDeviceIdChangeListener(jni$_.JObject intConsumer) {
+    final _$intConsumer = intConsumer.reference;
     _unregisterDeviceIdChangeListener(
       reference.pointer,
       _id_unregisterDeviceIdChangeListener as jni$_.JMethodIDPtr,
@@ -7295,9 +7280,8 @@ class Context extends jni$_.JObject {
           >();
 
   /// from: `public void updateServiceGroup(android.content.ServiceConnection serviceConnection, int i, int i1)`
-  void updateServiceGroup(jni$_.JObject? serviceConnection, int i, int i1) {
-    final _$serviceConnection =
-        serviceConnection?.reference ?? jni$_.jNullReference;
+  void updateServiceGroup(jni$_.JObject serviceConnection, int i, int i1) {
+    final _$serviceConnection = serviceConnection.reference;
     _updateServiceGroup(
       reference.pointer,
       _id_updateServiceGroup as jni$_.JMethodIDPtr,

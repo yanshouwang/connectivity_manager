@@ -46,12 +46,15 @@ void main() {
       'java.util.Collection',
       'java.util.concurrent.Executor',
       'javax.net.SocketFactory',
+      'dev.zeekr.connectivity_manager.JConnectivityManager',
     ],
     sourcePath: [root.resolve('android/src/main/kotlin/')],
     androidSdkConfig: AndroidSdkConfig(
       addGradleDeps: true,
       androidExample: 'example/',
     ),
+    nonNullAnnotations: ['android.annotation.NonNull'],
+    nullableAnnotations: ['android.annotation.Nullable'],
     logLevel: Level.ALL,
   );
   generateJniBindings(config);

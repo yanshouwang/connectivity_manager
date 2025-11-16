@@ -582,8 +582,8 @@ class NetworkInfo extends jni$_.JObject {
 
   /// from: `static public final android.os.Parcelable$Creator<android.net.NetworkInfo> CREATOR`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get CREATOR =>
-      _id_CREATOR.get(_class, const jni$_.$JObject$NullableType$());
+  static jni$_.JObject get CREATOR =>
+      _id_CREATOR.get(_class, const jni$_.$JObject$Type$());
 
   static final _id_new$ = _class.constructorId(
     r'(IILjava/lang/String;Ljava/lang/String;)V',
@@ -691,12 +691,12 @@ class NetworkInfo extends jni$_.JObject {
 
   /// from: `public android.net.NetworkInfo$DetailedState getDetailedState()`
   /// The returned object must be released after use, by calling the [release] method.
-  NetworkInfo$DetailedState? getDetailedState() {
+  NetworkInfo$DetailedState getDetailedState() {
     return _getDetailedState(
       reference.pointer,
       _id_getDetailedState as jni$_.JMethodIDPtr,
-    ).object<NetworkInfo$DetailedState?>(
-      const $NetworkInfo$DetailedState$NullableType$(),
+    ).object<NetworkInfo$DetailedState>(
+      const $NetworkInfo$DetailedState$Type$(),
     );
   }
 
@@ -1074,11 +1074,11 @@ class NetworkInfo extends jni$_.JObject {
 
   /// from: `public void setDetailedState(android.net.NetworkInfo$DetailedState detailedState, java.lang.String string, java.lang.String string1)`
   void setDetailedState(
-    NetworkInfo$DetailedState? detailedState,
+    NetworkInfo$DetailedState detailedState,
     jni$_.JString? string,
     jni$_.JString? string1,
   ) {
-    final _$detailedState = detailedState?.reference ?? jni$_.jNullReference;
+    final _$detailedState = detailedState.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
     _setDetailedState(

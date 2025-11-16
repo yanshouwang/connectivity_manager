@@ -97,7 +97,10 @@ class ConnectivityManagerImpl(registrar: ConnectivityManagerApiPigeonProxyApiReg
                         this@NetworkCallbackImpl.onLost(this, network) {}
                     }
 
-                    // TODO: Implement onReserved when targetSdk 36
+                    override fun onReserved(networkCapabilities: NetworkCapabilities) {
+                        super.onReserved(networkCapabilities)
+                        this@NetworkCallbackImpl.onReserved(this, networkCapabilities) {}
+                    }
 
                     override fun onUnavailable() {
                         super.onUnavailable()
@@ -158,10 +161,8 @@ class ConnectivityManagerImpl(registrar: ConnectivityManagerApiPigeonProxyApiReg
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val handler = context.mainHandler
             pigeon_instance.registerDefaultNetworkCallback(networkCallback, handler)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            pigeon_instance.registerDefaultNetworkCallback(networkCallback)
         } else {
-            throw UnsupportedOperationException("Call requires API level 24")
+            pigeon_instance.registerDefaultNetworkCallback(networkCallback)
         }
     }
 
@@ -287,8 +288,7 @@ class ConnectivityManagerImpl(registrar: ConnectivityManagerApiPigeonProxyApiReg
     }
 
     override fun getRestrictBackgroundStatus(pigeon_instance: ConnectivityManager): RestrictBackgroundStatusApi {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) pigeon_instance.restrictBackgroundStatus.restrictBackgroundStatusApi
-        else throw UnsupportedOperationException("Call requires API level 24")
+        return pigeon_instance.restrictBackgroundStatus.restrictBackgroundStatusApi
     }
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
@@ -307,16 +307,11 @@ class ConnectivityManagerImpl(registrar: ConnectivityManagerApiPigeonProxyApiReg
     override fun reportNetworkConnectivity(
         pigeon_instance: ConnectivityManager, network: Network, hasConnectivity: Boolean
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            pigeon_instance.reportNetworkConnectivity(network, hasConnectivity)
-        } else {
-            throw UnsupportedOperationException("Call requires API level 23")
-        }
+        pigeon_instance.reportNetworkConnectivity(network, hasConnectivity)
     }
 
     override fun requestBandwidthUpdate(pigeon_instance: ConnectivityManager, network: Network): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) pigeon_instance.requestBandwidthUpdate(network)
-        else throw UnsupportedOperationException("Call requires API level 23")
+        return pigeon_instance.requestBandwidthUpdate(network)
     }
 
     override fun requestNetwork(
@@ -339,8 +334,8 @@ class ConnectivityManagerImpl(registrar: ConnectivityManagerApiPigeonProxyApiReg
         request: NetworkRequest,
         networkCallback: ConnectivityManager.NetworkCallback
     ) {
-        val handler = context.mainHandler
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && SdkExtensions.getExtensionVersion(Build.VERSION_CODES.UPSIDE_DOWN_CAKE) >= 17) {
+            val handler = context.mainHandler
             pigeon_instance.reserveNetwork(request, handler, networkCallback)
         } else {
             throw UnsupportedOperationException("Call requires version 17 of the U Extensions SDK")

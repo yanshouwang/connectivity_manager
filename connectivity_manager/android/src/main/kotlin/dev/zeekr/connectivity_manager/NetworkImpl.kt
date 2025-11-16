@@ -17,13 +17,11 @@ class NetworkImpl(registrar: ConnectivityManagerApiPigeonProxyApiRegistrar) : Pi
     }
 
     override fun bindSocket2(pigeon_instance: Network, socket: DatagramSocket) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) pigeon_instance.bindSocket(socket)
-        else throw UnsupportedOperationException("Call requires API level 22")
+        pigeon_instance.bindSocket(socket)
     }
 
     override fun bindSocket3(pigeon_instance: Network, fd: FileDescriptor) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) pigeon_instance.bindSocket(fd)
-        else throw UnsupportedOperationException("Call requires API level 23")
+        pigeon_instance.bindSocket(fd)
     }
 
     override fun getAllByName(pigeon_instance: Network, host: String): List<InetAddress> {
@@ -35,8 +33,7 @@ class NetworkImpl(registrar: ConnectivityManagerApiPigeonProxyApiRegistrar) : Pi
     }
 
     override fun getNetworkHandle(pigeon_instance: Network): Long {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) pigeon_instance.networkHandle
-        else throw UnsupportedOperationException("Call requires API level 23")
+        return pigeon_instance.networkHandle
     }
 
     override fun getSocketFactory(pigeon_instance: Network): SocketFactory {
@@ -45,8 +42,7 @@ class NetworkImpl(registrar: ConnectivityManagerApiPigeonProxyApiRegistrar) : Pi
 
     override fun openConnection(pigeon_instance: Network, url: URL, proxy: Proxy?): URLConnection {
         return if (proxy == null) pigeon_instance.openConnection(url)
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) pigeon_instance.openConnection(url, proxy)
-        else throw UnsupportedOperationException("Call requires API level 23")
+        else pigeon_instance.openConnection(url, proxy)
 
     }
 

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'dart:typed_data';
 
 import 'connectivity_manager.dart';
@@ -51,7 +53,7 @@ final class ConnectivityManagerImpl extends ConnectivityManager {
         destination.api,
         jni.context.mainExecutor,
         callback.api,
-      )!
+      )
       .impl;
 
   @override
@@ -62,11 +64,11 @@ final class ConnectivityManagerImpl extends ConnectivityManager {
 
   @override
   List<NetworkInfo> getAllNetworkInfo() =>
-      api.getAllNetworkInfo()!.map((e) => e!.impl).toList();
+      api.getAllNetworkInfo().map((e) => e!.impl).toList();
 
   @override
   List<Network> getAllNetworks() =>
-      api.getAllNetworks()!.map((e) => e!.impl).toList();
+      api.getAllNetworks().map((e) => e!.impl).toList();
 
   @override
   bool getBackgroundDataSetting() => api.getBackgroundDataSetting();
@@ -206,36 +208,27 @@ final class ConnectivityManagerNetworkCallbackImpl
     void Function(NetworkCapabilities networkCapabilities)? onReserved,
     void Function()? onUnavailable,
   }) {
+    final callback = jni.JConnectivityManager$JNetworkCallback.implement(
+      jni.$JConnectivityManager$JNetworkCallback(
+        onAvailable: (e) => onAvailable?.call(e.impl),
+        onBlockedStatusChanged: (e1, e2) =>
+            onBlockedStatusChanged?.call(e1.impl, e2),
+        onCapabilitiesChanged: (e1, e2) =>
+            onCapabilitiesChanged?.call(e1.impl, e2.impl),
+        onLinkPropertiesChanged: (e1, e2) =>
+            onLinkPropertiesChanged?.call(e1.impl, e2.impl),
+        onLosing: (e1, e2) => onLosing?.call(e1.impl, e2),
+        onLost: (e) => onLost?.call(e.impl),
+        onReserved: (e) => onReserved?.call(e.impl),
+        onUnavailable: () => onUnavailable?.call(),
+      ),
+    );
     final api = includeLocationInfo
-        ? jni.ConnectivityManager$NetworkCallback.new$1(
-            onAvailable: (_, e) => onAvailable?.call(e.impl),
-            onBlockedStatusChanged: (_, e1, e2) =>
-                onBlockedStatusChanged?.call(e1.impl, e2),
-            onCapabilitiesChanged: (_, e1, e2) =>
-                onCapabilitiesChanged?.call(e1.impl, e2.impl),
-            onLinkPropertiesChanged: (_, e1, e2) =>
-                onLinkPropertiesChanged?.call(e1.impl, e2.impl),
-            onLosing: (_, e1, e2) => onLosing?.call(e1.impl, e2),
-            onLost: (_, e) => onLost?.call(e.impl),
-            onReserved: (_, e) => onReserved?.call(e.impl),
-            onUnavailable: (_) => onUnavailable?.call(),
-            flags: [
-              ConnectivityManagerNetworkCallbackFlagApi.includeLocationInfo,
-            ],
+        ? jni.JConnectivityManager$JNetworkCallbackImpl.new$3(
+            callback,
+            jni.ConnectivityManager$NetworkCallback.FLAG_INCLUDE_LOCATION_INFO,
           )
-        : jni.ConnectivityManager$NetworkCallback(
-            onAvailable: (_, e) => onAvailable?.call(e.impl),
-            onBlockedStatusChanged: (_, e1, e2) =>
-                onBlockedStatusChanged?.call(e1.impl, e2),
-            onCapabilitiesChanged: (_, e1, e2) =>
-                onCapabilitiesChanged?.call(e1.impl, e2.impl),
-            onLinkPropertiesChanged: (_, e1, e2) =>
-                onLinkPropertiesChanged?.call(e1.impl, e2.impl),
-            onLosing: (_, e1, e2) => onLosing?.call(e1.impl, e2),
-            onLost: (_, e) => onLost?.call(e.impl),
-            onReserved: (_, e) => onReserved?.call(e.impl),
-            onUnavailable: (_) => onUnavailable?.call(),
-          );
+        : jni.JConnectivityManager$JNetworkCallbackImpl.new$2(callback);
     return ConnectivityManagerNetworkCallbackImpl.internal(api);
   }
 }
@@ -344,18 +337,18 @@ final class NetworkRequestImpl extends NetworkRequest {
 
   @override
   List<NetworkCapability> getCapabilities() =>
-      api.getCapabilities()!.map((e) => e.networkCapabilityImpl).toList();
+      api.getCapabilities().map((e) => e.networkCapabilityImpl).toList();
 
   @override
   NetworkSpecifier? getNetworkSpecifier() => api.getNetworkSpecifier()?.impl;
 
   @override
   Set<int> getSubscriptionIds() =>
-      api.getSubscriptionIds()!.map((e) => e!.impl).toSet();
+      api.getSubscriptionIds().map((e) => e!.impl).toSet();
 
   @override
   List<TransportType> getTransportTypes() =>
-      api.getTransportTypes()!.map((e) => e.transportTypeImpl).toList();
+      api.getTransportTypes().map((e) => e.transportTypeImpl).toList();
 
   @override
   bool hasCapability(NetworkCapability capability) =>
@@ -373,10 +366,10 @@ final class NetworkCapabilitiesImpl extends NetworkCapabilities {
 
   @override
   List<NetworkCapability> getCapabilities() =>
-      api.getCapabilities()!.map((e) => e.networkCapabilityImpl).toList();
+      api.getCapabilities().map((e) => e.networkCapabilityImpl).toList();
 
   @override
-  List<int> getEnterpriseIds() => api.getEnterpriseIds()!.toList();
+  List<int> getEnterpriseIds() => api.getEnterpriseIds().toList();
 
   @override
   int getLinkDownstreamBandwidthKbps() => api.getLinkDownstreamBandwidthKbps();
@@ -395,7 +388,7 @@ final class NetworkCapabilitiesImpl extends NetworkCapabilities {
 
   @override
   Set<int> getSubscriptionIds() =>
-      api.getSubscriptionIds()!.map((e) => e!.impl).toSet();
+      api.getSubscriptionIds().map((e) => e!.impl).toSet();
 
   @override
   TransportInfo? getTransportInfo() => api.getTransportInfo()?.impl;
@@ -434,7 +427,7 @@ final class LinkPropertiesImpl extends LinkProperties {
 
   @override
   List<InetAddress> getDnsServers() =>
-      api.getDnsServers()!.map((e) => e!.impl).toList();
+      api.getDnsServers().map((e) => e!.impl).toList();
 
   @override
   String? getDomains() => api.getDomains()?.impl;
@@ -447,7 +440,7 @@ final class LinkPropertiesImpl extends LinkProperties {
 
   @override
   List<LinkAddress> getLinkAddresses() =>
-      api.getLinkAddresses()!.map((e) => e!.impl).toList();
+      api.getLinkAddresses().map((e) => e!.impl).toList();
 
   @override
   int getMtu() => api.getMtu();
@@ -459,7 +452,7 @@ final class LinkPropertiesImpl extends LinkProperties {
   String? getPrivateDnsServerName() => api.getPrivateDnsServerName()?.impl;
 
   @override
-  List<RouteInfo> getRoutes() => api.getRoutes()!.map((e) => e!.impl).toList();
+  List<RouteInfo> getRoutes() => api.getRoutes().map((e) => e!.impl).toList();
 
   @override
   bool isPrivateDnsActive() => api.isPrivateDnsActive();
@@ -530,13 +523,13 @@ final class IpPrefixImpl extends IpPrefix {
   bool contains(InetAddress address) => api.contains(address.api);
 
   @override
-  InetAddress getAddress() => api.getAddress()!.impl;
+  InetAddress getAddress() => api.getAddress().impl;
 
   @override
   int getPrefixLength() => api.getPrefixLength();
 
   @override
-  Uint8List getRawAddress() => api.getRawAddress()!.impl;
+  Uint8List getRawAddress() => api.getRawAddress().impl;
 }
 
 final class SocketKeepaliveImpl extends SocketKeepalive {
@@ -576,7 +569,7 @@ final class RouteInfoImpl extends RouteInfo {
   RouteInfoImpl.internal(this.api) : super.impl();
 
   @override
-  IpPrefix getDestination() => api.getDestination()!.impl;
+  IpPrefix getDestination() => api.getDestination().impl;
 
   @override
   InetAddress? getGateway() => api.getGateway()?.impl;
@@ -602,7 +595,7 @@ final class InetAddressesImpl extends InetAddresses {
       jni.InetAddresses.isNumericAddress(address.api);
 
   static InetAddress parseNumericAddress(String address) =>
-      jni.InetAddresses.parseNumericAddress(address.api)!.impl;
+      jni.InetAddresses.parseNumericAddress(address.api).impl;
 
   final jni.InetAddresses api;
 

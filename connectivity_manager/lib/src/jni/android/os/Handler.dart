@@ -81,8 +81,8 @@ class Handler$Callback extends jni$_.JObject {
           >();
 
   /// from: `public abstract boolean handleMessage(android.os.Message message)`
-  bool handleMessage(jni$_.JObject? message) {
-    final _$message = message?.reference ?? jni$_.jNullReference;
+  bool handleMessage(jni$_.JObject message) {
+    final _$message = message.reference;
     return _handleMessage(
       reference.pointer,
       _id_handleMessage as jni$_.JMethodIDPtr,
@@ -119,7 +119,7 @@ class Handler$Callback extends jni$_.JObject {
       final $a = $i.args;
       if ($d == r'handleMessage(Landroid/os/Message;)Z') {
         final $r = _$impls[$p]!.handleMessage(
-          $a![0]?.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
+          $a![0]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -158,20 +158,20 @@ class Handler$Callback extends jni$_.JObject {
 
 abstract base mixin class $Handler$Callback {
   factory $Handler$Callback({
-    required bool Function(jni$_.JObject? message) handleMessage,
+    required bool Function(jni$_.JObject message) handleMessage,
   }) = _$Handler$Callback;
 
-  bool handleMessage(jni$_.JObject? message);
+  bool handleMessage(jni$_.JObject message);
 }
 
 final class _$Handler$Callback with $Handler$Callback {
   _$Handler$Callback({
-    required bool Function(jni$_.JObject? message) handleMessage,
+    required bool Function(jni$_.JObject message) handleMessage,
   }) : _handleMessage = handleMessage;
 
-  final bool Function(jni$_.JObject? message) _handleMessage;
+  final bool Function(jni$_.JObject message) _handleMessage;
 
-  bool handleMessage(jni$_.JObject? message) {
+  bool handleMessage(jni$_.JObject message) {
     return _handleMessage(message);
   }
 }
@@ -347,8 +347,8 @@ class Handler extends jni$_.JObject {
 
   /// from: `public void <init>(android.os.Looper looper)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Handler.new$2(looper$_.Looper? looper) {
-    final _$looper = looper?.reference ?? jni$_.jNullReference;
+  factory Handler.new$2(looper$_.Looper looper) {
+    final _$looper = looper.reference;
     return Handler.fromReference(
       _new$2(
         _class.reference.pointer,
@@ -385,8 +385,8 @@ class Handler extends jni$_.JObject {
 
   /// from: `public void <init>(android.os.Looper looper, android.os.Handler$Callback callback)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Handler.new$3(looper$_.Looper? looper, Handler$Callback? callback) {
-    final _$looper = looper?.reference ?? jni$_.jNullReference;
+  factory Handler.new$3(looper$_.Looper looper, Handler$Callback? callback) {
+    final _$looper = looper.reference;
     final _$callback = callback?.reference ?? jni$_.jNullReference;
     return Handler.fromReference(
       _new$3(
@@ -423,13 +423,13 @@ class Handler extends jni$_.JObject {
 
   /// from: `static public android.os.Handler createAsync(android.os.Looper looper)`
   /// The returned object must be released after use, by calling the [release] method.
-  static Handler? createAsync(looper$_.Looper? looper) {
-    final _$looper = looper?.reference ?? jni$_.jNullReference;
+  static Handler createAsync(looper$_.Looper looper) {
+    final _$looper = looper.reference;
     return _createAsync(
       _class.reference.pointer,
       _id_createAsync as jni$_.JMethodIDPtr,
       _$looper.pointer,
-    ).object<Handler?>(const $Handler$NullableType$());
+    ).object<Handler>(const $Handler$Type$());
   }
 
   static final _id_createAsync$1 = _class.staticMethodId(
@@ -460,18 +460,18 @@ class Handler extends jni$_.JObject {
 
   /// from: `static public android.os.Handler createAsync(android.os.Looper looper, android.os.Handler$Callback callback)`
   /// The returned object must be released after use, by calling the [release] method.
-  static Handler? createAsync$1(
-    looper$_.Looper? looper,
-    Handler$Callback? callback,
+  static Handler createAsync$1(
+    looper$_.Looper looper,
+    Handler$Callback callback,
   ) {
-    final _$looper = looper?.reference ?? jni$_.jNullReference;
-    final _$callback = callback?.reference ?? jni$_.jNullReference;
+    final _$looper = looper.reference;
+    final _$callback = callback.reference;
     return _createAsync$1(
       _class.reference.pointer,
       _id_createAsync$1 as jni$_.JMethodIDPtr,
       _$looper.pointer,
       _$callback.pointer,
-    ).object<Handler?>(const $Handler$NullableType$());
+    ).object<Handler>(const $Handler$Type$());
   }
 
   static final _id_dispatchMessage = _class.instanceMethodId(
@@ -498,8 +498,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public void dispatchMessage(android.os.Message message)`
-  void dispatchMessage(jni$_.JObject? message) {
-    final _$message = message?.reference ?? jni$_.jNullReference;
+  void dispatchMessage(jni$_.JObject message) {
+    final _$message = message.reference;
     _dispatchMessage(
       reference.pointer,
       _id_dispatchMessage as jni$_.JMethodIDPtr,
@@ -534,9 +534,9 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final void dump(android.util.Printer printer, java.lang.String string)`
-  void dump(jni$_.JObject? printer, jni$_.JString? string) {
-    final _$printer = printer?.reference ?? jni$_.jNullReference;
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  void dump(jni$_.JObject printer, jni$_.JString string) {
+    final _$printer = printer.reference;
+    final _$string = string.reference;
     _dump(
       reference.pointer,
       _id_dump as jni$_.JMethodIDPtr,
@@ -568,11 +568,11 @@ class Handler extends jni$_.JObject {
 
   /// from: `public final android.os.Looper getLooper()`
   /// The returned object must be released after use, by calling the [release] method.
-  looper$_.Looper? getLooper() {
+  looper$_.Looper getLooper() {
     return _getLooper(
       reference.pointer,
       _id_getLooper as jni$_.JMethodIDPtr,
-    ).object<looper$_.Looper?>(const looper$_.$Looper$NullableType$());
+    ).object<looper$_.Looper>(const looper$_.$Looper$Type$());
   }
 
   static final _id_getMessageName = _class.instanceMethodId(
@@ -600,13 +600,13 @@ class Handler extends jni$_.JObject {
 
   /// from: `public java.lang.String getMessageName(android.os.Message message)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getMessageName(jni$_.JObject? message) {
-    final _$message = message?.reference ?? jni$_.jNullReference;
+  jni$_.JString getMessageName(jni$_.JObject message) {
+    final _$message = message.reference;
     return _getMessageName(
       reference.pointer,
       _id_getMessageName as jni$_.JMethodIDPtr,
       _$message.pointer,
-    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    ).object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_handleMessage = _class.instanceMethodId(
@@ -633,8 +633,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public void handleMessage(android.os.Message message)`
-  void handleMessage(jni$_.JObject? message) {
-    final _$message = message?.reference ?? jni$_.jNullReference;
+  void handleMessage(jni$_.JObject message) {
+    final _$message = message.reference;
     _handleMessage(
       reference.pointer,
       _id_handleMessage as jni$_.JMethodIDPtr,
@@ -666,8 +666,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean hasCallbacks(java.lang.Runnable runnable)`
-  bool hasCallbacks(jni$_.JObject? runnable) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  bool hasCallbacks(jni$_.JObject runnable) {
+    final _$runnable = runnable.reference;
     return _hasCallbacks(
       reference.pointer,
       _id_hasCallbacks as jni$_.JMethodIDPtr,
@@ -765,11 +765,11 @@ class Handler extends jni$_.JObject {
 
   /// from: `public final android.os.Message obtainMessage()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainMessage() {
+  jni$_.JObject obtainMessage() {
     return _obtainMessage(
       reference.pointer,
       _id_obtainMessage as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_obtainMessage$1 = _class.instanceMethodId(
@@ -797,12 +797,12 @@ class Handler extends jni$_.JObject {
 
   /// from: `public final android.os.Message obtainMessage(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainMessage$1(int i) {
+  jni$_.JObject obtainMessage$1(int i) {
     return _obtainMessage$1(
       reference.pointer,
       _id_obtainMessage$1 as jni$_.JMethodIDPtr,
       i,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_obtainMessage$2 = _class.instanceMethodId(
@@ -832,14 +832,14 @@ class Handler extends jni$_.JObject {
 
   /// from: `public final android.os.Message obtainMessage(int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainMessage$2(int i, int i1, int i2) {
+  jni$_.JObject obtainMessage$2(int i, int i1, int i2) {
     return _obtainMessage$2(
       reference.pointer,
       _id_obtainMessage$2 as jni$_.JMethodIDPtr,
       i,
       i1,
       i2,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_obtainMessage$3 = _class.instanceMethodId(
@@ -877,7 +877,7 @@ class Handler extends jni$_.JObject {
 
   /// from: `public final android.os.Message obtainMessage(int i, int i1, int i2, java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainMessage$3(int i, int i1, int i2, jni$_.JObject? object) {
+  jni$_.JObject obtainMessage$3(int i, int i1, int i2, jni$_.JObject? object) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _obtainMessage$3(
       reference.pointer,
@@ -886,7 +886,7 @@ class Handler extends jni$_.JObject {
       i1,
       i2,
       _$object.pointer,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_obtainMessage$4 = _class.instanceMethodId(
@@ -915,14 +915,14 @@ class Handler extends jni$_.JObject {
 
   /// from: `public final android.os.Message obtainMessage(int i, java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? obtainMessage$4(int i, jni$_.JObject? object) {
+  jni$_.JObject obtainMessage$4(int i, jni$_.JObject? object) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _obtainMessage$4(
       reference.pointer,
       _id_obtainMessage$4 as jni$_.JMethodIDPtr,
       i,
       _$object.pointer,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_post = _class.instanceMethodId(
@@ -949,8 +949,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean post(java.lang.Runnable runnable)`
-  bool post(jni$_.JObject? runnable) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  bool post(jni$_.JObject runnable) {
+    final _$runnable = runnable.reference;
     return _post(
       reference.pointer,
       _id_post as jni$_.JMethodIDPtr,
@@ -982,8 +982,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean postAtFrontOfQueue(java.lang.Runnable runnable)`
-  bool postAtFrontOfQueue(jni$_.JObject? runnable) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  bool postAtFrontOfQueue(jni$_.JObject runnable) {
+    final _$runnable = runnable.reference;
     return _postAtFrontOfQueue(
       reference.pointer,
       _id_postAtFrontOfQueue as jni$_.JMethodIDPtr,
@@ -1023,8 +1023,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean postAtTime(java.lang.Runnable runnable, java.lang.Object object, long j)`
-  bool postAtTime(jni$_.JObject? runnable, jni$_.JObject? object, int j) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  bool postAtTime(jni$_.JObject runnable, jni$_.JObject? object, int j) {
+    final _$runnable = runnable.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _postAtTime(
       reference.pointer,
@@ -1060,8 +1060,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean postAtTime(java.lang.Runnable runnable, long j)`
-  bool postAtTime$1(jni$_.JObject? runnable, int j) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  bool postAtTime$1(jni$_.JObject runnable, int j) {
+    final _$runnable = runnable.reference;
     return _postAtTime$1(
       reference.pointer,
       _id_postAtTime$1 as jni$_.JMethodIDPtr,
@@ -1102,8 +1102,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean postDelayed(java.lang.Runnable runnable, java.lang.Object object, long j)`
-  bool postDelayed(jni$_.JObject? runnable, jni$_.JObject? object, int j) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  bool postDelayed(jni$_.JObject runnable, jni$_.JObject? object, int j) {
+    final _$runnable = runnable.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _postDelayed(
       reference.pointer,
@@ -1139,8 +1139,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean postDelayed(java.lang.Runnable runnable, long j)`
-  bool postDelayed$1(jni$_.JObject? runnable, int j) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  bool postDelayed$1(jni$_.JObject runnable, int j) {
+    final _$runnable = runnable.reference;
     return _postDelayed$1(
       reference.pointer,
       _id_postDelayed$1 as jni$_.JMethodIDPtr,
@@ -1173,8 +1173,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final void removeCallbacks(java.lang.Runnable runnable)`
-  void removeCallbacks(jni$_.JObject? runnable) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  void removeCallbacks(jni$_.JObject runnable) {
+    final _$runnable = runnable.reference;
     _removeCallbacks(
       reference.pointer,
       _id_removeCallbacks as jni$_.JMethodIDPtr,
@@ -1209,8 +1209,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final void removeCallbacks(java.lang.Runnable runnable, java.lang.Object object)`
-  void removeCallbacks$1(jni$_.JObject? runnable, jni$_.JObject? object) {
-    final _$runnable = runnable?.reference ?? jni$_.jNullReference;
+  void removeCallbacks$1(jni$_.JObject runnable, jni$_.JObject? object) {
+    final _$runnable = runnable.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     _removeCallbacks$1(
       reference.pointer,
@@ -1444,8 +1444,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean sendMessage(android.os.Message message)`
-  bool sendMessage(jni$_.JObject? message) {
-    final _$message = message?.reference ?? jni$_.jNullReference;
+  bool sendMessage(jni$_.JObject message) {
+    final _$message = message.reference;
     return _sendMessage(
       reference.pointer,
       _id_sendMessage as jni$_.JMethodIDPtr,
@@ -1477,8 +1477,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean sendMessageAtFrontOfQueue(android.os.Message message)`
-  bool sendMessageAtFrontOfQueue(jni$_.JObject? message) {
-    final _$message = message?.reference ?? jni$_.jNullReference;
+  bool sendMessageAtFrontOfQueue(jni$_.JObject message) {
+    final _$message = message.reference;
     return _sendMessageAtFrontOfQueue(
       reference.pointer,
       _id_sendMessageAtFrontOfQueue as jni$_.JMethodIDPtr,
@@ -1511,8 +1511,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public boolean sendMessageAtTime(android.os.Message message, long j)`
-  bool sendMessageAtTime(jni$_.JObject? message, int j) {
-    final _$message = message?.reference ?? jni$_.jNullReference;
+  bool sendMessageAtTime(jni$_.JObject message, int j) {
+    final _$message = message.reference;
     return _sendMessageAtTime(
       reference.pointer,
       _id_sendMessageAtTime as jni$_.JMethodIDPtr,
@@ -1546,8 +1546,8 @@ class Handler extends jni$_.JObject {
           >();
 
   /// from: `public final boolean sendMessageDelayed(android.os.Message message, long j)`
-  bool sendMessageDelayed(jni$_.JObject? message, int j) {
-    final _$message = message?.reference ?? jni$_.jNullReference;
+  bool sendMessageDelayed(jni$_.JObject message, int j) {
+    final _$message = message.reference;
     return _sendMessageDelayed(
       reference.pointer,
       _id_sendMessageDelayed as jni$_.JMethodIDPtr,

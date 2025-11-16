@@ -63,8 +63,8 @@ class IpPrefix extends jni$_.JObject {
 
   /// from: `static public final android.os.Parcelable$Creator<android.net.IpPrefix> CREATOR`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get CREATOR =>
-      _id_CREATOR.get(_class, const jni$_.$JObject$NullableType$());
+  static jni$_.JObject get CREATOR =>
+      _id_CREATOR.get(_class, const jni$_.$JObject$Type$());
 
   static final _id_new$ = _class.constructorId(r'(Ljava/net/InetAddress;I)V');
 
@@ -89,8 +89,8 @@ class IpPrefix extends jni$_.JObject {
 
   /// from: `public void <init>(java.net.InetAddress inetAddress, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory IpPrefix(inetaddress$_.InetAddress? inetAddress, int i) {
-    final _$inetAddress = inetAddress?.reference ?? jni$_.jNullReference;
+  factory IpPrefix(inetaddress$_.InetAddress inetAddress, int i) {
+    final _$inetAddress = inetAddress.reference;
     return IpPrefix.fromReference(
       _new$(
         _class.reference.pointer,
@@ -125,8 +125,8 @@ class IpPrefix extends jni$_.JObject {
           >();
 
   /// from: `public boolean contains(java.net.InetAddress inetAddress)`
-  bool contains(inetaddress$_.InetAddress? inetAddress) {
-    final _$inetAddress = inetAddress?.reference ?? jni$_.jNullReference;
+  bool contains(inetaddress$_.InetAddress inetAddress) {
+    final _$inetAddress = inetAddress.reference;
     return _contains(
       reference.pointer,
       _id_contains as jni$_.JMethodIDPtr,
@@ -219,12 +219,12 @@ class IpPrefix extends jni$_.JObject {
 
   /// from: `public java.net.InetAddress getAddress()`
   /// The returned object must be released after use, by calling the [release] method.
-  inetaddress$_.InetAddress? getAddress() {
+  inetaddress$_.InetAddress getAddress() {
     return _getAddress(
       reference.pointer,
       _id_getAddress as jni$_.JMethodIDPtr,
-    ).object<inetaddress$_.InetAddress?>(
-      const inetaddress$_.$InetAddress$NullableType$(),
+    ).object<inetaddress$_.InetAddress>(
+      const inetaddress$_.$InetAddress$Type$(),
     );
   }
 
@@ -280,11 +280,11 @@ class IpPrefix extends jni$_.JObject {
 
   /// from: `public byte[] getRawAddress()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? getRawAddress() {
+  jni$_.JByteArray getRawAddress() {
     return _getRawAddress(
       reference.pointer,
       _id_getRawAddress as jni$_.JMethodIDPtr,
-    ).object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
+    ).object<jni$_.JByteArray>(const jni$_.$JByteArray$Type$());
   }
 
   static final _id_hashCode$1 = _class.instanceMethodId(r'hashCode', r'()I');

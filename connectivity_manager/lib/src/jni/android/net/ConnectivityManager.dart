@@ -167,8 +167,8 @@ class ConnectivityManager$NetworkCallback extends jni$_.JObject {
           >();
 
   /// from: `public void onAvailable(android.net.Network network)`
-  void onAvailable(network$_.Network? network) {
-    final _$network = network?.reference ?? jni$_.jNullReference;
+  void onAvailable(network$_.Network network) {
+    final _$network = network.reference;
     _onAvailable(
       reference.pointer,
       _id_onAvailable as jni$_.JMethodIDPtr,
@@ -201,8 +201,8 @@ class ConnectivityManager$NetworkCallback extends jni$_.JObject {
           >();
 
   /// from: `public void onBlockedStatusChanged(android.net.Network network, boolean z)`
-  void onBlockedStatusChanged(network$_.Network? network, bool z) {
-    final _$network = network?.reference ?? jni$_.jNullReference;
+  void onBlockedStatusChanged(network$_.Network network, bool z) {
+    final _$network = network.reference;
     _onBlockedStatusChanged(
       reference.pointer,
       _id_onBlockedStatusChanged as jni$_.JMethodIDPtr,
@@ -239,12 +239,11 @@ class ConnectivityManager$NetworkCallback extends jni$_.JObject {
 
   /// from: `public void onCapabilitiesChanged(android.net.Network network, android.net.NetworkCapabilities networkCapabilities)`
   void onCapabilitiesChanged(
-    network$_.Network? network,
-    networkcapabilities$_.NetworkCapabilities? networkCapabilities,
+    network$_.Network network,
+    networkcapabilities$_.NetworkCapabilities networkCapabilities,
   ) {
-    final _$network = network?.reference ?? jni$_.jNullReference;
-    final _$networkCapabilities =
-        networkCapabilities?.reference ?? jni$_.jNullReference;
+    final _$network = network.reference;
+    final _$networkCapabilities = networkCapabilities.reference;
     _onCapabilitiesChanged(
       reference.pointer,
       _id_onCapabilitiesChanged as jni$_.JMethodIDPtr,
@@ -281,11 +280,11 @@ class ConnectivityManager$NetworkCallback extends jni$_.JObject {
 
   /// from: `public void onLinkPropertiesChanged(android.net.Network network, android.net.LinkProperties linkProperties)`
   void onLinkPropertiesChanged(
-    network$_.Network? network,
-    linkproperties$_.LinkProperties? linkProperties,
+    network$_.Network network,
+    linkproperties$_.LinkProperties linkProperties,
   ) {
-    final _$network = network?.reference ?? jni$_.jNullReference;
-    final _$linkProperties = linkProperties?.reference ?? jni$_.jNullReference;
+    final _$network = network.reference;
+    final _$linkProperties = linkProperties.reference;
     _onLinkPropertiesChanged(
       reference.pointer,
       _id_onLinkPropertiesChanged as jni$_.JMethodIDPtr,
@@ -319,8 +318,8 @@ class ConnectivityManager$NetworkCallback extends jni$_.JObject {
           >();
 
   /// from: `public void onLosing(android.net.Network network, int i)`
-  void onLosing(network$_.Network? network, int i) {
-    final _$network = network?.reference ?? jni$_.jNullReference;
+  void onLosing(network$_.Network network, int i) {
+    final _$network = network.reference;
     _onLosing(
       reference.pointer,
       _id_onLosing as jni$_.JMethodIDPtr,
@@ -353,8 +352,8 @@ class ConnectivityManager$NetworkCallback extends jni$_.JObject {
           >();
 
   /// from: `public void onLost(android.net.Network network)`
-  void onLost(network$_.Network? network) {
-    final _$network = network?.reference ?? jni$_.jNullReference;
+  void onLost(network$_.Network network) {
+    final _$network = network.reference;
     _onLost(
       reference.pointer,
       _id_onLost as jni$_.JMethodIDPtr,
@@ -387,10 +386,9 @@ class ConnectivityManager$NetworkCallback extends jni$_.JObject {
 
   /// from: `public void onReserved(android.net.NetworkCapabilities networkCapabilities)`
   void onReserved(
-    networkcapabilities$_.NetworkCapabilities? networkCapabilities,
+    networkcapabilities$_.NetworkCapabilities networkCapabilities,
   ) {
-    final _$networkCapabilities =
-        networkCapabilities?.reference ?? jni$_.jNullReference;
+    final _$networkCapabilities = networkCapabilities.reference;
     _onReserved(
       reference.pointer,
       _id_onReserved as jni$_.JMethodIDPtr,
@@ -1086,21 +1084,20 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public android.net.SocketKeepalive createSocketKeepalive(android.net.Network network, android.net.IpSecManager$UdpEncapsulationSocket udpEncapsulationSocket, java.net.InetAddress inetAddress, java.net.InetAddress inetAddress1, java.util.concurrent.Executor executor, android.net.SocketKeepalive$Callback callback)`
   /// The returned object must be released after use, by calling the [release] method.
-  socketkeepalive$_.SocketKeepalive? createSocketKeepalive(
-    network$_.Network? network,
-    ipsecmanager$_.IpSecManager$UdpEncapsulationSocket? udpEncapsulationSocket,
-    inetaddress$_.InetAddress? inetAddress,
-    inetaddress$_.InetAddress? inetAddress1,
-    executor$_.Executor? executor,
-    socketkeepalive$_.SocketKeepalive$Callback? callback,
+  socketkeepalive$_.SocketKeepalive createSocketKeepalive(
+    network$_.Network network,
+    ipsecmanager$_.IpSecManager$UdpEncapsulationSocket udpEncapsulationSocket,
+    inetaddress$_.InetAddress inetAddress,
+    inetaddress$_.InetAddress inetAddress1,
+    executor$_.Executor executor,
+    socketkeepalive$_.SocketKeepalive$Callback callback,
   ) {
-    final _$network = network?.reference ?? jni$_.jNullReference;
-    final _$udpEncapsulationSocket =
-        udpEncapsulationSocket?.reference ?? jni$_.jNullReference;
-    final _$inetAddress = inetAddress?.reference ?? jni$_.jNullReference;
-    final _$inetAddress1 = inetAddress1?.reference ?? jni$_.jNullReference;
-    final _$executor = executor?.reference ?? jni$_.jNullReference;
-    final _$callback = callback?.reference ?? jni$_.jNullReference;
+    final _$network = network.reference;
+    final _$udpEncapsulationSocket = udpEncapsulationSocket.reference;
+    final _$inetAddress = inetAddress.reference;
+    final _$inetAddress1 = inetAddress1.reference;
+    final _$executor = executor.reference;
+    final _$callback = callback.reference;
     return _createSocketKeepalive(
       reference.pointer,
       _id_createSocketKeepalive as jni$_.JMethodIDPtr,
@@ -1110,8 +1107,8 @@ class ConnectivityManager extends jni$_.JObject {
       _$inetAddress1.pointer,
       _$executor.pointer,
       _$callback.pointer,
-    ).object<socketkeepalive$_.SocketKeepalive?>(
-      const socketkeepalive$_.$SocketKeepalive$NullableType$(),
+    ).object<socketkeepalive$_.SocketKeepalive>(
+      const socketkeepalive$_.$SocketKeepalive$Type$(),
     );
   }
 
@@ -1200,12 +1197,12 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public android.net.NetworkInfo[] getAllNetworkInfo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<networkinfo$_.NetworkInfo?>? getAllNetworkInfo() {
+  jni$_.JArray<networkinfo$_.NetworkInfo?> getAllNetworkInfo() {
     return _getAllNetworkInfo(
       reference.pointer,
       _id_getAllNetworkInfo as jni$_.JMethodIDPtr,
-    ).object<jni$_.JArray<networkinfo$_.NetworkInfo?>?>(
-      const jni$_.$JArray$NullableType$<networkinfo$_.NetworkInfo?>(
+    ).object<jni$_.JArray<networkinfo$_.NetworkInfo?>>(
+      const jni$_.$JArray$Type$<networkinfo$_.NetworkInfo?>(
         networkinfo$_.$NetworkInfo$NullableType$(),
       ),
     );
@@ -1234,12 +1231,12 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public android.net.Network[] getAllNetworks()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<network$_.Network?>? getAllNetworks() {
+  jni$_.JArray<network$_.Network?> getAllNetworks() {
     return _getAllNetworks(
       reference.pointer,
       _id_getAllNetworks as jni$_.JMethodIDPtr,
-    ).object<jni$_.JArray<network$_.Network?>?>(
-      const jni$_.$JArray$NullableType$<network$_.Network?>(
+    ).object<jni$_.JArray<network$_.Network?>>(
+      const jni$_.$JArray$Type$<network$_.Network?>(
         network$_.$Network$NullableType$(),
       ),
     );
@@ -1338,13 +1335,11 @@ class ConnectivityManager extends jni$_.JObject {
   /// from: `public int getConnectionOwnerUid(int i, java.net.InetSocketAddress inetSocketAddress, java.net.InetSocketAddress inetSocketAddress1)`
   int getConnectionOwnerUid(
     int i,
-    inetsocketaddress$_.InetSocketAddress? inetSocketAddress,
-    inetsocketaddress$_.InetSocketAddress? inetSocketAddress1,
+    inetsocketaddress$_.InetSocketAddress inetSocketAddress,
+    inetsocketaddress$_.InetSocketAddress inetSocketAddress1,
   ) {
-    final _$inetSocketAddress =
-        inetSocketAddress?.reference ?? jni$_.jNullReference;
-    final _$inetSocketAddress1 =
-        inetSocketAddress1?.reference ?? jni$_.jNullReference;
+    final _$inetSocketAddress = inetSocketAddress.reference;
+    final _$inetSocketAddress1 = inetSocketAddress1.reference;
     return _getConnectionOwnerUid(
       reference.pointer,
       _id_getConnectionOwnerUid as jni$_.JMethodIDPtr,
@@ -1807,14 +1802,13 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void registerBestMatchingNetworkCallback(android.net.NetworkRequest networkRequest, android.net.ConnectivityManager$NetworkCallback networkCallback, android.os.Handler handler)`
   void registerBestMatchingNetworkCallback(
-    networkrequest$_.NetworkRequest? networkRequest,
-    ConnectivityManager$NetworkCallback? networkCallback,
-    handler$_.Handler? handler,
+    networkrequest$_.NetworkRequest networkRequest,
+    ConnectivityManager$NetworkCallback networkCallback,
+    handler$_.Handler handler,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
-    final _$handler = handler?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$networkCallback = networkCallback.reference;
+    final _$handler = handler.reference;
     _registerBestMatchingNetworkCallback(
       reference.pointer,
       _id_registerBestMatchingNetworkCallback as jni$_.JMethodIDPtr,
@@ -1849,10 +1843,9 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void registerDefaultNetworkCallback(android.net.ConnectivityManager$NetworkCallback networkCallback)`
   void registerDefaultNetworkCallback(
-    ConnectivityManager$NetworkCallback? networkCallback,
+    ConnectivityManager$NetworkCallback networkCallback,
   ) {
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
+    final _$networkCallback = networkCallback.reference;
     _registerDefaultNetworkCallback(
       reference.pointer,
       _id_registerDefaultNetworkCallback as jni$_.JMethodIDPtr,
@@ -1888,12 +1881,11 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void registerDefaultNetworkCallback(android.net.ConnectivityManager$NetworkCallback networkCallback, android.os.Handler handler)`
   void registerDefaultNetworkCallback$1(
-    ConnectivityManager$NetworkCallback? networkCallback,
-    handler$_.Handler? handler,
+    ConnectivityManager$NetworkCallback networkCallback,
+    handler$_.Handler handler,
   ) {
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
-    final _$handler = handler?.reference ?? jni$_.jNullReference;
+    final _$networkCallback = networkCallback.reference;
+    final _$handler = handler.reference;
     _registerDefaultNetworkCallback$1(
       reference.pointer,
       _id_registerDefaultNetworkCallback$1 as jni$_.JMethodIDPtr,
@@ -1930,11 +1922,11 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void registerNetworkCallback(android.net.NetworkRequest networkRequest, android.app.PendingIntent pendingIntent)`
   void registerNetworkCallback(
-    networkrequest$_.NetworkRequest? networkRequest,
-    jni$_.JObject? pendingIntent,
+    networkrequest$_.NetworkRequest networkRequest,
+    jni$_.JObject pendingIntent,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$pendingIntent = pendingIntent?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$pendingIntent = pendingIntent.reference;
     _registerNetworkCallback(
       reference.pointer,
       _id_registerNetworkCallback as jni$_.JMethodIDPtr,
@@ -1971,12 +1963,11 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void registerNetworkCallback(android.net.NetworkRequest networkRequest, android.net.ConnectivityManager$NetworkCallback networkCallback)`
   void registerNetworkCallback$1(
-    networkrequest$_.NetworkRequest? networkRequest,
-    ConnectivityManager$NetworkCallback? networkCallback,
+    networkrequest$_.NetworkRequest networkRequest,
+    ConnectivityManager$NetworkCallback networkCallback,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$networkCallback = networkCallback.reference;
     _registerNetworkCallback$1(
       reference.pointer,
       _id_registerNetworkCallback$1 as jni$_.JMethodIDPtr,
@@ -2018,14 +2009,13 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void registerNetworkCallback(android.net.NetworkRequest networkRequest, android.net.ConnectivityManager$NetworkCallback networkCallback, android.os.Handler handler)`
   void registerNetworkCallback$2(
-    networkrequest$_.NetworkRequest? networkRequest,
-    ConnectivityManager$NetworkCallback? networkCallback,
-    handler$_.Handler? handler,
+    networkrequest$_.NetworkRequest networkRequest,
+    ConnectivityManager$NetworkCallback networkCallback,
+    handler$_.Handler handler,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
-    final _$handler = handler?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$networkCallback = networkCallback.reference;
+    final _$handler = handler.reference;
     _registerNetworkCallback$2(
       reference.pointer,
       _id_registerNetworkCallback$2 as jni$_.JMethodIDPtr,
@@ -2059,8 +2049,8 @@ class ConnectivityManager extends jni$_.JObject {
           >();
 
   /// from: `public void releaseNetworkRequest(android.app.PendingIntent pendingIntent)`
-  void releaseNetworkRequest(jni$_.JObject? pendingIntent) {
-    final _$pendingIntent = pendingIntent?.reference ?? jni$_.jNullReference;
+  void releaseNetworkRequest(jni$_.JObject pendingIntent) {
+    final _$pendingIntent = pendingIntent.reference;
     _releaseNetworkRequest(
       reference.pointer,
       _id_releaseNetworkRequest as jni$_.JMethodIDPtr,
@@ -2093,10 +2083,9 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void removeDefaultNetworkActiveListener(android.net.ConnectivityManager$OnNetworkActiveListener onNetworkActiveListener)`
   void removeDefaultNetworkActiveListener(
-    ConnectivityManager$OnNetworkActiveListener? onNetworkActiveListener,
+    ConnectivityManager$OnNetworkActiveListener onNetworkActiveListener,
   ) {
-    final _$onNetworkActiveListener =
-        onNetworkActiveListener?.reference ?? jni$_.jNullReference;
+    final _$onNetworkActiveListener = onNetworkActiveListener.reference;
     _removeDefaultNetworkActiveListener(
       reference.pointer,
       _id_removeDefaultNetworkActiveListener as jni$_.JMethodIDPtr,
@@ -2196,8 +2185,8 @@ class ConnectivityManager extends jni$_.JObject {
           >();
 
   /// from: `public boolean requestBandwidthUpdate(android.net.Network network)`
-  bool requestBandwidthUpdate(network$_.Network? network) {
-    final _$network = network?.reference ?? jni$_.jNullReference;
+  bool requestBandwidthUpdate(network$_.Network network) {
+    final _$network = network.reference;
     return _requestBandwidthUpdate(
       reference.pointer,
       _id_requestBandwidthUpdate as jni$_.JMethodIDPtr,
@@ -2233,11 +2222,11 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void requestNetwork(android.net.NetworkRequest networkRequest, android.app.PendingIntent pendingIntent)`
   void requestNetwork(
-    networkrequest$_.NetworkRequest? networkRequest,
-    jni$_.JObject? pendingIntent,
+    networkrequest$_.NetworkRequest networkRequest,
+    jni$_.JObject pendingIntent,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$pendingIntent = pendingIntent?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$pendingIntent = pendingIntent.reference;
     _requestNetwork(
       reference.pointer,
       _id_requestNetwork as jni$_.JMethodIDPtr,
@@ -2274,12 +2263,11 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void requestNetwork(android.net.NetworkRequest networkRequest, android.net.ConnectivityManager$NetworkCallback networkCallback)`
   void requestNetwork$1(
-    networkrequest$_.NetworkRequest? networkRequest,
-    ConnectivityManager$NetworkCallback? networkCallback,
+    networkrequest$_.NetworkRequest networkRequest,
+    ConnectivityManager$NetworkCallback networkCallback,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$networkCallback = networkCallback.reference;
     _requestNetwork$1(
       reference.pointer,
       _id_requestNetwork$1 as jni$_.JMethodIDPtr,
@@ -2321,14 +2309,13 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void requestNetwork(android.net.NetworkRequest networkRequest, android.net.ConnectivityManager$NetworkCallback networkCallback, android.os.Handler handler)`
   void requestNetwork$2(
-    networkrequest$_.NetworkRequest? networkRequest,
-    ConnectivityManager$NetworkCallback? networkCallback,
-    handler$_.Handler? handler,
+    networkrequest$_.NetworkRequest networkRequest,
+    ConnectivityManager$NetworkCallback networkCallback,
+    handler$_.Handler handler,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
-    final _$handler = handler?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$networkCallback = networkCallback.reference;
+    final _$handler = handler.reference;
     _requestNetwork$2(
       reference.pointer,
       _id_requestNetwork$2 as jni$_.JMethodIDPtr,
@@ -2373,15 +2360,14 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void requestNetwork(android.net.NetworkRequest networkRequest, android.net.ConnectivityManager$NetworkCallback networkCallback, android.os.Handler handler, int i)`
   void requestNetwork$3(
-    networkrequest$_.NetworkRequest? networkRequest,
-    ConnectivityManager$NetworkCallback? networkCallback,
-    handler$_.Handler? handler,
+    networkrequest$_.NetworkRequest networkRequest,
+    ConnectivityManager$NetworkCallback networkCallback,
+    handler$_.Handler handler,
     int i,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
-    final _$handler = handler?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$networkCallback = networkCallback.reference;
+    final _$handler = handler.reference;
     _requestNetwork$3(
       reference.pointer,
       _id_requestNetwork$3 as jni$_.JMethodIDPtr,
@@ -2425,13 +2411,12 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void requestNetwork(android.net.NetworkRequest networkRequest, android.net.ConnectivityManager$NetworkCallback networkCallback, int i)`
   void requestNetwork$4(
-    networkrequest$_.NetworkRequest? networkRequest,
-    ConnectivityManager$NetworkCallback? networkCallback,
+    networkrequest$_.NetworkRequest networkRequest,
+    ConnectivityManager$NetworkCallback networkCallback,
     int i,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$networkCallback = networkCallback.reference;
     _requestNetwork$4(
       reference.pointer,
       _id_requestNetwork$4 as jni$_.JMethodIDPtr,
@@ -2474,14 +2459,13 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void reserveNetwork(android.net.NetworkRequest networkRequest, android.os.Handler handler, android.net.ConnectivityManager$NetworkCallback networkCallback)`
   void reserveNetwork(
-    networkrequest$_.NetworkRequest? networkRequest,
-    handler$_.Handler? handler,
-    ConnectivityManager$NetworkCallback? networkCallback,
+    networkrequest$_.NetworkRequest networkRequest,
+    handler$_.Handler handler,
+    ConnectivityManager$NetworkCallback networkCallback,
   ) {
-    final _$networkRequest = networkRequest?.reference ?? jni$_.jNullReference;
-    final _$handler = handler?.reference ?? jni$_.jNullReference;
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
+    final _$networkRequest = networkRequest.reference;
+    final _$handler = handler.reference;
+    final _$networkCallback = networkCallback.reference;
     _reserveNetwork(
       reference.pointer,
       _id_reserveNetwork as jni$_.JMethodIDPtr,
@@ -2580,8 +2564,8 @@ class ConnectivityManager extends jni$_.JObject {
           >();
 
   /// from: `public void unregisterNetworkCallback(android.app.PendingIntent pendingIntent)`
-  void unregisterNetworkCallback(jni$_.JObject? pendingIntent) {
-    final _$pendingIntent = pendingIntent?.reference ?? jni$_.jNullReference;
+  void unregisterNetworkCallback(jni$_.JObject pendingIntent) {
+    final _$pendingIntent = pendingIntent.reference;
     _unregisterNetworkCallback(
       reference.pointer,
       _id_unregisterNetworkCallback as jni$_.JMethodIDPtr,
@@ -2614,10 +2598,9 @@ class ConnectivityManager extends jni$_.JObject {
 
   /// from: `public void unregisterNetworkCallback(android.net.ConnectivityManager$NetworkCallback networkCallback)`
   void unregisterNetworkCallback$1(
-    ConnectivityManager$NetworkCallback? networkCallback,
+    ConnectivityManager$NetworkCallback networkCallback,
   ) {
-    final _$networkCallback =
-        networkCallback?.reference ?? jni$_.jNullReference;
+    final _$networkCallback = networkCallback.reference;
     _unregisterNetworkCallback$1(
       reference.pointer,
       _id_unregisterNetworkCallback$1 as jni$_.JMethodIDPtr,

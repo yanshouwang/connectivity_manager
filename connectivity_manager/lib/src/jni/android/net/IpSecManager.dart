@@ -711,16 +711,16 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public android.net.IpSecManager$SecurityParameterIndex allocateSecurityParameterIndex(java.net.InetAddress inetAddress)`
   /// The returned object must be released after use, by calling the [release] method.
-  IpSecManager$SecurityParameterIndex? allocateSecurityParameterIndex(
-    inetaddress$_.InetAddress? inetAddress,
+  IpSecManager$SecurityParameterIndex allocateSecurityParameterIndex(
+    inetaddress$_.InetAddress inetAddress,
   ) {
-    final _$inetAddress = inetAddress?.reference ?? jni$_.jNullReference;
+    final _$inetAddress = inetAddress.reference;
     return _allocateSecurityParameterIndex(
       reference.pointer,
       _id_allocateSecurityParameterIndex as jni$_.JMethodIDPtr,
       _$inetAddress.pointer,
-    ).object<IpSecManager$SecurityParameterIndex?>(
-      const $IpSecManager$SecurityParameterIndex$NullableType$(),
+    ).object<IpSecManager$SecurityParameterIndex>(
+      const $IpSecManager$SecurityParameterIndex$Type$(),
     );
   }
 
@@ -750,18 +750,18 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public android.net.IpSecManager$SecurityParameterIndex allocateSecurityParameterIndex(java.net.InetAddress inetAddress, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  IpSecManager$SecurityParameterIndex? allocateSecurityParameterIndex$1(
-    inetaddress$_.InetAddress? inetAddress,
+  IpSecManager$SecurityParameterIndex allocateSecurityParameterIndex$1(
+    inetaddress$_.InetAddress inetAddress,
     int i,
   ) {
-    final _$inetAddress = inetAddress?.reference ?? jni$_.jNullReference;
+    final _$inetAddress = inetAddress.reference;
     return _allocateSecurityParameterIndex$1(
       reference.pointer,
       _id_allocateSecurityParameterIndex$1 as jni$_.JMethodIDPtr,
       _$inetAddress.pointer,
       i,
-    ).object<IpSecManager$SecurityParameterIndex?>(
-      const $IpSecManager$SecurityParameterIndex$NullableType$(),
+    ).object<IpSecManager$SecurityParameterIndex>(
+      const $IpSecManager$SecurityParameterIndex$Type$(),
     );
   }
 
@@ -798,12 +798,12 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public void applyTransportModeTransform(java.io.FileDescriptor fileDescriptor, int i, android.net.IpSecTransform ipSecTransform)`
   void applyTransportModeTransform(
-    filedescriptor$_.FileDescriptor? fileDescriptor,
+    filedescriptor$_.FileDescriptor fileDescriptor,
     int i,
-    jni$_.JObject? ipSecTransform,
+    jni$_.JObject ipSecTransform,
   ) {
-    final _$fileDescriptor = fileDescriptor?.reference ?? jni$_.jNullReference;
-    final _$ipSecTransform = ipSecTransform?.reference ?? jni$_.jNullReference;
+    final _$fileDescriptor = fileDescriptor.reference;
+    final _$ipSecTransform = ipSecTransform.reference;
     _applyTransportModeTransform(
       reference.pointer,
       _id_applyTransportModeTransform as jni$_.JMethodIDPtr,
@@ -846,12 +846,12 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public void applyTransportModeTransform(java.net.DatagramSocket datagramSocket, int i, android.net.IpSecTransform ipSecTransform)`
   void applyTransportModeTransform$1(
-    datagramsocket$_.DatagramSocket? datagramSocket,
+    datagramsocket$_.DatagramSocket datagramSocket,
     int i,
-    jni$_.JObject? ipSecTransform,
+    jni$_.JObject ipSecTransform,
   ) {
-    final _$datagramSocket = datagramSocket?.reference ?? jni$_.jNullReference;
-    final _$ipSecTransform = ipSecTransform?.reference ?? jni$_.jNullReference;
+    final _$datagramSocket = datagramSocket.reference;
+    final _$ipSecTransform = ipSecTransform.reference;
     _applyTransportModeTransform$1(
       reference.pointer,
       _id_applyTransportModeTransform$1 as jni$_.JMethodIDPtr,
@@ -894,12 +894,12 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public void applyTransportModeTransform(java.net.Socket socket, int i, android.net.IpSecTransform ipSecTransform)`
   void applyTransportModeTransform$2(
-    socket$_.Socket? socket,
+    socket$_.Socket socket,
     int i,
-    jni$_.JObject? ipSecTransform,
+    jni$_.JObject ipSecTransform,
   ) {
-    final _$socket = socket?.reference ?? jni$_.jNullReference;
-    final _$ipSecTransform = ipSecTransform?.reference ?? jni$_.jNullReference;
+    final _$socket = socket.reference;
+    final _$ipSecTransform = ipSecTransform.reference;
     _applyTransportModeTransform$2(
       reference.pointer,
       _id_applyTransportModeTransform$2 as jni$_.JMethodIDPtr,
@@ -932,12 +932,12 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public android.net.IpSecManager$UdpEncapsulationSocket openUdpEncapsulationSocket()`
   /// The returned object must be released after use, by calling the [release] method.
-  IpSecManager$UdpEncapsulationSocket? openUdpEncapsulationSocket() {
+  IpSecManager$UdpEncapsulationSocket openUdpEncapsulationSocket() {
     return _openUdpEncapsulationSocket(
       reference.pointer,
       _id_openUdpEncapsulationSocket as jni$_.JMethodIDPtr,
-    ).object<IpSecManager$UdpEncapsulationSocket?>(
-      const $IpSecManager$UdpEncapsulationSocket$NullableType$(),
+    ).object<IpSecManager$UdpEncapsulationSocket>(
+      const $IpSecManager$UdpEncapsulationSocket$Type$(),
     );
   }
 
@@ -966,13 +966,13 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public android.net.IpSecManager$UdpEncapsulationSocket openUdpEncapsulationSocket(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  IpSecManager$UdpEncapsulationSocket? openUdpEncapsulationSocket$1(int i) {
+  IpSecManager$UdpEncapsulationSocket openUdpEncapsulationSocket$1(int i) {
     return _openUdpEncapsulationSocket$1(
       reference.pointer,
       _id_openUdpEncapsulationSocket$1 as jni$_.JMethodIDPtr,
       i,
-    ).object<IpSecManager$UdpEncapsulationSocket?>(
-      const $IpSecManager$UdpEncapsulationSocket$NullableType$(),
+    ).object<IpSecManager$UdpEncapsulationSocket>(
+      const $IpSecManager$UdpEncapsulationSocket$Type$(),
     );
   }
 
@@ -1001,9 +1001,9 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public void removeTransportModeTransforms(java.io.FileDescriptor fileDescriptor)`
   void removeTransportModeTransforms(
-    filedescriptor$_.FileDescriptor? fileDescriptor,
+    filedescriptor$_.FileDescriptor fileDescriptor,
   ) {
-    final _$fileDescriptor = fileDescriptor?.reference ?? jni$_.jNullReference;
+    final _$fileDescriptor = fileDescriptor.reference;
     _removeTransportModeTransforms(
       reference.pointer,
       _id_removeTransportModeTransforms as jni$_.JMethodIDPtr,
@@ -1036,9 +1036,9 @@ class IpSecManager extends jni$_.JObject {
 
   /// from: `public void removeTransportModeTransforms(java.net.DatagramSocket datagramSocket)`
   void removeTransportModeTransforms$1(
-    datagramsocket$_.DatagramSocket? datagramSocket,
+    datagramsocket$_.DatagramSocket datagramSocket,
   ) {
-    final _$datagramSocket = datagramSocket?.reference ?? jni$_.jNullReference;
+    final _$datagramSocket = datagramSocket.reference;
     _removeTransportModeTransforms$1(
       reference.pointer,
       _id_removeTransportModeTransforms$1 as jni$_.JMethodIDPtr,
@@ -1070,8 +1070,8 @@ class IpSecManager extends jni$_.JObject {
           >();
 
   /// from: `public void removeTransportModeTransforms(java.net.Socket socket)`
-  void removeTransportModeTransforms$2(socket$_.Socket? socket) {
-    final _$socket = socket?.reference ?? jni$_.jNullReference;
+  void removeTransportModeTransforms$2(socket$_.Socket socket) {
+    final _$socket = socket.reference;
     _removeTransportModeTransforms$2(
       reference.pointer,
       _id_removeTransportModeTransforms$2 as jni$_.JMethodIDPtr,

@@ -81,9 +81,9 @@ class Looper extends jni$_.JObject {
           >();
 
   /// from: `public void dump(android.util.Printer printer, java.lang.String string)`
-  void dump(jni$_.JObject? printer, jni$_.JString? string) {
-    final _$printer = printer?.reference ?? jni$_.jNullReference;
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  void dump(jni$_.JObject printer, jni$_.JString string) {
+    final _$printer = printer.reference;
+    final _$string = string.reference;
     _dump(
       reference.pointer,
       _id_dump as jni$_.JMethodIDPtr,
@@ -145,11 +145,11 @@ class Looper extends jni$_.JObject {
 
   /// from: `public android.os.MessageQueue getQueue()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getQueue() {
+  jni$_.JObject getQueue() {
     return _getQueue(
       reference.pointer,
       _id_getQueue as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_getThread = _class.instanceMethodId(
@@ -175,11 +175,11 @@ class Looper extends jni$_.JObject {
 
   /// from: `public java.lang.Thread getThread()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getThread() {
+  jni$_.JObject getThread() {
     return _getThread(
       reference.pointer,
       _id_getThread as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_isCurrentThread = _class.instanceMethodId(
@@ -287,11 +287,11 @@ class Looper extends jni$_.JObject {
 
   /// from: `static public android.os.MessageQueue myQueue()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? myQueue() {
+  static jni$_.JObject myQueue() {
     return _myQueue(
       _class.reference.pointer,
       _id_myQueue as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_prepare = _class.staticMethodId(r'prepare', r'()V');

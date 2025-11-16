@@ -69,8 +69,8 @@ class NetworkCapabilities extends jni$_.JObject {
 
   /// from: `static public final android.os.Parcelable$Creator<android.net.NetworkCapabilities> CREATOR`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get CREATOR =>
-      _id_CREATOR.get(_class, const jni$_.$JObject$NullableType$());
+  static jni$_.JObject get CREATOR =>
+      _id_CREATOR.get(_class, const jni$_.$JObject$Type$());
 
   /// from: `static public final int NET_CAPABILITY_CAPTIVE_PORTAL`
   static const NET_CAPABILITY_CAPTIVE_PORTAL = 17;
@@ -359,11 +359,11 @@ class NetworkCapabilities extends jni$_.JObject {
 
   /// from: `public int[] getCapabilities()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JIntArray? getCapabilities() {
+  jni$_.JIntArray getCapabilities() {
     return _getCapabilities(
       reference.pointer,
       _id_getCapabilities as jni$_.JMethodIDPtr,
-    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
   }
 
   static final _id_getEnterpriseIds = _class.instanceMethodId(
@@ -389,11 +389,11 @@ class NetworkCapabilities extends jni$_.JObject {
 
   /// from: `public int[] getEnterpriseIds()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JIntArray? getEnterpriseIds() {
+  jni$_.JIntArray getEnterpriseIds() {
     return _getEnterpriseIds(
       reference.pointer,
       _id_getEnterpriseIds as jni$_.JMethodIDPtr,
-    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
   }
 
   static final _id_getLinkDownstreamBandwidthKbps = _class.instanceMethodId(
@@ -567,14 +567,12 @@ class NetworkCapabilities extends jni$_.JObject {
 
   /// from: `public java.util.Set<java.lang.Integer> getSubscriptionIds()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JSet<jni$_.JInteger?>? getSubscriptionIds() {
+  jni$_.JSet<jni$_.JInteger?> getSubscriptionIds() {
     return _getSubscriptionIds(
       reference.pointer,
       _id_getSubscriptionIds as jni$_.JMethodIDPtr,
-    ).object<jni$_.JSet<jni$_.JInteger?>?>(
-      const jni$_.$JSet$NullableType$<jni$_.JInteger?>(
-        jni$_.$JInteger$NullableType$(),
-      ),
+    ).object<jni$_.JSet<jni$_.JInteger?>>(
+      const jni$_.$JSet$Type$<jni$_.JInteger?>(jni$_.$JInteger$NullableType$()),
     );
   }
 
@@ -755,11 +753,11 @@ class NetworkCapabilities extends jni$_.JObject {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$1() {
+  jni$_.JString toString$1() {
     return _toString$1(
       reference.pointer,
       _id_toString$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    ).object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_writeToParcel = _class.instanceMethodId(

@@ -81,8 +81,8 @@ class InetAddresses extends jni$_.JObject {
           >();
 
   /// from: `static public boolean isNumericAddress(java.lang.String string)`
-  static bool isNumericAddress(jni$_.JString? string) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  static bool isNumericAddress(jni$_.JString string) {
+    final _$string = string.reference;
     return _isNumericAddress(
       _class.reference.pointer,
       _id_isNumericAddress as jni$_.JMethodIDPtr,
@@ -115,14 +115,14 @@ class InetAddresses extends jni$_.JObject {
 
   /// from: `static public java.net.InetAddress parseNumericAddress(java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  static inetaddress$_.InetAddress? parseNumericAddress(jni$_.JString? string) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+  static inetaddress$_.InetAddress parseNumericAddress(jni$_.JString string) {
+    final _$string = string.reference;
     return _parseNumericAddress(
       _class.reference.pointer,
       _id_parseNumericAddress as jni$_.JMethodIDPtr,
       _$string.pointer,
-    ).object<inetaddress$_.InetAddress?>(
-      const inetaddress$_.$InetAddress$NullableType$(),
+    ).object<inetaddress$_.InetAddress>(
+      const inetaddress$_.$InetAddress$Type$(),
     );
   }
 }
