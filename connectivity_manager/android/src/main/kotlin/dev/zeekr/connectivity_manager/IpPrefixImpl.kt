@@ -6,8 +6,7 @@ import java.net.InetAddress
 
 class IpPrefixImpl(registrar: ConnectivityManagerApiPigeonProxyApiRegistrar) : PigeonApiIpPrefixProxyApi(registrar) {
     override fun contains(pigeon_instance: IpPrefix, address: InetAddress): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) pigeon_instance.contains(address)
-        else throw UnsupportedOperationException("Call requires API level 23")
+        return pigeon_instance.contains(address)
 
     }
 

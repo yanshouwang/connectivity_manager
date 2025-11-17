@@ -3,9 +3,11 @@ import 'package:connectivity_manager/connectivity_manager.dart';
 import 'package:connectivity_manager_example/models.dart';
 import 'package:connectivity_manager_example/util.dart';
 import 'package:logging/logging.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeViewModel extends ViewModel {
   final ConnectivityManager _connectivityManager;
+  String? _ssid;
   final Map<String, NetworkModel> _wifiModels;
   final Map<String, NetworkModel> _ethernetModels;
 
@@ -14,71 +16,16 @@ class HomeViewModel extends ViewModel {
 
   Logger get logger => Logger('HomeViewModel');
 
+  String? get ssid => _ssid;
   Map<String, NetworkModel> get wifiModels => _wifiModels;
   Map<String, NetworkModel> get ethernetModels => _ethernetModels;
 
   HomeViewModel()
     : _connectivityManager = ConnectivityManager(),
+      _ssid = null,
       _wifiModels = {},
       _ethernetModels = {} {
-    final wr = NetworkRequest(transportTypes: [TransportType.wifi]);
-    final er = NetworkRequest(transportTypes: [TransportType.ethernet]);
-    _wifiCallback = ConnectivityManagerNetworkCallback(
-      onAvailable: (network) async {
-        logger.info('wifi onAvailable $network');
-        final linkProperties = await _connectivityManager.getLinkProperties(
-          network,
-        );
-        if (linkProperties == null) {
-          logger.warning('wifi linkProperties is null');
-          return;
-        }
-        final wifiModel = await linkProperties.getNetworkModel();
-        if (wifiModel == null) {
-          logger.warning('wifi model is null');
-          return;
-        }
-        _wifiModels[wifiModel.iface] = wifiModel;
-        notifyListeners();
-      },
-      onLosing: (network, maxMsToLive) {
-        logger.info('wifi onLosing $network, $maxMsToLive');
-      },
-      onLost: (network) async {
-        logger.info('wifi onLost $network');
-        _wifiModels.clear();
-        notifyListeners();
-      },
-    );
-    _ethernetCallback = ConnectivityManagerNetworkCallback(
-      onAvailable: (network) async {
-        logger.info('ethernet onAvailable $network');
-        final linkProperties = await _connectivityManager.getLinkProperties(
-          network,
-        );
-        if (linkProperties == null) {
-          logger.warning('ethernet linkProperties is null');
-          return;
-        }
-        final model = await linkProperties.getNetworkModel();
-        if (model == null) {
-          logger.warning('ethernet model is null');
-          return;
-        }
-        _ethernetModels[model.iface] = model;
-        notifyListeners();
-      },
-      onLosing: (network, maxMsToLive) {
-        logger.info('ethernet onLosing $network, $maxMsToLive');
-      },
-      onLost: (network) async {
-        logger.info('ethernet onLost $network');
-        _ethernetModels.clear();
-        notifyListeners();
-      },
-    );
-    _connectivityManager.registerNetworkCallback(wr, _wifiCallback);
-    _connectivityManager.registerNetworkCallback(er, _ethernetCallback);
+    _initialize();
   }
 
   @override
@@ -87,16 +34,93 @@ class HomeViewModel extends ViewModel {
     _connectivityManager.unregisterNetworkCallback(_ethernetCallback);
     super.dispose();
   }
+
+  void _initialize() async {
+    final isGranted = await Permission.locationWhenInUse.isGranted;
+    if (!isGranted) {
+      final status = await Permission.locationWhenInUse.request();
+      logger.info('location when use status: $status');
+    }
+    final wr = NetworkRequest(
+      transportTypes: [NetworkCapabilitiesTransport.wifi],
+    );
+    final er = NetworkRequest(
+      transportTypes: [NetworkCapabilitiesTransport.ethernet],
+    );
+    _wifiCallback = ConnectivityManagerNetworkCallback(
+      includeLocationInfo: true,
+      onAvailable: (network) {
+        logger.info('wifi onAvailable');
+      },
+      onCapabilitiesChanged: (network, networkCapabilities) {
+        logger.info('wifi onCapabilitiesChanged');
+        final info = networkCapabilities.transportInfo;
+        if (info is WifiInfo) {
+          _ssid = info.ssid;
+          notifyListeners();
+        } else {
+          logger.warning('info is $info');
+        }
+      },
+      onLinkPropertiesChanged: (network, linkProperties) {
+        logger.info('wifi onLinkPropertiesChanged');
+        final wifiModel = linkProperties.getNetworkModel();
+        if (wifiModel == null) {
+          logger.warning('wifi model is null');
+          return;
+        }
+        _wifiModels[wifiModel.iface] = wifiModel;
+        notifyListeners();
+      },
+      onLosing: (network, maxMsToLive) {
+        logger.info('wifi onLosing');
+      },
+      onLost: (network) {
+        logger.info('wifi onLost');
+        _ssid = null;
+        _wifiModels.clear();
+        notifyListeners();
+      },
+    );
+    _ethernetCallback = ConnectivityManagerNetworkCallback(
+      onAvailable: (network) {
+        logger.info('ethernet onAvailable');
+      },
+      onCapabilitiesChanged: (network, networkCapabilities) {
+        logger.info('ethernet onCapabilitiesChanged');
+      },
+      onLinkPropertiesChanged: (network, linkProperties) {
+        logger.info('ethernet onLinkPropertiesChanged');
+        final model = linkProperties.getNetworkModel();
+        if (model == null) {
+          logger.warning('ethernet model is null');
+          return;
+        }
+        _ethernetModels[model.iface] = model;
+        notifyListeners();
+      },
+      onLosing: (network, maxMsToLive) {
+        logger.info('ethernet onLosing');
+      },
+      onLost: (network) async {
+        logger.info('ethernet onLost');
+        _ethernetModels.clear();
+        notifyListeners();
+      },
+    );
+    _connectivityManager.registerNetworkCallback(wr, _wifiCallback);
+    _connectivityManager.registerNetworkCallback(er, _ethernetCallback);
+  }
 }
 
 extension on LinkProperties {
-  Future<NetworkModel?> getNetworkModel() async {
-    final iface = await getInterfaceName();
+  NetworkModel? getNetworkModel() {
+    final iface = interfaceName;
     if (iface == null) return null;
-    final inetAddresses = await getAddressModels();
+    final inetAddresses = getAddressModels();
     final inetAddress = inetAddresses.firstOrNull;
-    final gateway = await getGatewayModel();
-    final dnsServers = await getDnsServerModels();
+    final gateway = getGatewayModel();
+    final dnsServers = getDnsServerModels();
     return NetworkModel(
       iface: iface,
       ipAddress: inetAddress?.$1,
@@ -106,48 +130,43 @@ extension on LinkProperties {
     );
   }
 
-  Future<List<(String, String)>> getAddressModels() {
-    return getLinkAddresses()
-        .asStream()
-        .expand((e) => e)
-        .asyncMap((e) async {
-          final inetAddress = await e.getAddress();
+  List<(String, String)> getAddressModels() {
+    return linkAddresses
+        .map((e) {
+          final inetAddress = e.address;
           if (inetAddress is! Inet4Address) return null;
-          final ipAddress = await inetAddress.getHostAddress();
+          final ipAddress = inetAddress.hostAddress;
           if (ipAddress == null) return null;
-          final prefixLength = await e.getPrefixLength();
+          final prefixLength = e.prefixLength;
           final subnetMask = NetworkUtil.getPrefixMask(prefixLength);
           return (ipAddress, subnetMask);
         })
-        .toList()
-        .then((e) => e.whereType<(String, String)>().toList());
+        .whereType<(String, String)>()
+        .toList();
   }
 
-  Future<String?> getGatewayModel() {
-    return getRoutes()
-        .asStream()
-        .expand((e) => e)
-        .asyncMap((e) async {
-          final isDefault = await e.isDefaultRoute();
+  String? getGatewayModel() {
+    return routes
+        .map((e) {
+          final isDefault = e.isDefaultRoute;
           if (isDefault) {
-            final inetGateway = await e.getGateway();
+            final inetGateway = e.gateway;
             if (inetGateway is! Inet4Address) return null;
-            final gateway = await inetGateway.getHostAddress();
+            final gateway = inetGateway.hostAddress;
             return gateway;
           } else {
             return null;
           }
         })
+        .whereType<String>()
         .toList()
-        .then((e) => e.whereType<String>().toList().firstOrNull);
+        .firstOrNull;
   }
 
-  Future<List<String>> getDnsServerModels() async {
-    return getDnsServers()
-        .asStream()
-        .expand((e) => e)
-        .asyncMap((e) => e is Inet4Address ? e.getHostAddress() : null)
-        .toList()
-        .then((e) => e.whereType<String>().toList());
+  List<String> getDnsServerModels() {
+    return dnsServers
+        .map((e) => e is Inet4Address ? e.hostAddress : null)
+        .whereType<String>()
+        .toList();
   }
 }
