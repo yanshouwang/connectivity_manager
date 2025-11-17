@@ -42,6 +42,8 @@ import '../../java/net/InetSocketAddress.dart' as inetsocketaddress$_;
 
 import '../../java/util/concurrent/Executor.dart' as executor$_;
 
+import '../app/PendingIntent.dart' as pendingintent$_;
+
 import '../os/Handler.dart' as handler$_;
 
 import 'IpSecManager.dart' as ipsecmanager$_;
@@ -1923,7 +1925,7 @@ class ConnectivityManager extends jni$_.JObject {
   /// from: `public void registerNetworkCallback(android.net.NetworkRequest networkRequest, android.app.PendingIntent pendingIntent)`
   void registerNetworkCallback(
     networkrequest$_.NetworkRequest networkRequest,
-    jni$_.JObject pendingIntent,
+    pendingintent$_.PendingIntent pendingIntent,
   ) {
     final _$networkRequest = networkRequest.reference;
     final _$pendingIntent = pendingIntent.reference;
@@ -2049,7 +2051,7 @@ class ConnectivityManager extends jni$_.JObject {
           >();
 
   /// from: `public void releaseNetworkRequest(android.app.PendingIntent pendingIntent)`
-  void releaseNetworkRequest(jni$_.JObject pendingIntent) {
+  void releaseNetworkRequest(pendingintent$_.PendingIntent pendingIntent) {
     final _$pendingIntent = pendingIntent.reference;
     _releaseNetworkRequest(
       reference.pointer,
@@ -2223,7 +2225,7 @@ class ConnectivityManager extends jni$_.JObject {
   /// from: `public void requestNetwork(android.net.NetworkRequest networkRequest, android.app.PendingIntent pendingIntent)`
   void requestNetwork(
     networkrequest$_.NetworkRequest networkRequest,
-    jni$_.JObject pendingIntent,
+    pendingintent$_.PendingIntent pendingIntent,
   ) {
     final _$networkRequest = networkRequest.reference;
     final _$pendingIntent = pendingIntent.reference;
@@ -2564,7 +2566,7 @@ class ConnectivityManager extends jni$_.JObject {
           >();
 
   /// from: `public void unregisterNetworkCallback(android.app.PendingIntent pendingIntent)`
-  void unregisterNetworkCallback(jni$_.JObject pendingIntent) {
+  void unregisterNetworkCallback(pendingintent$_.PendingIntent pendingIntent) {
     final _$pendingIntent = pendingIntent.reference;
     _unregisterNetworkCallback(
       reference.pointer,

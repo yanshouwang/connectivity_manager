@@ -6,8 +6,11 @@ import 'jni/androidx/core/content/_package.dart';
 import 'jni/java/util/concurrent/_package.dart';
 
 export 'package:jni/jni.dart';
+export 'jni/android/app/_package.dart';
 export 'jni/android/content/_package.dart';
 export 'jni/android/net/_package.dart';
+export 'jni/android/net/wifi/_package.dart';
+export 'jni/android/net/wifi/aware/_package.dart';
 export 'jni/android/os/_package.dart';
 export 'jni/androidx/core/content/_package.dart';
 export 'jni/java/io/_package.dart';

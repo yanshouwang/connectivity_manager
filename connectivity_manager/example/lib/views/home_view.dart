@@ -9,6 +9,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = ViewModel.of<HomeViewModel>(context);
+    final ssid = viewModel.ssid;
     final wifiModels = viewModel.wifiModels;
     final ethernetModels = viewModel.ethernetModels;
     return Scaffold(
@@ -21,7 +22,7 @@ class HomeView extends StatelessWidget {
               child: ListView.separated(
                 itemBuilder: (context, i) {
                   final model = wifiModels.values.elementAt(i);
-                  return _buildNetworkModel(context, model);
+                  return _buildNetworkModel(context, model, ssid);
                 },
                 separatorBuilder: (context, i) => Divider(),
                 itemCount: wifiModels.length,
@@ -43,13 +44,18 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildNetworkModel(BuildContext context, NetworkModel model) {
+  Widget _buildNetworkModel(
+    BuildContext context,
+    NetworkModel model, [
+    String? ssid,
+  ]) {
     final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(model.iface, style: theme.textTheme.titleMedium),
+        if (ssid != null) Text('SSID: $ssid'),
         Text('IP: ${model.ipAddress}'),
         Text('Subnet Mask: ${model.subnetMask}'),
         Text('Gateway: ${model.gateway}'),

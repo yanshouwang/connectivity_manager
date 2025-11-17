@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'connectivity_manager_impl.dart';
 
-enum NetworkType {
+enum ConnectivityManagerType {
   mobile,
   wifi,
   mobileMms,
@@ -16,7 +16,13 @@ enum NetworkType {
   vpn,
 }
 
-enum NetworkCapability {
+enum ConnectivityManagerRestrictBackgroundStatus {
+  disabled,
+  whitelisted,
+  enabled,
+}
+
+enum NetworkCapabilitiesNetCapability {
   mms,
   supl,
   dun,
@@ -50,7 +56,7 @@ enum NetworkCapability {
   notBandwidthConstrained,
 }
 
-enum TransportType {
+enum NetworkCapabilitiesTransport {
   cellular,
   wifi,
   bluetooth,
@@ -63,14 +69,49 @@ enum TransportType {
   satellite,
 }
 
-enum RouteType { rtnUnicast, rtnUnreachable, rtnThrow }
+enum RouteInfoRTN { rtnUnicast, rtnUnreachable, rtnThrow }
 
-enum RestrictBackgroundStatus { disabled, whitelisted, enabled }
+enum WifiInfoSecurityType {
+  unknown, // -1
+  open, // 0
+  wep, // 1
+  psk, // 2
+  eap, // 3
+  sae, // 4
+  eapWpa3Enterprise192Bit, //
+  owe, // 6
+  wapiPsk, // 7
+  wapiCert, // 8
+  eapWpa3Enterprise, // 9
+  osen, // 10
+  passpointR1R2, // 11
+  passpointR3, // 12
+  dpp, // 13
+}
+
+enum SupplicantState {
+  associated,
+  associating,
+  authenticating,
+  completed,
+  disconnected,
+  dormant,
+  fourWayHandshake,
+  groupHandshake,
+  inactive,
+  interfaceDisabled,
+  invalid,
+  scanning,
+  uninitialized;
+
+  static bool isValidState(SupplicantState state) =>
+      SupplicantStateImpl.isValidState(state);
+}
 
 abstract base class ConnectivityManager {
   static Network? getProcessDefaultNetwork() =>
       ConnectivityManagerImpl.getProcessDefaultNetwork();
-  static bool isNetworkTypeValid(NetworkType networkType) =>
+  static bool isNetworkTypeValid(ConnectivityManagerType networkType) =>
       ConnectivityManagerImpl.isNetworkTypeValid(networkType);
   static bool setProcessDefaultNetwork(Network network) =>
       ConnectivityManagerImpl.setProcessDefaultNetwork(network);
@@ -78,6 +119,20 @@ abstract base class ConnectivityManager {
   ConnectivityManager.impl();
 
   factory ConnectivityManager() => ConnectivityManagerImpl();
+
+  Network? get activeNetwork;
+  NetworkInfo? get activeNetworkInfo;
+  List<NetworkInfo> get allNetworkInfo;
+  List<Network> get allNetworks;
+  bool get backgroundDataSetting;
+  Network? get boundNetworkForProcess;
+  ProxyInfo? get defaultProxy;
+  int get networkPreference;
+  set networkPreference(int preference);
+  Uint8List? get networkWatchlistConfigHash;
+  ConnectivityManagerRestrictBackgroundStatus get restrictBackgroundStatus;
+  bool get isActiveNetworkMetered;
+  bool get isDefaultNetworkActive;
 
   void addDefaultNetworkActiveListener(
     ConnectivityManagerOnNetworkActiveListener listener,
@@ -109,28 +164,16 @@ abstract base class ConnectivityManager {
     InetAddress destination,
     SocketKeepaliveCallback callback,
   );
-  Network? getActiveNetwork();
-  NetworkInfo? getActiveNetworkInfo();
-  List<NetworkInfo> getAllNetworkInfo();
-  List<Network> getAllNetworks();
-  bool getBackgroundDataSetting();
-  Network? getBoundNetworkForProcess();
   int getConnectionOwnerUid(
     int protocol,
     InetSocketAddress local,
     InetSocketAddress remote,
   );
-  ProxyInfo? getDefaultProxy();
   LinkProperties? getLinkProperties(Network network);
   int getMultipathPreference(Network network);
   NetworkCapabilities? getNetworkCapabilities(Network network);
-  NetworkInfo? getNetworkInfo1(NetworkType networkType);
-  NetworkInfo? getNetworkInfo2(Network network);
-  int getNetworkPreference();
-  Uint8List? getNetworkWatchlistConfigHash();
-  RestrictBackgroundStatus getRestrictBackgroundStatus();
-  bool isActiveNetworkMetered();
-  bool isDefaultNetworkActive();
+  NetworkInfo? getNetworkInfoOfType(ConnectivityManagerType networkType);
+  NetworkInfo? getNetworkInfoOfNetwork(Network network);
   void reportBadNetwork(Network network);
   void reportNetworkConnectivity(Network network, bool hasConnectivity);
   bool requestBandwidthUpdate(Network network);
@@ -143,7 +186,6 @@ abstract base class ConnectivityManager {
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback,
   );
-  void setNetworkPreference(int preference);
 }
 
 abstract base class ConnectivityManagerNetworkCallback {
@@ -185,18 +227,19 @@ abstract base class ConnectivityManagerOnNetworkActiveListener {
 }
 
 abstract base class Network {
-  static Network fromNetworkHandle(int networkHandle) =>
-      NetworkImpl.fromNetworkHandle(networkHandle);
-
   Network.impl();
 
-  void bindSocket1(Socket socket);
-  void bindSocket2(DatagramSocket socket);
-  void bindSocket3(FileDescriptor fd);
+  factory Network.fromNetworkHandle(int networkHandle) =>
+      NetworkImpl.fromNetworkHandle(networkHandle);
+
+  int get networkHandle;
+  SocketFactory get socketFactory;
+
+  void bindSocket(Socket socket);
+  void bindDatagramSocket(DatagramSocket socket);
+  void bindFileDescriptor(FileDescriptor fd);
   List<InetAddress> getAllByName(String host);
   InetAddress getByName(String host);
-  int getNetworkHandle();
-  SocketFactory getSocketFactory();
   UrlConnection openConnection(Url url, [Proxy? proxy]);
 }
 
@@ -204,10 +247,14 @@ abstract base class NetworkInfo {
   NetworkInfo.impl();
 }
 
+abstract base class NetworkInfoDetailedState {
+  NetworkInfoDetailedState.impl();
+}
+
 abstract base class NetworkRequest {
   factory NetworkRequest({
-    List<NetworkCapability>? capabilities,
-    List<TransportType>? transportTypes,
+    List<NetworkCapabilitiesNetCapability>? capabilities,
+    List<NetworkCapabilitiesTransport>? transportTypes,
     bool? includeOtherUidNetworks,
     NetworkSpecifier? networkSpecifier,
     Set<int>? subIds,
@@ -221,30 +268,31 @@ abstract base class NetworkRequest {
 
   NetworkRequest.impl();
 
+  List<NetworkCapabilitiesNetCapability> get capabilities;
+  NetworkSpecifier? get networkSpecifier;
+  Set<int> get subscriptionIds;
+  List<NetworkCapabilitiesTransport> get transportTypes;
+
   bool canBeSatisfiedBy(NetworkCapabilities nc);
-  List<NetworkCapability> getCapabilities();
-  NetworkSpecifier? getNetworkSpecifier();
-  Set<int> getSubscriptionIds();
-  List<TransportType> getTransportTypes();
-  bool hasCapability(NetworkCapability capability);
-  bool hasTransport(TransportType transportType);
+  bool hasCapability(NetworkCapabilitiesNetCapability capability);
+  bool hasTransport(NetworkCapabilitiesTransport transportType);
 }
 
 abstract base class NetworkCapabilities {
   NetworkCapabilities.impl();
 
-  List<NetworkCapability> getCapabilities();
-  List<int> getEnterpriseIds();
-  int getLinkDownstreamBandwidthKbps();
-  int getLinkUpstreamBandwidthKbps();
-  NetworkSpecifier? getNetworkSpecifier();
-  int getOwnerUid();
-  int getSignalStrength();
-  Set<int> getSubscriptionIds();
-  TransportInfo? getTransportInfo();
-  bool hasCapability(NetworkCapability capability);
+  List<NetworkCapabilitiesNetCapability> get capabilities;
+  List<int> get enterpriseIds;
+  int get linkDownstreamBandwidthKbps;
+  int get linkUpstreamBandwidthKbps;
+  NetworkSpecifier? get networkSpecifier;
+  int get ownerUid;
+  int get signalStrength;
+  Set<int> get subscriptionIds;
+  TransportInfo? get transportInfo;
+  bool hasCapability(NetworkCapabilitiesNetCapability capability);
   bool hasEnterpriseId(int enterpriseId);
-  bool hasTransport(TransportType transportType);
+  bool hasTransport(NetworkCapabilitiesTransport transportType);
 }
 
 abstract base class NetworkSpecifier {
@@ -254,46 +302,48 @@ abstract base class NetworkSpecifier {
 abstract base class LinkProperties {
   LinkProperties.impl();
 
+  Inet4Address? get dhcpServerAddress;
+  set dhcpServerAddress(Inet4Address? serverAddress);
+  List<InetAddress> get dnsServers;
+  set dnsServers(List<InetAddress> dnsServers);
+  String? get domains;
+  set domains(String? domains);
+  ProxyInfo? get httpProxy;
+  set httpProxy(ProxyInfo? proxy);
+  String? get interfaceName;
+  set interfaceName(String? iface);
+  List<LinkAddress> get linkAddresses;
+  set linkAddresses(List<LinkAddress> addresses);
+  int get mtu;
+  set mtu(int mtu);
+  IpPrefix? get nat64Prefix;
+  set nat64Prefix(IpPrefix? prefix);
+  String? get privateDnsServerName;
+  List<RouteInfo> get routes;
+  bool get isPrivateDnsActive;
+  bool get isWakeOnLanSupported;
+
   bool addRoute(RouteInfo route);
   void clear();
-  Inet4Address? getDhcpServerAddress();
-  List<InetAddress> getDnsServers();
-  String? getDomains();
-  ProxyInfo? getHttpProxy();
-  String? getInterfaceName();
-  List<LinkAddress> getLinkAddresses();
-  int getMtu();
-  IpPrefix? getNat64Prefix();
-  String? getPrivateDnsServerName();
-  List<RouteInfo> getRoutes();
-  bool isPrivateDnsActive();
-  bool isWakeOnLanSupported();
-  void setDhcpServerAddress(Inet4Address? serverAddress);
-  void setDnsServers(List<InetAddress> dnsServers);
-  void setDomains(String? domains);
-  void setHttpProxy(ProxyInfo? proxy);
-  void setInterfaceName(String? iface);
-  void setLinkAddresses(List<LinkAddress> addresses);
-  void setMtu(int mtu);
-  void setNat64Prefix(IpPrefix? prefix);
 }
 
 abstract base class LinkAddress {
   LinkAddress.impl();
 
-  InetAddress getAddress();
-  int getFlags();
-  int getPrefixLength();
-  int getScope();
+  InetAddress get address;
+  int get flags;
+  int get prefixLength;
+  int get scope;
 }
 
 abstract base class IpPrefix {
   IpPrefix.impl();
 
+  InetAddress get address;
+  int get prefixLength;
+  Uint8List get rawAddress;
+
   bool contains(InetAddress address);
-  InetAddress getAddress();
-  int getPrefixLength();
-  Uint8List getRawAddress();
 }
 
 abstract base class SocketKeepalive {
@@ -316,15 +366,69 @@ abstract base class TransportInfo {
   TransportInfo.impl();
 }
 
+abstract base class WifiInfo extends TransportInfo {
+  static NetworkInfoDetailedState getDetailedStateOf(
+    SupplicantState suppState,
+  ) => WifiInfoImpl.getDetailedStateOf(suppState);
+
+  WifiInfo.impl() : super.impl();
+
+  List<MloLink> get affiliatedMloLinks;
+  MacAddress? get apMldMacAddress;
+  int get apMloLinkId;
+  int get applicableRedactions;
+  List<MloLink> get associatedMloLinks;
+  String get bssid;
+  WifiInfoSecurityType get currentSecurityType;
+  int get frequency;
+  bool get hiddenSSID;
+  List<ScanResultInformationElement>? get informationElements;
+  int get ipAddress;
+  int get linkSpeed;
+  String get macAddress;
+  int get maxSupportedRxLinkSpeedMbps;
+  int get maxSupportedTxLinkSpeedMbps;
+  int get networkId;
+  String? get passpointFqdn;
+  String? get passpointProviderFriendlyName;
+  String? get passpointUniqueId;
+  int get rssi;
+  int get rxLinkSpeedMbps;
+  String get ssid;
+  int get subscriptionId;
+  SupplicantState get supplicantState;
+  int get txLinkSpeedMbps;
+  int get wifiStandard;
+  bool get isRestricted;
+  WifiInfo makeCopy(int redactions);
+}
+
+abstract base class MacAddress {
+  MacAddress.impl();
+}
+
+abstract base class MloLink {
+  MloLink.impl();
+}
+
+abstract base class ScanResultInformationElement {
+  ScanResultInformationElement.impl();
+}
+
+abstract base class WifiAwareNetworkInfo extends TransportInfo {
+  WifiAwareNetworkInfo.impl() : super.impl();
+}
+
 abstract base class RouteInfo {
   RouteInfo.impl();
 
-  IpPrefix getDestination();
-  InetAddress? getGateway();
-  String? getInterface();
-  RouteType getType();
+  IpPrefix get destination;
+  InetAddress? get gateway;
+  String? get interface;
+  RouteInfoRTN get type;
+  bool get isDefaultRoute;
+
   bool hasGateway();
-  bool isDefaultRoute();
   bool matches(InetAddress destination);
 }
 
@@ -342,53 +446,62 @@ abstract base class FileDescriptor {
 }
 
 abstract base class InetAddress {
-  static List<InetAddress> getAllByName(String? host) =>
+  static List<InetAddress> getAll(String? host) =>
       InetAddressImpl.getAllByName(host);
-  static InetAddress getByAddress1(Uint8List addr) =>
-      InetAddressImpl.getByAddress1(addr);
-  static InetAddress getByAddress2(String? host, Uint8List addr) =>
-      InetAddressImpl.getByAddress2(host, addr);
-  static InetAddress getByName(String? host) => InetAddressImpl.getByName(host);
-  static InetAddress getLocalHost() => InetAddressImpl.getLocalHost();
-  static InetAddress getLoopbackAddress() =>
-      InetAddressImpl.getLoopbackAddress();
+
+  factory InetAddress.byName(String? host) => InetAddressImpl.getByName(host);
+
+  factory InetAddress.byAddress(Uint8List addr) =>
+      InetAddressImpl.getByAddress(addr);
+
+  factory InetAddress.byNameAddress(String? host, Uint8List addr) =>
+      InetAddressImpl.getByNameAddress(host, addr);
+
+  factory InetAddress.local() => InetAddressImpl.getLocalHost();
+
+  factory InetAddress.loopback() => InetAddressImpl.getLoopbackAddress();
 
   InetAddress.impl();
 
-  Uint8List getAddress();
-  String getCanonicalHostName();
-  String? getHostAddress();
-  String getHostName();
-  bool isAnyLocalAddress();
-  bool isLinkLocalAddress();
-  bool isLoopbackAddress();
-  bool isMcGlobal();
-  bool isMcLinkLocal();
-  bool isMcNodeLocal();
-  bool isMcOrgLocal();
-  bool isMcSiteLocal();
-  bool isMulticastAddress();
-  bool isReachable1(int timeout);
-  bool isReachable2(NetworkInterface? netif, int ttl, int timetout);
-  bool isSiteLocalAddress();
+  Uint8List get address;
+  String get canonicalHostName;
+  String? get hostAddress;
+  String get hostName;
+  bool get isAnyLocalAddress;
+  bool get isLinkLocalAddress;
+  bool get isLoopbackAddress;
+  bool get isMCGlobal;
+  bool get isMCLinkLocal;
+  bool get isMCNodeLocal;
+  bool get isMCOrgLocal;
+  bool get isMCSiteLocal;
+  bool get isMulticastAddress;
+  bool get isSiteLocalAddress;
+
+  bool isReachable(int timeout);
+  bool isReachableWithNetwork(NetworkInterface? netif, int ttl, int timetout);
 }
 
-abstract base class Inet4Address implements InetAddress {
-  Inet4Address.impl();
+abstract base class Inet4Address extends InetAddress {
+  Inet4Address.impl() : super.impl();
 }
 
-abstract base class Inet6Address implements InetAddress {
-  static Inet6Address getByAddress3(
+abstract base class Inet6Address extends InetAddress {
+  factory Inet6Address.byNameAddressNetwork(
     String host,
     Uint8List addr,
     NetworkInterface nif,
-  ) => Inet6AddressImpl.getByAddress3(host, addr, nif);
-  static Inet6Address getByAddress4(String host, Uint8List addr, int scopeId) =>
-      Inet6AddressImpl.getByAddress4(host, addr, scopeId);
+  ) => Inet6AddressImpl.getByNameAddressNetwork(host, addr, nif);
 
-  Inet6Address.impl();
+  factory Inet6Address.byNameAddressScopeId(
+    String host,
+    Uint8List addr,
+    int scopeId,
+  ) => Inet6AddressImpl.getByNameAddressScopeId(host, addr, scopeId);
 
-  bool isIPv4CompatibleAddress();
+  Inet6Address.impl() : super.impl();
+
+  bool get isIPv4CompatibleAddress;
 }
 
 abstract base class InetSocketAddress {

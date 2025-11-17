@@ -1,5 +1,3 @@
-// ignore_for_file: unused_element
-
 import 'dart:typed_data';
 
 import 'connectivity_manager.dart';
@@ -9,7 +7,7 @@ final class ConnectivityManagerImpl extends ConnectivityManager {
   static Network? getProcessDefaultNetwork() =>
       jni.ConnectivityManager.getProcessDefaultNetwork()?.impl;
 
-  static bool isNetworkTypeValid(NetworkType networkType) =>
+  static bool isNetworkTypeValid(ConnectivityManagerType networkType) =>
       jni.ConnectivityManager.isNetworkTypeValid(networkType.api);
 
   static bool setProcessDefaultNetwork(Network network) =>
@@ -28,6 +26,51 @@ final class ConnectivityManagerImpl extends ConnectivityManager {
     final api = ArgumentError.checkNotNull(apiOrNull, 'api');
     return ConnectivityManagerImpl.internal(api);
   }
+
+  @override
+  Network? get activeNetwork => api.getActiveNetwork()?.impl;
+
+  @override
+  NetworkInfo? get activeNetworkInfo => api.getActiveNetworkInfo()?.impl;
+
+  @override
+  List<NetworkInfo> get allNetworkInfo =>
+      api.getAllNetworkInfo().nonNulls.map((e) => e.impl).toList();
+
+  @override
+  List<Network> get allNetworks =>
+      api.getAllNetworks().nonNulls.map((e) => e.impl).toList();
+
+  @override
+  bool get backgroundDataSetting => api.getBackgroundDataSetting();
+
+  @override
+  Network? get boundNetworkForProcess => api.getBoundNetworkForProcess()?.impl;
+
+  @override
+  ProxyInfo? get defaultProxy => api.getDefaultProxy()?.impl;
+
+  @override
+  int get networkPreference => api.getNetworkPreference();
+
+  @override
+  set networkPreference(int preference) => api.setNetworkPreference(preference);
+
+  @override
+  Uint8List? get networkWatchlistConfigHash =>
+      api.getNetworkWatchlistConfigHash()?.impl;
+
+  @override
+  ConnectivityManagerRestrictBackgroundStatus get restrictBackgroundStatus =>
+      api
+          .getRestrictBackgroundStatus()
+          .connectivityManagerRestrictBackgroundStatusImpl;
+
+  @override
+  bool get isActiveNetworkMetered => api.isActiveNetworkMetered();
+
+  @override
+  bool get isDefaultNetworkActive => api.isDefaultNetworkActive();
 
   @override
   void addDefaultNetworkActiveListener(
@@ -57,34 +100,11 @@ final class ConnectivityManagerImpl extends ConnectivityManager {
       .impl;
 
   @override
-  Network? getActiveNetwork() => api.getActiveNetwork()?.impl;
-
-  @override
-  NetworkInfo? getActiveNetworkInfo() => api.getActiveNetworkInfo()?.impl;
-
-  @override
-  List<NetworkInfo> getAllNetworkInfo() =>
-      api.getAllNetworkInfo().map((e) => e!.impl).toList();
-
-  @override
-  List<Network> getAllNetworks() =>
-      api.getAllNetworks().map((e) => e!.impl).toList();
-
-  @override
-  bool getBackgroundDataSetting() => api.getBackgroundDataSetting();
-
-  @override
-  Network? getBoundNetworkForProcess() => api.getBoundNetworkForProcess()?.impl;
-
-  @override
   int getConnectionOwnerUid(
     int protocol,
     InetSocketAddress local,
     InetSocketAddress remote,
   ) => api.getConnectionOwnerUid(protocol, local.api, remote.api);
-
-  @override
-  ProxyInfo? getDefaultProxy() => api.getDefaultProxy()?.impl;
 
   @override
   LinkProperties? getLinkProperties(Network network) =>
@@ -99,29 +119,12 @@ final class ConnectivityManagerImpl extends ConnectivityManager {
       api.getNetworkCapabilities(network.api)?.impl;
 
   @override
-  NetworkInfo? getNetworkInfo1(NetworkType networkType) =>
+  NetworkInfo? getNetworkInfoOfType(ConnectivityManagerType networkType) =>
       api.getNetworkInfo$1(networkType.api)?.impl;
 
   @override
-  NetworkInfo? getNetworkInfo2(Network network) =>
+  NetworkInfo? getNetworkInfoOfNetwork(Network network) =>
       api.getNetworkInfo(network.api)?.impl;
-
-  @override
-  int getNetworkPreference() => api.getNetworkPreference();
-
-  @override
-  Uint8List? getNetworkWatchlistConfigHash() =>
-      api.getNetworkWatchlistConfigHash()?.impl;
-
-  @override
-  RestrictBackgroundStatus getRestrictBackgroundStatus() =>
-      api.getRestrictBackgroundStatus().restrictBackgroundStatusImpl;
-
-  @override
-  bool isActiveNetworkMetered() => api.isActiveNetworkMetered();
-
-  @override
-  bool isDefaultNetworkActive() => api.isDefaultNetworkActive();
 
   @override
   void registerBestMatchingNetworkCallback(
@@ -142,7 +145,7 @@ final class ConnectivityManagerImpl extends ConnectivityManager {
   void registerNetworkCallback(
     NetworkRequest request,
     ConnectivityManagerNetworkCallback networkCallback,
-  ) => api.registerNetworkCallback(request.api, networkCallback.api);
+  ) => api.registerNetworkCallback$1(request.api, networkCallback.api);
 
   @override
   void removeDefaultNetworkActiveListener(
@@ -180,13 +183,9 @@ final class ConnectivityManagerImpl extends ConnectivityManager {
   );
 
   @override
-  void setNetworkPreference(int preference) =>
-      api.setNetworkPreference(preference);
-
-  @override
   void unregisterNetworkCallback(
     ConnectivityManagerNetworkCallback networkCallback,
-  ) => api.unregisterNetworkCallback(networkCallback.api);
+  ) => api.unregisterNetworkCallback$1(networkCallback.api);
 }
 
 final class ConnectivityManagerNetworkCallbackImpl
@@ -253,34 +252,35 @@ final class ConnectivityManagerOnNetworkActiveListenerImpl
 }
 
 final class NetworkImpl extends Network {
+  static Network fromNetworkHandle(int networkHandle) =>
+      jni.Network.fromNetworkHandle(networkHandle)!.impl;
+
   final jni.Network api;
 
   NetworkImpl.internal(this.api) : super.impl();
 
-  static Network fromNetworkHandle(int networkHandle) =>
-      jni.Network.fromNetworkHandle(networkHandle)!.impl;
+  @override
+  int get networkHandle => api.getNetworkHandle();
 
   @override
-  void bindSocket1(Socket socket) => api.bindSocket$2(socket.api);
+  SocketFactory get socketFactory => api.getSocketFactory()!.impl;
 
   @override
-  void bindSocket2(DatagramSocket socket) => api.bindSocket$1(socket.api);
+  void bindSocket(Socket socket) => api.bindSocket$2(socket.api);
 
   @override
-  void bindSocket3(FileDescriptor fd) => api.bindSocket(fd.api);
+  void bindDatagramSocket(DatagramSocket socket) =>
+      api.bindSocket$1(socket.api);
+
+  @override
+  void bindFileDescriptor(FileDescriptor fd) => api.bindSocket(fd.api);
 
   @override
   List<InetAddress> getAllByName(String host) =>
-      api.getAllByName(host.api)!.map((e) => e!.impl).toList();
+      api.getAllByName(host.api)!.nonNulls.map((e) => e.impl).toList();
 
   @override
   InetAddress getByName(String host) => api.getByName(host.api)!.impl;
-
-  @override
-  int getNetworkHandle() => api.getNetworkHandle();
-
-  @override
-  SocketFactory getSocketFactory() => api.getSocketFactory()!.impl;
 
   @override
   UrlConnection openConnection(Url url, [Proxy? proxy]) => proxy == null
@@ -294,14 +294,20 @@ final class NetworkInfoImpl extends NetworkInfo {
   NetworkInfoImpl.internal(this.api) : super.impl();
 }
 
+final class NetworkInfoDetailedStateImpl extends NetworkInfoDetailedState {
+  final jni.NetworkInfo$DetailedState api;
+
+  NetworkInfoDetailedStateImpl.internal(this.api) : super.impl();
+}
+
 final class NetworkRequestImpl extends NetworkRequest {
   final jni.NetworkRequest api;
 
   NetworkRequestImpl.internal(this.api) : super.impl();
 
   factory NetworkRequestImpl({
-    List<NetworkCapability>? capabilities,
-    List<TransportType>? transportTypes,
+    List<NetworkCapabilitiesNetCapability>? capabilities,
+    List<NetworkCapabilitiesTransport>? transportTypes,
     bool? includeOtherUidNetworks,
     NetworkSpecifier? networkSpecifier,
     Set<int>? subIds,
@@ -333,29 +339,30 @@ final class NetworkRequestImpl extends NetworkRequest {
   }
 
   @override
+  List<NetworkCapabilitiesNetCapability> get capabilities => api
+      .getCapabilities()
+      .map((e) => e.networkCapabilitiesNetCapabilityImpl)
+      .toList();
+  @override
+  NetworkSpecifier? get networkSpecifier => api.getNetworkSpecifier()?.impl;
+  @override
+  Set<int> get subscriptionIds =>
+      api.getSubscriptionIds().nonNulls.map((e) => e.impl).toSet();
+  @override
+  List<NetworkCapabilitiesTransport> get transportTypes => api
+      .getTransportTypes()
+      .map((e) => e.networkCapabilitiesTransportImpl)
+      .toList();
+
+  @override
   bool canBeSatisfiedBy(NetworkCapabilities nc) => api.canBeSatisfiedBy(nc.api);
 
   @override
-  List<NetworkCapability> getCapabilities() =>
-      api.getCapabilities().map((e) => e.networkCapabilityImpl).toList();
-
-  @override
-  NetworkSpecifier? getNetworkSpecifier() => api.getNetworkSpecifier()?.impl;
-
-  @override
-  Set<int> getSubscriptionIds() =>
-      api.getSubscriptionIds().map((e) => e!.impl).toSet();
-
-  @override
-  List<TransportType> getTransportTypes() =>
-      api.getTransportTypes().map((e) => e.transportTypeImpl).toList();
-
-  @override
-  bool hasCapability(NetworkCapability capability) =>
+  bool hasCapability(NetworkCapabilitiesNetCapability capability) =>
       api.hasCapability(capability.api);
 
   @override
-  bool hasTransport(TransportType transportType) =>
+  bool hasTransport(NetworkCapabilitiesTransport transportType) =>
       api.hasTransport(transportType.api);
 }
 
@@ -365,43 +372,45 @@ final class NetworkCapabilitiesImpl extends NetworkCapabilities {
   NetworkCapabilitiesImpl.internal(this.api) : super.impl();
 
   @override
-  List<NetworkCapability> getCapabilities() =>
-      api.getCapabilities().map((e) => e.networkCapabilityImpl).toList();
+  List<NetworkCapabilitiesNetCapability> get capabilities => api
+      .getCapabilities()
+      .map((e) => e.networkCapabilitiesNetCapabilityImpl)
+      .toList();
 
   @override
-  List<int> getEnterpriseIds() => api.getEnterpriseIds().toList();
+  List<int> get enterpriseIds => api.getEnterpriseIds().toList();
 
   @override
-  int getLinkDownstreamBandwidthKbps() => api.getLinkDownstreamBandwidthKbps();
+  int get linkDownstreamBandwidthKbps => api.getLinkDownstreamBandwidthKbps();
 
   @override
-  int getLinkUpstreamBandwidthKbps() => api.getLinkUpstreamBandwidthKbps();
+  int get linkUpstreamBandwidthKbps => api.getLinkUpstreamBandwidthKbps();
 
   @override
-  NetworkSpecifier? getNetworkSpecifier() => api.getNetworkSpecifier()?.impl;
+  NetworkSpecifier? get networkSpecifier => api.getNetworkSpecifier()?.impl;
 
   @override
-  int getOwnerUid() => api.getOwnerUid();
+  int get ownerUid => api.getOwnerUid();
 
   @override
-  int getSignalStrength() => api.getSignalStrength();
+  int get signalStrength => api.getSignalStrength();
 
   @override
-  Set<int> getSubscriptionIds() =>
-      api.getSubscriptionIds().map((e) => e!.impl).toSet();
+  Set<int> get subscriptionIds =>
+      api.getSubscriptionIds().nonNulls.map((e) => e.impl).toSet();
 
   @override
-  TransportInfo? getTransportInfo() => api.getTransportInfo()?.impl;
+  TransportInfo? get transportInfo => api.getTransportInfo()?.impl;
 
   @override
-  bool hasCapability(NetworkCapability capability) =>
+  bool hasCapability(NetworkCapabilitiesNetCapability capability) =>
       api.hasCapability(capability.api);
 
   @override
   bool hasEnterpriseId(int enterpriseId) => api.hasEnterpriseId(enterpriseId);
 
   @override
-  bool hasTransport(TransportType transportType) =>
+  bool hasTransport(NetworkCapabilitiesTransport transportType) =>
       api.hasTransport(transportType.api);
 }
 
@@ -417,55 +426,16 @@ final class LinkPropertiesImpl extends LinkProperties {
   LinkPropertiesImpl.internal(this.api) : super.impl();
 
   @override
-  bool addRoute(RouteInfo route) => api.addRoute(route.api);
-
+  Inet4Address? get dhcpServerAddress => api.getDhcpServerAddress()?.impl;
   @override
-  void clear() => api.clear();
-
-  @override
-  Inet4Address? getDhcpServerAddress() => api.getDhcpServerAddress()?.impl;
-
-  @override
-  List<InetAddress> getDnsServers() =>
-      api.getDnsServers().map((e) => e!.impl).toList();
-
-  @override
-  String? getDomains() => api.getDomains()?.impl;
-
-  @override
-  ProxyInfo? getHttpProxy() => api.getHttpProxy()?.impl;
-
-  @override
-  String? getInterfaceName() => api.getInterfaceName()?.impl;
-
-  @override
-  List<LinkAddress> getLinkAddresses() =>
-      api.getLinkAddresses().map((e) => e!.impl).toList();
-
-  @override
-  int getMtu() => api.getMtu();
-
-  @override
-  IpPrefix? getNat64Prefix() => api.getNat64Prefix()?.impl;
-
-  @override
-  String? getPrivateDnsServerName() => api.getPrivateDnsServerName()?.impl;
-
-  @override
-  List<RouteInfo> getRoutes() => api.getRoutes().map((e) => e!.impl).toList();
-
-  @override
-  bool isPrivateDnsActive() => api.isPrivateDnsActive();
-
-  @override
-  bool isWakeOnLanSupported() => api.isWakeOnLanSupported();
-
-  @override
-  void setDhcpServerAddress(Inet4Address? serverAddress) =>
+  set dhcpServerAddress(Inet4Address? serverAddress) =>
       api.setDhcpServerAddress(serverAddress?.api);
 
   @override
-  void setDnsServers(List<InetAddress> dnsServers) => api.setDnsServers(
+  List<InetAddress> get dnsServers =>
+      api.getDnsServers().nonNulls.map((e) => e.impl).toList();
+  @override
+  set dnsServers(List<InetAddress> dnsServers) => api.setDnsServers(
     dnsServers
         .map((e) => e.api)
         .toJList(jni.InetAddress.type)
@@ -473,16 +443,25 @@ final class LinkPropertiesImpl extends LinkProperties {
   );
 
   @override
-  void setDomains(String? domains) => api.setDomains(domains?.api);
+  String? get domains => api.getDomains()?.impl;
+  @override
+  set domains(String? domains) => api.setDomains(domains?.api);
 
   @override
-  void setHttpProxy(ProxyInfo? proxy) => api.setHttpProxy(proxy?.api);
+  ProxyInfo? get httpProxy => api.getHttpProxy()?.impl;
+  @override
+  set httpProxy(ProxyInfo? proxy) => api.setHttpProxy(proxy?.api);
 
   @override
-  void setInterfaceName(String? iface) => api.setInterfaceName(iface?.api);
+  String? get interfaceName => api.getInterfaceName()?.impl;
+  @override
+  set interfaceName(String? iface) => api.setInterfaceName(iface?.api);
 
   @override
-  void setLinkAddresses(List<LinkAddress> addresses) => api.setLinkAddresses(
+  List<LinkAddress> get linkAddresses =>
+      api.getLinkAddresses().nonNulls.map((e) => e.impl).toList();
+  @override
+  set linkAddresses(List<LinkAddress> addresses) => api.setLinkAddresses(
     addresses
         .map((e) => e.api)
         .toJList(jni.LinkAddress.type)
@@ -490,10 +469,33 @@ final class LinkPropertiesImpl extends LinkProperties {
   );
 
   @override
-  void setMtu(int mtu) => api.setMtu(mtu);
+  int get mtu => api.getMtu();
+  @override
+  set mtu(int mtu) => api.setMtu(mtu);
 
   @override
-  void setNat64Prefix(IpPrefix? prefix) => api.setNat64Prefix(prefix?.api);
+  IpPrefix? get nat64Prefix => api.getNat64Prefix()?.impl;
+  @override
+  set nat64Prefix(IpPrefix? prefix) => api.setNat64Prefix(prefix?.api);
+
+  @override
+  String? get privateDnsServerName => api.getPrivateDnsServerName()?.impl;
+
+  @override
+  List<RouteInfo> get routes =>
+      api.getRoutes().nonNulls.map((e) => e.impl).toList();
+
+  @override
+  bool get isPrivateDnsActive => api.isPrivateDnsActive();
+
+  @override
+  bool get isWakeOnLanSupported => api.isWakeOnLanSupported();
+
+  @override
+  bool addRoute(RouteInfo route) => api.addRoute(route.api);
+
+  @override
+  void clear() => api.clear();
 }
 
 final class LinkAddressImpl extends LinkAddress {
@@ -502,16 +504,16 @@ final class LinkAddressImpl extends LinkAddress {
   LinkAddressImpl.internal(this.api) : super.impl();
 
   @override
-  InetAddress getAddress() => api.getAddress()!.impl;
+  InetAddress get address => api.getAddress()!.impl;
 
   @override
-  int getFlags() => api.getFlags();
+  int get flags => api.getFlags();
 
   @override
-  int getPrefixLength() => api.getPrefixLength();
+  int get prefixLength => api.getPrefixLength();
 
   @override
-  int getScope() => api.getScope();
+  int get scope => api.getScope();
 }
 
 final class IpPrefixImpl extends IpPrefix {
@@ -520,16 +522,16 @@ final class IpPrefixImpl extends IpPrefix {
   IpPrefixImpl.internal(this.api) : super.impl();
 
   @override
+  InetAddress get address => api.getAddress().impl;
+
+  @override
+  int get prefixLength => api.getPrefixLength();
+
+  @override
+  Uint8List get rawAddress => api.getRawAddress().impl;
+
+  @override
   bool contains(InetAddress address) => api.contains(address.api);
-
-  @override
-  InetAddress getAddress() => api.getAddress().impl;
-
-  @override
-  int getPrefixLength() => api.getPrefixLength();
-
-  @override
-  Uint8List getRawAddress() => api.getRawAddress().impl;
 }
 
 final class SocketKeepaliveImpl extends SocketKeepalive {
@@ -557,10 +559,141 @@ final class ProxyInfoImpl extends ProxyInfo {
   ProxyInfoImpl.internal(this.api) : super.impl();
 }
 
-final class TransportInfoImpl extends TransportInfo {
-  final jni.TransportInfo api;
+base mixin TransportInfoImpl on TransportInfo {
+  // jni.TransportInfo get api;
+  jni.JObject get api;
+}
 
-  TransportInfoImpl.internal(this.api) : super.impl();
+final class WifiInfoImpl extends WifiInfo with TransportInfoImpl {
+  static NetworkInfoDetailedState getDetailedStateOf(
+    SupplicantState suppState,
+  ) => jni.WifiInfo.getDetailedStateOf(suppState.api)!.impl;
+
+  @override
+  final jni.WifiInfo api;
+
+  WifiInfoImpl.internal(this.api) : super.impl();
+
+  @override
+  List<MloLink> get affiliatedMloLinks =>
+      api.getAffiliatedMloLinks().nonNulls.map((e) => e.impl).toList();
+
+  @override
+  MacAddress? get apMldMacAddress => api.getApMldMacAddress()?.impl;
+
+  @override
+  int get apMloLinkId => api.getApMloLinkId();
+
+  @override
+  int get applicableRedactions => api.getApplicableRedactions();
+
+  @override
+  List<MloLink> get associatedMloLinks =>
+      api.getAssociatedMloLinks().nonNulls.map((e) => e.impl).toList();
+
+  @override
+  String get bssid => api.getBSSID()!.impl;
+
+  @override
+  WifiInfoSecurityType get currentSecurityType =>
+      api.getCurrentSecurityType().wifiInfoSecurityTypeImpl;
+
+  @override
+  int get frequency => api.getFrequency();
+
+  @override
+  bool get hiddenSSID => api.getHiddenSSID();
+
+  @override
+  List<ScanResultInformationElement>? get informationElements =>
+      api.getInformationElements()?.nonNulls.map((e) => e.impl).toList();
+
+  @override
+  int get ipAddress => api.getIpAddress();
+
+  @override
+  bool get isRestricted => api.isRestricted();
+
+  @override
+  int get linkSpeed => api.getLinkSpeed();
+
+  @override
+  String get macAddress => api.getMacAddress()!.impl;
+
+  @override
+  WifiInfo makeCopy(int redactions) => api.makeCopy(redactions).impl;
+
+  @override
+  int get maxSupportedRxLinkSpeedMbps => api.getMaxSupportedRxLinkSpeedMbps();
+
+  @override
+  int get maxSupportedTxLinkSpeedMbps => api.getMaxSupportedTxLinkSpeedMbps();
+
+  @override
+  int get networkId => api.getNetworkId();
+
+  @override
+  String? get passpointFqdn => api.getPasspointFqdn()?.impl;
+
+  @override
+  String? get passpointProviderFriendlyName =>
+      api.getPasspointProviderFriendlyName()?.impl;
+
+  @override
+  String? get passpointUniqueId => api.getPasspointUniqueId()?.impl;
+
+  @override
+  int get rssi => api.getRssi();
+
+  @override
+  int get rxLinkSpeedMbps => api.getRxLinkSpeedMbps();
+
+  @override
+  String get ssid => api.getSSID()!.impl;
+
+  @override
+  int get subscriptionId => api.getSubscriptionId();
+
+  @override
+  SupplicantState get supplicantState => api.getSupplicantState()!.impl;
+
+  @override
+  int get txLinkSpeedMbps => api.getTxLinkSpeedMbps();
+
+  @override
+  int get wifiStandard => api.getWifiStandard();
+}
+
+final class MacAddressImpl extends MacAddress {
+  final jni.MacAddress api;
+
+  MacAddressImpl.internal(this.api) : super.impl();
+}
+
+final class MloLinkImpl extends MloLink {
+  final jni.MloLink api;
+
+  MloLinkImpl.internal(this.api) : super.impl();
+}
+
+final class ScanResultInformationElementImpl
+    extends ScanResultInformationElement {
+  final jni.ScanResult$InformationElement api;
+
+  ScanResultInformationElementImpl.internal(this.api) : super.impl();
+}
+
+final class SupplicantStateImpl {
+  static bool isValidState(SupplicantState state) =>
+      jni.SupplicantState.isValidState(state.api);
+}
+
+final class WifiAwareNetworkInfoImpl extends WifiAwareNetworkInfo
+    with TransportInfoImpl {
+  @override
+  final jni.WifiAwareNetworkInfo api;
+
+  WifiAwareNetworkInfoImpl.internal(this.api) : super.impl();
 }
 
 final class RouteInfoImpl extends RouteInfo {
@@ -569,22 +702,22 @@ final class RouteInfoImpl extends RouteInfo {
   RouteInfoImpl.internal(this.api) : super.impl();
 
   @override
-  IpPrefix getDestination() => api.getDestination().impl;
+  IpPrefix get destination => api.getDestination().impl;
 
   @override
-  InetAddress? getGateway() => api.getGateway()?.impl;
+  InetAddress? get gateway => api.getGateway()?.impl;
 
   @override
-  String? getInterface() => api.getInterface()?.impl;
+  String? get interface => api.getInterface()?.impl;
 
   @override
-  RouteType getType() => api.getType().routeTypeImpl;
+  RouteInfoRTN get type => api.getType().routeInfoRTNImpl;
+
+  @override
+  bool get isDefaultRoute => api.isDefaultRoute();
 
   @override
   bool hasGateway() => api.hasGateway();
-
-  @override
-  bool isDefaultRoute() => api.isDefaultRoute();
 
   @override
   bool matches(InetAddress destination) => api.matches(destination.api);
@@ -610,12 +743,14 @@ final class FileDescriptorImpl extends FileDescriptor {
 
 base mixin InetAddressImpl on InetAddress {
   static List<InetAddress> getAllByName(String? host) =>
-      jni.InetAddress.getAllByName(host?.api)!.map((e) => e!.impl).toList();
+      jni.InetAddress.getAllByName(
+        host?.api,
+      )!.nonNulls.map((e) => e.impl).toList();
 
-  static InetAddress getByAddress1(Uint8List addr) =>
+  static InetAddress getByAddress(Uint8List addr) =>
       jni.InetAddress.getByAddress(addr.api)!.impl;
 
-  static InetAddress getByAddress2(String? host, Uint8List addr) =>
+  static InetAddress getByNameAddress(String? host, Uint8List addr) =>
       jni.InetAddress.getByAddress$1(host?.api, addr.api)!.impl;
 
   static InetAddress getByName(String? host) =>
@@ -629,53 +764,53 @@ base mixin InetAddressImpl on InetAddress {
   jni.InetAddress get api;
 
   @override
-  Uint8List getAddress() => api.getAddress()!.impl;
+  Uint8List get address => api.getAddress()!.impl;
 
   @override
-  String getCanonicalHostName() => api.getCanonicalHostName()!.impl;
+  String get canonicalHostName => api.getCanonicalHostName()!.impl;
 
   @override
-  String? getHostAddress() => api.getHostAddress()?.impl;
+  String? get hostAddress => api.getHostAddress()?.impl;
 
   @override
-  String getHostName() => api.getHostName()!.impl;
+  String get hostName => api.getHostName()!.impl;
 
   @override
-  bool isAnyLocalAddress() => api.isAnyLocalAddress();
+  bool get isAnyLocalAddress => api.isAnyLocalAddress();
 
   @override
-  bool isLinkLocalAddress() => api.isLinkLocalAddress();
+  bool get isLinkLocalAddress => api.isLinkLocalAddress();
 
   @override
-  bool isLoopbackAddress() => api.isLoopbackAddress();
+  bool get isLoopbackAddress => api.isLoopbackAddress();
 
   @override
-  bool isMcGlobal() => api.isMCGlobal();
+  bool get isMCGlobal => api.isMCGlobal();
 
   @override
-  bool isMcLinkLocal() => api.isMCLinkLocal();
+  bool get isMCLinkLocal => api.isMCLinkLocal();
 
   @override
-  bool isMcNodeLocal() => api.isMCNodeLocal();
+  bool get isMCNodeLocal => api.isMCNodeLocal();
 
   @override
-  bool isMcOrgLocal() => api.isMCOrgLocal();
+  bool get isMCOrgLocal => api.isMCOrgLocal();
 
   @override
-  bool isMcSiteLocal() => api.isMCSiteLocal();
+  bool get isMCSiteLocal => api.isMCSiteLocal();
 
   @override
-  bool isMulticastAddress() => api.isMulticastAddress();
+  bool get isMulticastAddress => api.isMulticastAddress();
 
   @override
-  bool isReachable1(int timeout) => api.isReachable(timeout);
+  bool get isSiteLocalAddress => api.isSiteLocalAddress();
 
   @override
-  bool isReachable2(NetworkInterface? netif, int ttl, int timetout) =>
+  bool isReachable(int timeout) => api.isReachable(timeout);
+
+  @override
+  bool isReachableWithNetwork(NetworkInterface? netif, int ttl, int timetout) =>
       api.isReachable$1(netif?.api, ttl, timetout);
-
-  @override
-  bool isSiteLocalAddress() => api.isSiteLocalAddress();
 }
 
 final class Inet4AddressImpl extends Inet4Address with InetAddressImpl {
@@ -686,14 +821,17 @@ final class Inet4AddressImpl extends Inet4Address with InetAddressImpl {
 }
 
 final class Inet6AddressImpl extends Inet6Address with InetAddressImpl {
-  static Inet6Address getByAddress3(
+  static Inet6Address getByNameAddressNetwork(
     String host,
     Uint8List addr,
     NetworkInterface nif,
   ) => jni.Inet6Address.getByAddress$3(host.api, addr.api, nif.api)!.impl;
 
-  static Inet6Address getByAddress4(String host, Uint8List addr, int scopeId) =>
-      jni.Inet6Address.getByAddress$2(host.api, addr.api, scopeId)!.impl;
+  static Inet6Address getByNameAddressScopeId(
+    String host,
+    Uint8List addr,
+    int scopeId,
+  ) => jni.Inet6Address.getByAddress$2(host.api, addr.api, scopeId)!.impl;
 
   @override
   final jni.Inet6Address api;
@@ -701,7 +839,7 @@ final class Inet6AddressImpl extends Inet6Address with InetAddressImpl {
   Inet6AddressImpl.internal(this.api) : super.impl();
 
   @override
-  bool isIPv4CompatibleAddress() => api.isIPv4CompatibleAddress();
+  bool get isIPv4CompatibleAddress => api.isIPv4CompatibleAddress();
 }
 
 final class InetSocketAddressImpl extends InetSocketAddress {
@@ -763,152 +901,161 @@ extension on jni.JString {
 extension on int {
   jni.JInteger get api => toJInteger();
 
-  NetworkType get networkTypeImpl {
-    switch (this) {
-      case jni.ConnectivityManager.TYPE_MOBILE:
-        return NetworkType.mobile;
-      case jni.ConnectivityManager.TYPE_WIFI:
-        return NetworkType.wifi;
-      case jni.ConnectivityManager.TYPE_MOBILE_MMS:
-        return NetworkType.mobileMms;
-      case jni.ConnectivityManager.TYPE_MOBILE_SUPL:
-        return NetworkType.mobileSupl;
-      case jni.ConnectivityManager.TYPE_MOBILE_DUN:
-        return NetworkType.mobileDun;
-      case jni.ConnectivityManager.TYPE_MOBILE_HIPRI:
-        return NetworkType.mobileHipri;
-      case jni.ConnectivityManager.TYPE_WIMAX:
-        return NetworkType.wimax;
-      case jni.ConnectivityManager.TYPE_BLUETOOTH:
-        return NetworkType.bluetooth;
-      case jni.ConnectivityManager.TYPE_DUMMY:
-        return NetworkType.dummy;
-      case jni.ConnectivityManager.TYPE_ETHERNET:
-        return NetworkType.ethernet;
-      case jni.ConnectivityManager.TYPE_VPN:
-        return NetworkType.vpn;
-      default:
-        throw UnimplementedError('Unimplemented value: $this');
-    }
-  }
-
-  NetworkCapability get networkCapabilityImpl {
-    switch (this) {
-      case jni.NetworkCapabilities.NET_CAPABILITY_MMS:
-        return NetworkCapability.mms;
-      case jni.NetworkCapabilities.NET_CAPABILITY_SUPL:
-        return NetworkCapability.supl;
-      case jni.NetworkCapabilities.NET_CAPABILITY_DUN:
-        return NetworkCapability.dun;
-      case jni.NetworkCapabilities.NET_CAPABILITY_FOTA:
-        return NetworkCapability.fota;
-      case jni.NetworkCapabilities.NET_CAPABILITY_IMS:
-        return NetworkCapability.ims;
-      case jni.NetworkCapabilities.NET_CAPABILITY_CBS:
-        return NetworkCapability.cbs;
-      case jni.NetworkCapabilities.NET_CAPABILITY_WIFI_P2P:
-        return NetworkCapability.wifiP2p;
-      case jni.NetworkCapabilities.NET_CAPABILITY_IA:
-        return NetworkCapability.ia;
-      case jni.NetworkCapabilities.NET_CAPABILITY_RCS:
-        return NetworkCapability.rcs;
-      case jni.NetworkCapabilities.NET_CAPABILITY_XCAP:
-        return NetworkCapability.xcap;
-      case jni.NetworkCapabilities.NET_CAPABILITY_EIMS:
-        return NetworkCapability.eims;
-      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_METERED:
-        return NetworkCapability.notMetered;
-      case jni.NetworkCapabilities.NET_CAPABILITY_INTERNET:
-        return NetworkCapability.internet;
-      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED:
-        return NetworkCapability.notRestricted;
-      case jni.NetworkCapabilities.NET_CAPABILITY_TRUSTED:
-        return NetworkCapability.trusted;
-      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_VPN:
-        return NetworkCapability.notVpn;
-      case jni.NetworkCapabilities.NET_CAPABILITY_VALIDATED:
-        return NetworkCapability.validated;
-      case jni.NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL:
-        return NetworkCapability.captivePortal;
-      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING:
-        return NetworkCapability.notRoaming;
-      case jni.NetworkCapabilities.NET_CAPABILITY_FOREGROUND:
-        return NetworkCapability.foreground;
-      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_CONGESTED:
-        return NetworkCapability.notCongested;
-      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED:
-        return NetworkCapability.notSuspended;
-      case jni.NetworkCapabilities.NET_CAPABILITY_MCX:
-        return NetworkCapability.mcx;
-      case jni.NetworkCapabilities.NET_CAPABILITY_TEMPORARILY_NOT_METERED:
-        return NetworkCapability.temporarilyNotMetered;
-      case jni.NetworkCapabilities.NET_CAPABILITY_ENTERPRISE:
-        return NetworkCapability.enterprise;
-      case jni.NetworkCapabilities.NET_CAPABILITY_HEAD_UNIT:
-        return NetworkCapability.headUnit;
-      case jni.NetworkCapabilities.NET_CAPABILITY_MMTEL:
-        return NetworkCapability.mmtel;
-      case jni.NetworkCapabilities.NET_CAPABILITY_PRIORITIZE_LATENCY:
-        return NetworkCapability.prioritizeLatency;
-      case jni.NetworkCapabilities.NET_CAPABILITY_PRIORITIZE_BANDWIDTH:
-        return NetworkCapability.prioritizeBandwidth;
-      case jni.NetworkCapabilities.NET_CAPABILITY_LOCAL_NETWORK:
-        return NetworkCapability.localNetwork;
-      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_BANDWIDTH_CONSTRAINED:
-        return NetworkCapability.notBandwidthConstrained;
-      default:
-        throw UnimplementedError('Unimplemented value: $this');
-    }
-  }
-
-  TransportType get transportTypeImpl {
-    switch (this) {
-      case jni.NetworkCapabilities.TRANSPORT_CELLULAR:
-        return TransportType.cellular;
-      case jni.NetworkCapabilities.TRANSPORT_WIFI:
-        return TransportType.wifi;
-      case jni.NetworkCapabilities.TRANSPORT_BLUETOOTH:
-        return TransportType.bluetooth;
-      case jni.NetworkCapabilities.TRANSPORT_ETHERNET:
-        return TransportType.ethernet;
-      case jni.NetworkCapabilities.TRANSPORT_VPN:
-        return TransportType.vpn;
-      case jni.NetworkCapabilities.TRANSPORT_WIFI_AWARE:
-        return TransportType.wifiAware;
-      case jni.NetworkCapabilities.TRANSPORT_LOWPAN:
-        return TransportType.lowpan;
-      case jni.NetworkCapabilities.TRANSPORT_USB:
-        return TransportType.usb;
-      case jni.NetworkCapabilities.TRANSPORT_THREAD:
-        return TransportType.thread;
-      case jni.NetworkCapabilities.TRANSPORT_SATELLITE:
-        return TransportType.satellite;
-      default:
-        throw UnimplementedError('Unimplemented value: $this');
-    }
-  }
-
-  RouteType get routeTypeImpl {
-    switch (this) {
-      case jni.RouteInfo.RTN_UNICAST:
-        return RouteType.rtnUnicast;
-      case jni.RouteInfo.RTN_UNREACHABLE:
-        return RouteType.rtnUnreachable;
-      case jni.RouteInfo.RTN_THROW:
-        return RouteType.rtnThrow;
-      default:
-        throw UnimplementedError('Unimplemented value: $this');
-    }
-  }
-
-  RestrictBackgroundStatus get restrictBackgroundStatusImpl {
+  ConnectivityManagerRestrictBackgroundStatus
+  get connectivityManagerRestrictBackgroundStatusImpl {
     switch (this) {
       case jni.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED:
-        return RestrictBackgroundStatus.disabled;
+        return ConnectivityManagerRestrictBackgroundStatus.disabled;
       case jni.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED:
-        return RestrictBackgroundStatus.whitelisted;
+        return ConnectivityManagerRestrictBackgroundStatus.whitelisted;
       case jni.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED:
-        return RestrictBackgroundStatus.enabled;
+        return ConnectivityManagerRestrictBackgroundStatus.enabled;
+      default:
+        throw UnimplementedError('Unimplemented value: $this');
+    }
+  }
+
+  NetworkCapabilitiesNetCapability get networkCapabilitiesNetCapabilityImpl {
+    switch (this) {
+      case jni.NetworkCapabilities.NET_CAPABILITY_MMS:
+        return NetworkCapabilitiesNetCapability.mms;
+      case jni.NetworkCapabilities.NET_CAPABILITY_SUPL:
+        return NetworkCapabilitiesNetCapability.supl;
+      case jni.NetworkCapabilities.NET_CAPABILITY_DUN:
+        return NetworkCapabilitiesNetCapability.dun;
+      case jni.NetworkCapabilities.NET_CAPABILITY_FOTA:
+        return NetworkCapabilitiesNetCapability.fota;
+      case jni.NetworkCapabilities.NET_CAPABILITY_IMS:
+        return NetworkCapabilitiesNetCapability.ims;
+      case jni.NetworkCapabilities.NET_CAPABILITY_CBS:
+        return NetworkCapabilitiesNetCapability.cbs;
+      case jni.NetworkCapabilities.NET_CAPABILITY_WIFI_P2P:
+        return NetworkCapabilitiesNetCapability.wifiP2p;
+      case jni.NetworkCapabilities.NET_CAPABILITY_IA:
+        return NetworkCapabilitiesNetCapability.ia;
+      case jni.NetworkCapabilities.NET_CAPABILITY_RCS:
+        return NetworkCapabilitiesNetCapability.rcs;
+      case jni.NetworkCapabilities.NET_CAPABILITY_XCAP:
+        return NetworkCapabilitiesNetCapability.xcap;
+      case jni.NetworkCapabilities.NET_CAPABILITY_EIMS:
+        return NetworkCapabilitiesNetCapability.eims;
+      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_METERED:
+        return NetworkCapabilitiesNetCapability.notMetered;
+      case jni.NetworkCapabilities.NET_CAPABILITY_INTERNET:
+        return NetworkCapabilitiesNetCapability.internet;
+      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED:
+        return NetworkCapabilitiesNetCapability.notRestricted;
+      case jni.NetworkCapabilities.NET_CAPABILITY_TRUSTED:
+        return NetworkCapabilitiesNetCapability.trusted;
+      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_VPN:
+        return NetworkCapabilitiesNetCapability.notVpn;
+      case jni.NetworkCapabilities.NET_CAPABILITY_VALIDATED:
+        return NetworkCapabilitiesNetCapability.validated;
+      case jni.NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL:
+        return NetworkCapabilitiesNetCapability.captivePortal;
+      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING:
+        return NetworkCapabilitiesNetCapability.notRoaming;
+      case jni.NetworkCapabilities.NET_CAPABILITY_FOREGROUND:
+        return NetworkCapabilitiesNetCapability.foreground;
+      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_CONGESTED:
+        return NetworkCapabilitiesNetCapability.notCongested;
+      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED:
+        return NetworkCapabilitiesNetCapability.notSuspended;
+      case jni.NetworkCapabilities.NET_CAPABILITY_MCX:
+        return NetworkCapabilitiesNetCapability.mcx;
+      case jni.NetworkCapabilities.NET_CAPABILITY_TEMPORARILY_NOT_METERED:
+        return NetworkCapabilitiesNetCapability.temporarilyNotMetered;
+      case jni.NetworkCapabilities.NET_CAPABILITY_ENTERPRISE:
+        return NetworkCapabilitiesNetCapability.enterprise;
+      case jni.NetworkCapabilities.NET_CAPABILITY_HEAD_UNIT:
+        return NetworkCapabilitiesNetCapability.headUnit;
+      case jni.NetworkCapabilities.NET_CAPABILITY_MMTEL:
+        return NetworkCapabilitiesNetCapability.mmtel;
+      case jni.NetworkCapabilities.NET_CAPABILITY_PRIORITIZE_LATENCY:
+        return NetworkCapabilitiesNetCapability.prioritizeLatency;
+      case jni.NetworkCapabilities.NET_CAPABILITY_PRIORITIZE_BANDWIDTH:
+        return NetworkCapabilitiesNetCapability.prioritizeBandwidth;
+      case jni.NetworkCapabilities.NET_CAPABILITY_LOCAL_NETWORK:
+        return NetworkCapabilitiesNetCapability.localNetwork;
+      case jni.NetworkCapabilities.NET_CAPABILITY_NOT_BANDWIDTH_CONSTRAINED:
+        return NetworkCapabilitiesNetCapability.notBandwidthConstrained;
+      default:
+        throw UnimplementedError('Unimplemented value: $this');
+    }
+  }
+
+  NetworkCapabilitiesTransport get networkCapabilitiesTransportImpl {
+    switch (this) {
+      case jni.NetworkCapabilities.TRANSPORT_CELLULAR:
+        return NetworkCapabilitiesTransport.cellular;
+      case jni.NetworkCapabilities.TRANSPORT_WIFI:
+        return NetworkCapabilitiesTransport.wifi;
+      case jni.NetworkCapabilities.TRANSPORT_BLUETOOTH:
+        return NetworkCapabilitiesTransport.bluetooth;
+      case jni.NetworkCapabilities.TRANSPORT_ETHERNET:
+        return NetworkCapabilitiesTransport.ethernet;
+      case jni.NetworkCapabilities.TRANSPORT_VPN:
+        return NetworkCapabilitiesTransport.vpn;
+      case jni.NetworkCapabilities.TRANSPORT_WIFI_AWARE:
+        return NetworkCapabilitiesTransport.wifiAware;
+      case jni.NetworkCapabilities.TRANSPORT_LOWPAN:
+        return NetworkCapabilitiesTransport.lowpan;
+      case jni.NetworkCapabilities.TRANSPORT_USB:
+        return NetworkCapabilitiesTransport.usb;
+      case jni.NetworkCapabilities.TRANSPORT_THREAD:
+        return NetworkCapabilitiesTransport.thread;
+      case jni.NetworkCapabilities.TRANSPORT_SATELLITE:
+        return NetworkCapabilitiesTransport.satellite;
+      default:
+        throw UnimplementedError('Unimplemented value: $this');
+    }
+  }
+
+  RouteInfoRTN get routeInfoRTNImpl {
+    switch (this) {
+      case jni.RouteInfo.RTN_UNICAST:
+        return RouteInfoRTN.rtnUnicast;
+      case jni.RouteInfo.RTN_UNREACHABLE:
+        return RouteInfoRTN.rtnUnreachable;
+      case jni.RouteInfo.RTN_THROW:
+        return RouteInfoRTN.rtnThrow;
+      default:
+        throw UnimplementedError('Unimplemented value: $this');
+    }
+  }
+
+  WifiInfoSecurityType get wifiInfoSecurityTypeImpl {
+    switch (this) {
+      case jni.WifiInfo.SECURITY_TYPE_UNKNOWN:
+        return WifiInfoSecurityType.unknown;
+      case jni.WifiInfo.SECURITY_TYPE_OPEN:
+        return WifiInfoSecurityType.open;
+      case jni.WifiInfo.SECURITY_TYPE_WEP:
+        return WifiInfoSecurityType.wep;
+      case jni.WifiInfo.SECURITY_TYPE_PSK:
+        return WifiInfoSecurityType.psk;
+      case jni.WifiInfo.SECURITY_TYPE_EAP:
+        return WifiInfoSecurityType.eap;
+      case jni.WifiInfo.SECURITY_TYPE_SAE:
+        return WifiInfoSecurityType.sae;
+      case jni.WifiInfo.SECURITY_TYPE_EAP_WPA3_ENTERPRISE_192_BIT:
+        return WifiInfoSecurityType.eapWpa3Enterprise192Bit;
+      case jni.WifiInfo.SECURITY_TYPE_OWE:
+        return WifiInfoSecurityType.owe;
+      case jni.WifiInfo.SECURITY_TYPE_WAPI_PSK:
+        return WifiInfoSecurityType.wapiPsk;
+      case jni.WifiInfo.SECURITY_TYPE_WAPI_CERT:
+        return WifiInfoSecurityType.wapiCert;
+      case jni.WifiInfo.SECURITY_TYPE_EAP_WPA3_ENTERPRISE:
+        return WifiInfoSecurityType.eapWpa3Enterprise;
+      case jni.WifiInfo.SECURITY_TYPE_OSEN:
+        return WifiInfoSecurityType.osen;
+      case jni.WifiInfo.SECURITY_TYPE_PASSPOINT_R1_R2:
+        return WifiInfoSecurityType.passpointR1R2;
+      case jni.WifiInfo.SECURITY_TYPE_PASSPOINT_R3:
+        return WifiInfoSecurityType.passpointR3;
+      case jni.WifiInfo.SECURITY_TYPE_DPP:
+        return WifiInfoSecurityType.dpp;
       default:
         throw UnimplementedError('Unimplemented value: $this');
     }
@@ -927,167 +1074,207 @@ extension on jni.JByteArray {
   Uint8List get impl => jni.JByteBuffer.wrap(this).asUint8List();
 }
 
-extension on NetworkType {
+extension on ConnectivityManagerType {
   int get api {
     switch (this) {
-      case NetworkType.mobile:
+      case ConnectivityManagerType.mobile:
         return jni.ConnectivityManager.TYPE_MOBILE;
-      case NetworkType.wifi:
+      case ConnectivityManagerType.wifi:
         return jni.ConnectivityManager.TYPE_WIFI;
-      case NetworkType.mobileMms:
+      case ConnectivityManagerType.mobileMms:
         return jni.ConnectivityManager.TYPE_MOBILE_MMS;
-      case NetworkType.mobileSupl:
+      case ConnectivityManagerType.mobileSupl:
         return jni.ConnectivityManager.TYPE_MOBILE_SUPL;
-      case NetworkType.mobileDun:
+      case ConnectivityManagerType.mobileDun:
         return jni.ConnectivityManager.TYPE_MOBILE_DUN;
-      case NetworkType.mobileHipri:
+      case ConnectivityManagerType.mobileHipri:
         return jni.ConnectivityManager.TYPE_MOBILE_HIPRI;
-      case NetworkType.wimax:
+      case ConnectivityManagerType.wimax:
         return jni.ConnectivityManager.TYPE_WIMAX;
-      case NetworkType.bluetooth:
+      case ConnectivityManagerType.bluetooth:
         return jni.ConnectivityManager.TYPE_BLUETOOTH;
-      case NetworkType.dummy:
+      case ConnectivityManagerType.dummy:
         return jni.ConnectivityManager.TYPE_DUMMY;
-      case NetworkType.ethernet:
+      case ConnectivityManagerType.ethernet:
         return jni.ConnectivityManager.TYPE_ETHERNET;
-      case NetworkType.vpn:
+      case ConnectivityManagerType.vpn:
         return jni.ConnectivityManager.TYPE_VPN;
     }
   }
 }
 
-extension on NetworkCapability {
+extension on NetworkCapabilitiesNetCapability {
   int get api {
     switch (this) {
-      case NetworkCapability.mms:
+      case NetworkCapabilitiesNetCapability.mms:
         return jni.NetworkCapabilities.NET_CAPABILITY_MMS;
-      case NetworkCapability.supl:
+      case NetworkCapabilitiesNetCapability.supl:
         return jni.NetworkCapabilities.NET_CAPABILITY_SUPL;
-      case NetworkCapability.dun:
+      case NetworkCapabilitiesNetCapability.dun:
         return jni.NetworkCapabilities.NET_CAPABILITY_DUN;
-      case NetworkCapability.fota:
+      case NetworkCapabilitiesNetCapability.fota:
         return jni.NetworkCapabilities.NET_CAPABILITY_FOTA;
-      case NetworkCapability.ims:
+      case NetworkCapabilitiesNetCapability.ims:
         return jni.NetworkCapabilities.NET_CAPABILITY_IMS;
-      case NetworkCapability.cbs:
+      case NetworkCapabilitiesNetCapability.cbs:
         return jni.NetworkCapabilities.NET_CAPABILITY_CBS;
-      case NetworkCapability.wifiP2p:
+      case NetworkCapabilitiesNetCapability.wifiP2p:
         return jni.NetworkCapabilities.NET_CAPABILITY_WIFI_P2P;
-      case NetworkCapability.ia:
+      case NetworkCapabilitiesNetCapability.ia:
         return jni.NetworkCapabilities.NET_CAPABILITY_IA;
-      case NetworkCapability.rcs:
+      case NetworkCapabilitiesNetCapability.rcs:
         return jni.NetworkCapabilities.NET_CAPABILITY_RCS;
-      case NetworkCapability.xcap:
+      case NetworkCapabilitiesNetCapability.xcap:
         return jni.NetworkCapabilities.NET_CAPABILITY_XCAP;
-      case NetworkCapability.eims:
+      case NetworkCapabilitiesNetCapability.eims:
         return jni.NetworkCapabilities.NET_CAPABILITY_EIMS;
-      case NetworkCapability.notMetered:
+      case NetworkCapabilitiesNetCapability.notMetered:
         return jni.NetworkCapabilities.NET_CAPABILITY_NOT_METERED;
-      case NetworkCapability.internet:
+      case NetworkCapabilitiesNetCapability.internet:
         return jni.NetworkCapabilities.NET_CAPABILITY_INTERNET;
-      case NetworkCapability.notRestricted:
+      case NetworkCapabilitiesNetCapability.notRestricted:
         return jni.NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED;
-      case NetworkCapability.trusted:
+      case NetworkCapabilitiesNetCapability.trusted:
         return jni.NetworkCapabilities.NET_CAPABILITY_TRUSTED;
-      case NetworkCapability.notVpn:
+      case NetworkCapabilitiesNetCapability.notVpn:
         return jni.NetworkCapabilities.NET_CAPABILITY_NOT_VPN;
-      case NetworkCapability.validated:
+      case NetworkCapabilitiesNetCapability.validated:
         return jni.NetworkCapabilities.NET_CAPABILITY_VALIDATED;
-      case NetworkCapability.captivePortal:
+      case NetworkCapabilitiesNetCapability.captivePortal:
         return jni.NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL;
-      case NetworkCapability.notRoaming:
+      case NetworkCapabilitiesNetCapability.notRoaming:
         return jni.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING;
-      case NetworkCapability.foreground:
+      case NetworkCapabilitiesNetCapability.foreground:
         return jni.NetworkCapabilities.NET_CAPABILITY_FOREGROUND;
-      case NetworkCapability.notCongested:
+      case NetworkCapabilitiesNetCapability.notCongested:
         return jni.NetworkCapabilities.NET_CAPABILITY_NOT_CONGESTED;
-      case NetworkCapability.notSuspended:
+      case NetworkCapabilitiesNetCapability.notSuspended:
         return jni.NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED;
-      case NetworkCapability.mcx:
+      case NetworkCapabilitiesNetCapability.mcx:
         return jni.NetworkCapabilities.NET_CAPABILITY_MCX;
-      case NetworkCapability.temporarilyNotMetered:
+      case NetworkCapabilitiesNetCapability.temporarilyNotMetered:
         return jni.NetworkCapabilities.NET_CAPABILITY_TEMPORARILY_NOT_METERED;
-      case NetworkCapability.enterprise:
+      case NetworkCapabilitiesNetCapability.enterprise:
         return jni.NetworkCapabilities.NET_CAPABILITY_ENTERPRISE;
-      case NetworkCapability.headUnit:
+      case NetworkCapabilitiesNetCapability.headUnit:
         return jni.NetworkCapabilities.NET_CAPABILITY_HEAD_UNIT;
-      case NetworkCapability.mmtel:
+      case NetworkCapabilitiesNetCapability.mmtel:
         return jni.NetworkCapabilities.NET_CAPABILITY_MMTEL;
-      case NetworkCapability.prioritizeLatency:
+      case NetworkCapabilitiesNetCapability.prioritizeLatency:
         return jni.NetworkCapabilities.NET_CAPABILITY_PRIORITIZE_LATENCY;
-      case NetworkCapability.prioritizeBandwidth:
+      case NetworkCapabilitiesNetCapability.prioritizeBandwidth:
         return jni.NetworkCapabilities.NET_CAPABILITY_PRIORITIZE_BANDWIDTH;
-      case NetworkCapability.localNetwork:
+      case NetworkCapabilitiesNetCapability.localNetwork:
         return jni.NetworkCapabilities.NET_CAPABILITY_LOCAL_NETWORK;
-      case NetworkCapability.notBandwidthConstrained:
+      case NetworkCapabilitiesNetCapability.notBandwidthConstrained:
         return jni.NetworkCapabilities.NET_CAPABILITY_NOT_BANDWIDTH_CONSTRAINED;
     }
   }
 }
 
-extension on TransportType {
+extension on NetworkCapabilitiesTransport {
   int get api {
     switch (this) {
-      case TransportType.cellular:
+      case NetworkCapabilitiesTransport.cellular:
         return jni.NetworkCapabilities.TRANSPORT_CELLULAR;
-      case TransportType.wifi:
+      case NetworkCapabilitiesTransport.wifi:
         return jni.NetworkCapabilities.TRANSPORT_WIFI;
-      case TransportType.bluetooth:
+      case NetworkCapabilitiesTransport.bluetooth:
         return jni.NetworkCapabilities.TRANSPORT_BLUETOOTH;
-      case TransportType.ethernet:
+      case NetworkCapabilitiesTransport.ethernet:
         return jni.NetworkCapabilities.TRANSPORT_ETHERNET;
-      case TransportType.vpn:
+      case NetworkCapabilitiesTransport.vpn:
         return jni.NetworkCapabilities.TRANSPORT_VPN;
-      case TransportType.wifiAware:
+      case NetworkCapabilitiesTransport.wifiAware:
         return jni.NetworkCapabilities.TRANSPORT_WIFI_AWARE;
-      case TransportType.lowpan:
+      case NetworkCapabilitiesTransport.lowpan:
         return jni.NetworkCapabilities.TRANSPORT_LOWPAN;
-      case TransportType.usb:
+      case NetworkCapabilitiesTransport.usb:
         return jni.NetworkCapabilities.TRANSPORT_USB;
-      case TransportType.thread:
+      case NetworkCapabilitiesTransport.thread:
         return jni.NetworkCapabilities.TRANSPORT_THREAD;
-      case TransportType.satellite:
+      case NetworkCapabilitiesTransport.satellite:
         return jni.NetworkCapabilities.TRANSPORT_SATELLITE;
     }
   }
 }
 
-extension on RouteType {
-  int get api {
+extension on SupplicantState {
+  jni.SupplicantState get api {
     switch (this) {
-      case RouteType.rtnUnicast:
-        return jni.RouteInfo.RTN_UNICAST;
-      case RouteType.rtnUnreachable:
-        return jni.RouteInfo.RTN_UNREACHABLE;
-      case RouteType.rtnThrow:
-        return jni.RouteInfo.RTN_THROW;
+      case SupplicantState.associated:
+        return jni.SupplicantState.ASSOCIATED;
+      case SupplicantState.associating:
+        return jni.SupplicantState.ASSOCIATING;
+      case SupplicantState.authenticating:
+        return jni.SupplicantState.AUTHENTICATING;
+      case SupplicantState.completed:
+        return jni.SupplicantState.COMPLETED;
+      case SupplicantState.disconnected:
+        return jni.SupplicantState.DISCONNECTED;
+      case SupplicantState.dormant:
+        return jni.SupplicantState.DORMANT;
+      case SupplicantState.fourWayHandshake:
+        return jni.SupplicantState.FOUR_WAY_HANDSHAKE;
+      case SupplicantState.groupHandshake:
+        return jni.SupplicantState.GROUP_HANDSHAKE;
+      case SupplicantState.inactive:
+        return jni.SupplicantState.INACTIVE;
+      case SupplicantState.interfaceDisabled:
+        return jni.SupplicantState.INTERFACE_DISABLED;
+      case SupplicantState.invalid:
+        return jni.SupplicantState.INVALID;
+      case SupplicantState.scanning:
+        return jni.SupplicantState.SCANNING;
+      case SupplicantState.uninitialized:
+        return jni.SupplicantState.UNINITIALIZED;
     }
   }
 }
 
-extension on RestrictBackgroundStatus {
-  int get api {
-    switch (this) {
-      case RestrictBackgroundStatus.disabled:
-        return jni.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED;
-      case RestrictBackgroundStatus.whitelisted:
-        return jni.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED;
-      case RestrictBackgroundStatus.enabled:
-        return jni.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
+extension on jni.SupplicantState {
+  SupplicantState get impl {
+    if (this == jni.SupplicantState.ASSOCIATED) {
+      return SupplicantState.associated;
     }
+    if (this == jni.SupplicantState.ASSOCIATING) {
+      return SupplicantState.associating;
+    }
+    if (this == jni.SupplicantState.AUTHENTICATING) {
+      return SupplicantState.authenticating;
+    }
+    if (this == jni.SupplicantState.COMPLETED) {
+      return SupplicantState.completed;
+    }
+    if (this == jni.SupplicantState.DISCONNECTED) {
+      return SupplicantState.disconnected;
+    }
+    if (this == jni.SupplicantState.DORMANT) {
+      return SupplicantState.dormant;
+    }
+    if (this == jni.SupplicantState.FOUR_WAY_HANDSHAKE) {
+      return SupplicantState.fourWayHandshake;
+    }
+    if (this == jni.SupplicantState.GROUP_HANDSHAKE) {
+      return SupplicantState.groupHandshake;
+    }
+    if (this == jni.SupplicantState.INACTIVE) {
+      return SupplicantState.inactive;
+    }
+    if (this == jni.SupplicantState.INTERFACE_DISABLED) {
+      return SupplicantState.interfaceDisabled;
+    }
+    if (this == jni.SupplicantState.INVALID) {
+      return SupplicantState.invalid;
+    }
+    if (this == jni.SupplicantState.SCANNING) {
+      return SupplicantState.scanning;
+    }
+    if (this == jni.SupplicantState.UNINITIALIZED) {
+      return SupplicantState.uninitialized;
+    }
+    throw UnimplementedError('Unimplemented value: $this');
   }
-}
-
-extension on ConnectivityManager {
-  jni.ConnectivityManager get api {
-    final impl = this;
-    if (impl is! ConnectivityManagerImpl) throw TypeError();
-    return impl.api;
-  }
-}
-
-extension on jni.ConnectivityManager {
-  ConnectivityManager get impl => ConnectivityManagerImpl.internal(this);
 }
 
 extension on ConnectivityManagerNetworkCallback {
@@ -1098,11 +1285,6 @@ extension on ConnectivityManagerNetworkCallback {
   }
 }
 
-extension on jni.ConnectivityManager$NetworkCallback {
-  ConnectivityManagerNetworkCallback get impl =>
-      ConnectivityManagerNetworkCallbackImpl.internal(this);
-}
-
 extension on ConnectivityManagerOnNetworkActiveListener {
   jni.ConnectivityManager$OnNetworkActiveListener get api {
     final impl = this;
@@ -1111,11 +1293,6 @@ extension on ConnectivityManagerOnNetworkActiveListener {
     }
     return impl.api;
   }
-}
-
-extension on jni.ConnectivityManager$OnNetworkActiveListener {
-  ConnectivityManagerOnNetworkActiveListener get impl =>
-      ConnectivityManagerOnNetworkActiveListenerImpl.internal(this);
 }
 
 extension on Network {
@@ -1130,16 +1307,13 @@ extension on jni.Network {
   Network get impl => NetworkImpl.internal(this);
 }
 
-extension on NetworkInfo {
-  jni.NetworkInfo get api {
-    final impl = this;
-    if (impl is! NetworkInfoImpl) throw TypeError();
-    return impl.api;
-  }
-}
-
 extension on jni.NetworkInfo {
   NetworkInfo get impl => NetworkInfoImpl.internal(this);
+}
+
+extension on jni.NetworkInfo$DetailedState {
+  NetworkInfoDetailedState get impl =>
+      NetworkInfoDetailedStateImpl.internal(this);
 }
 
 extension on NetworkRequest {
@@ -1148,10 +1322,6 @@ extension on NetworkRequest {
     if (impl is! NetworkRequestImpl) throw TypeError();
     return impl.api;
   }
-}
-
-extension on jni.NetworkRequest {
-  NetworkRequest get impl => NetworkRequestImpl.internal(this);
 }
 
 extension on NetworkCapabilities {
@@ -1176,14 +1346,6 @@ extension on NetworkSpecifier {
 
 extension on jni.NetworkSpecifier {
   NetworkSpecifier get impl => NetworkSpecifierImpl.internal(this);
-}
-
-extension on LinkProperties {
-  jni.LinkProperties get api {
-    final impl = this;
-    if (impl is! LinkPropertiesImpl) throw TypeError();
-    return impl.api;
-  }
 }
 
 extension on jni.LinkProperties {
@@ -1214,14 +1376,6 @@ extension on jni.IpPrefix {
   IpPrefix get impl => IpPrefixImpl.internal(this);
 }
 
-extension on SocketKeepalive {
-  jni.SocketKeepalive get api {
-    final impl = this;
-    if (impl is! SocketKeepaliveImpl) throw TypeError();
-    return impl.api;
-  }
-}
-
 extension on jni.SocketKeepalive {
   SocketKeepalive get impl => SocketKeepaliveImpl.internal(this);
 }
@@ -1234,22 +1388,12 @@ extension on SocketKeepaliveCallback {
   }
 }
 
-extension on jni.SocketKeepalive$Callback {
-  SocketKeepaliveCallback get impl =>
-      SocketKeepaliveCallbackImpl.internal(this);
-}
-
 extension on IpSecManagerUdpEncapsulationSocket {
   jni.IpSecManager$UdpEncapsulationSocket get api {
     final impl = this;
     if (impl is! IpSecManagerUdpEncapsulationSocketImpl) throw TypeError();
     return impl.api;
   }
-}
-
-extension on jni.IpSecManager$UdpEncapsulationSocket {
-  IpSecManagerUdpEncapsulationSocket get impl =>
-      IpSecManagerUdpEncapsulationSocketImpl.internal(this);
 }
 
 extension on ProxyInfo {
@@ -1264,16 +1408,40 @@ extension on jni.ProxyInfo {
   ProxyInfo get impl => ProxyInfoImpl.internal(this);
 }
 
-extension on TransportInfo {
-  jni.TransportInfo get api {
-    final impl = this;
-    if (impl is! TransportInfoImpl) throw TypeError();
-    return impl.api;
+extension on jni.TransportInfo {
+  TransportInfo get impl {
+    final api = this;
+    final isWifi = api.isInstanceOf(jni.WifiInfo.type.jClass);
+    if (isWifi) {
+      final apiWifi = api.as(jni.WifiInfo.type);
+      return WifiInfoImpl.internal(apiWifi);
+    }
+    final isWifiAwareNetwork = api.isInstanceOf(
+      jni.WifiAwareNetworkInfo.type.jClass,
+    );
+    if (isWifiAwareNetwork) {
+      final apiWifiAwareNetwork = api.as(jni.WifiAwareNetworkInfo.type);
+      return WifiAwareNetworkInfoImpl.internal(apiWifiAwareNetwork);
+    }
+    throw TypeError();
   }
 }
 
-extension on jni.TransportInfo {
-  TransportInfo get impl => TransportInfoImpl.internal(this);
+extension on jni.WifiInfo {
+  WifiInfo get impl => WifiInfoImpl.internal(this);
+}
+
+extension on jni.MacAddress {
+  MacAddress get impl => MacAddressImpl.internal(this);
+}
+
+extension on jni.MloLink {
+  MloLink get impl => MloLinkImpl.internal(this);
+}
+
+extension on jni.ScanResult$InformationElement {
+  ScanResultInformationElement get impl =>
+      ScanResultInformationElementImpl.internal(this);
 }
 
 extension on RouteInfo {
@@ -1288,28 +1456,12 @@ extension on jni.RouteInfo {
   RouteInfo get impl => RouteInfoImpl.internal(this);
 }
 
-extension on InetAddresses {
-  jni.InetAddresses get api {
-    final impl = this;
-    if (impl is! InetAddressesImpl) throw TypeError();
-    return impl.api;
-  }
-}
-
-extension on jni.InetAddresses {
-  InetAddresses get impl => InetAddressesImpl.internal(this);
-}
-
 extension on FileDescriptor {
   jni.FileDescriptor get api {
     final impl = this;
     if (impl is! FileDescriptorImpl) throw TypeError();
     return impl.api;
   }
-}
-
-extension on jni.FileDescriptor {
-  FileDescriptor get impl => FileDescriptorImpl.internal(this);
 }
 
 extension on InetAddress {
@@ -1323,13 +1475,17 @@ extension on InetAddress {
 extension on jni.InetAddress {
   InetAddress get impl {
     final api = this;
-    if (api is jni.Inet4Address) {
-      return Inet4AddressImpl.internal(api);
-    } else if (api is jni.Inet6Address) {
-      return Inet6AddressImpl.internal(api);
-    } else {
-      throw TypeError();
+    final isV4 = api.isInstanceOf(jni.Inet4Address.type.jClass);
+    if (isV4) {
+      final apiV4 = api.as(jni.Inet4Address.type);
+      return Inet4AddressImpl.internal(apiV4);
     }
+    final isV6 = api.isInstanceOf(jni.Inet6Address.type.jClass);
+    if (isV6) {
+      final apiV6 = api.as(jni.Inet6Address.type);
+      return Inet6AddressImpl.internal(apiV6);
+    }
+    throw TypeError();
   }
 }
 
@@ -1345,14 +1501,6 @@ extension on jni.Inet4Address {
   Inet4Address get impl => Inet4AddressImpl.internal(this);
 }
 
-extension on Inet6Address {
-  jni.Inet6Address get api {
-    final impl = this;
-    if (impl is! Inet6AddressImpl) throw TypeError();
-    return impl.api;
-  }
-}
-
 extension on jni.Inet6Address {
   Inet6Address get impl => Inet6AddressImpl.internal(this);
 }
@@ -1365,20 +1513,12 @@ extension on InetSocketAddress {
   }
 }
 
-extension on jni.InetSocketAddress {
-  InetSocketAddress get impl => InetSocketAddressImpl.internal(this);
-}
-
 extension on NetworkInterface {
   jni.NetworkInterface get api {
     final impl = this;
     if (impl is! NetworkInterfaceImpl) throw TypeError();
     return impl.api;
   }
-}
-
-extension on jni.NetworkInterface {
-  NetworkInterface get impl => NetworkInterfaceImpl.internal(this);
 }
 
 extension on Socket {
@@ -1389,20 +1529,12 @@ extension on Socket {
   }
 }
 
-extension on jni.Socket {
-  Socket get impl => SocketImpl.internal(this);
-}
-
 extension on DatagramSocket {
   jni.DatagramSocket get api {
     final impl = this;
     if (impl is! DatagramSocketImpl) throw TypeError();
     return impl.api;
   }
-}
-
-extension on jni.DatagramSocket {
-  DatagramSocket get impl => DatagramSocketImpl.internal(this);
 }
 
 extension on Url {
@@ -1413,28 +1545,8 @@ extension on Url {
   }
 }
 
-extension on jni.URL {
-  Url get impl => UrlImpl.internal(this);
-}
-
-extension on UrlConnection {
-  jni.URLConnection get api {
-    final impl = this;
-    if (impl is! UrlConnectionImpl) throw TypeError();
-    return impl.api;
-  }
-}
-
 extension on jni.URLConnection {
   UrlConnection get impl => UrlConnectionImpl.internal(this);
-}
-
-extension on SocketFactory {
-  jni.SocketFactory get api {
-    final impl = this;
-    if (impl is! SocketFactoryImpl) throw TypeError();
-    return impl.api;
-  }
 }
 
 extension on jni.SocketFactory {
@@ -1447,8 +1559,4 @@ extension on Proxy {
     if (impl is! ProxyImpl) throw TypeError();
     return impl.api;
   }
-}
-
-extension on jni.Proxy {
-  Proxy get impl => ProxyImpl.internal(this);
 }
